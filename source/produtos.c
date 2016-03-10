@@ -4,7 +4,7 @@
 #include "../headers/produtos.h"
 
 typedef struct produto{
-	char codigo[5];
+	char codigo[6];
 }produto;
 
 typedef struct produtos {
@@ -71,7 +71,6 @@ Produtos insertProduto(Produtos p, char *s) {
 	setCodigoProduto(aux,s);
 
 	if (p==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/
-		printf("criar produtos\total" );
 		p=(Produtos)malloc(sizeof(struct produtos));
 		for (i=0; i<26; i++) 
 			p->avl[i]=NULL;

@@ -1,38 +1,47 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <time.h>
 #include "headers/AVL.h"
 #include "headers/produtos.h"
 #include "headers/clientes.h"
+#include "headers/vendas.h"
 
 Produtos readProdutos (FILE *fp) {
 	char buf[10], *s;
 	Produtos p=NULL;
-	/*int validos =0;*/
 	while (fgets(buf,10,fp)) {
 		s=strtok(buf,"\r\n");
 		p=insertProduto(p,s);
-		addProdutos(p,1);	/*Incremente o nº de produtos*/
-		/*validos++;*/
+		addProdutos(p,1);
 	}
-	/*printf("%d\n",validos);*/
 	return p;
 }
 
 Clientes readClientes (FILE *fp) {
 	char buf[10], *s;
 	Clientes c=NULL;
-	/*int validos =0;*/
 	while (fgets(buf,10,fp)) {
 		s=strtok(buf,"\r\n");
 		c=insertCliente(c,s);
-		addClientes(c,1);	/*Incremente o nº de produtos*/
-		/*validos++;*/
+		addClientes(c,1);
 	}
-	/*printf("%d\n",validos);*/
 	return c;
+}
+
+int readVendas (FILE *fp, Produtos p, Clientes c, Venda v) {
+	int i=0;
+	char buf[50], *s;
+	Venda venda;
+	while (fgets(buf,50,fp)) {
+		s=strtok(buf,"\r\n");
+		venda=initVenda(s);
+		if (validaVenda(venda,p,c)==1) {
+			
+			i++;
+		}
+		
+	}
+	return i;
 }
 
 /* Main */
@@ -44,13 +53,18 @@ int main () {
 	/*Estruturas*/
 	Produtos prod;
 	Clientes cli;
+	Venda vend;
+
+	/*Variaveis auxiliares*/
+	int totalVendas;
 
 	/*Abertura dos ficheiros*/
 	FILE *fp = fopen("data/Produtos.txt","r");
 	FILE *fc = fopen("data/Clientes.txt","r");
+	FILE *fv = fopen("data/Vendas_1M.txt","r");
 
 	/*Verificação da integridade dos ficheiros*/
-	if (!fp || !fc) {
+	if (!fp || !fc || !fv) {
 		perror("Erro na abertura dos ficheiros");
 		return -1;
 	}
@@ -61,11 +75,12 @@ int main () {
 	/*Ler os ficheiros para as estruturas*/
 	prod=readProdutos(fp);
 	cli=readClientes(fc);
+	totalVendas=readVendas(fv,prod,cli,vend);
 
 	/*Imprimir informacao dos ficheiros*/
 	printf("%d produtos válidos\n",getTotalProdutos(prod));
 	printf("%d clientes válidos\n",getTotalClientes(cli));
-
+	printf("%d vendas válidas\n",totalVendas);
 	/*Finalizacao do contador*/
 	end = clock(); 
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -73,6 +88,6 @@ int main () {
 	/*Tempo que demorou a guardar tudo*/
 	printf("Tudo guardado e validado em %fs!\n",time_spent);
 
-	imprimirLista(getListaClientesLetra(cli,'A'),9,8);
+	/*imprimirLista(getListaClientesLetra(cli,'A'),9,8);*/
 	return 0;
 }

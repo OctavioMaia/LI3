@@ -74,7 +74,6 @@ Clientes insertCliente (Clientes c, char *s) {
 	setCodigoCliente(aux,s);
 	
 	if (c==NULL) {	/*Se não existir a estrutura Clientes, criá-la*/
-		printf("criar clientes\n");
 		c=(Clientes)malloc(sizeof(struct clientes));
 		for (i=0; i<26; i++) 
 			c->avl[i]=NULL;
