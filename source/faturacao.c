@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../headers/AVL.h"
+#include "../headers/vendas.h"
 #include "../headers/faturacao.h"
 
 typedef struct informacao{
@@ -16,12 +17,68 @@ typedef struct faturacao {
 	int total;
 }faturacao;
 
-/*cenas*/
-void setCodProduto (Informacao p, char *s) {
-	strcpy(p->produto,s);
+/*GETS*/
+AVL getFaturacaoLetra (Faturacao f, char ch) {
+	return f->avl[ch-'A'];
 }
 
+char *getCodigoProduto(Informacao i){
+	return i->produto;
+}
 
+int getQuantidadeNormal(Informacao i, int mes, int filial){
+	return i->quantidadeN[mes][filial];
+}
+
+int getQuantidadePromocao(Informacao i, int mes, int filial){
+	return i->quantidadeP[mes][filial];
+}
+
+float getFaturadoNormal(Informacao i, int mes, int filial){
+	return i->faturadoN[mes][filial];
+}
+
+float getFaturadoPromocao(Informacao i, int mes, int filial){
+	return i->faturadoP[mes][filial];
+}
+
+int getTotalFaturacoes (Faturacao f) {
+	return f->total;
+}
+
+char** getListaFaturacaoLetra (Faturacao f, char ch) {
+	char** s=NULL;
+	if (f!=NULL)
+		s=toString(getFaturacaoLetra(f,ch),f->total);
+	return s;
+}
+
+/*SETS*/
+void setCodidoProduto (Informacao i, char *s) {
+	strcpy(i->produto,s);
+}
+
+void addQuantidadeNormal(Informacao i, int mes, int filial, int quantidade){
+	i->quantidadeN[mes][filial]+=quantidade;
+}
+
+void addQuantidadePromocao(Informacao i, int mes, int filial, int quantidade){
+	i->quantidadeP[mes][filial]+=quantidade;
+}
+
+void addFaturadoNormal(Informacao i, int mes, int filial, int faturado){
+	i->faturadoN[mes][filial]+=faturado;
+}
+
+void addFaturadoPromocao(Informacao i, int mes, int filial, int faturado){
+	i->faturadoP[mes][filial]+=faturado;
+}
+
+void addFaturacao (Faturacao f, int total) {
+	f->total+=total;
+}
+
+/*funcoes comparacao*/
 int infcmp (Informacao a, Informacao b) {
 	return strcmp(a->produto,b->produto);
 }
@@ -44,31 +101,50 @@ Informacao initInformacao(){
 	return info;
 }
 
-Faturacao insertInformacao(Faturacao p, char *s) {
+Faturacao insertInformacao(Faturacao f, char *s) {
 	int i, pos=s[0]-'A';
-
 	Informacao aux = initInformacao();
-	setCodProduto(aux,s);
+	setCodigoProduto(aux,s);
 
-	if (p==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/
-		printf("criado faturacao global\n");
-		p=(Faturacao)malloc(sizeof(struct faturacao));
+	if (f==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/
+		/*printf("criado faturacao global\n");*/
+		f=(Faturacao)malloc(sizeof(struct faturacao));
 		for (i=0; i<26; i++) 
-			p->avl[i]=NULL;
-		p->total=0;
+			f->avl[i]=NULL;
+		f->total=0;
 	}
 	i=0;	/*A variável i, passa a servir como flag para a próxima função*/
-	p->avl[pos]=insertAVL(p->avl[pos],aux,&i,(int (*)(void*,void*))infcmp);
-	return p;
+	f->avl[pos]=insertAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))infcmp);
+	return f;
 }
 
-Informacao searchInformacao(Faturacao p, char *s) {
+Informacao searchInformacao(Faturacao f, char *s) {
 	Informacao p1;
-	AVL aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
+	AVL aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
 	if (aux!=NULL) {
+		/*printf("encontrei %s\n",s);*/
 		p1=getData(aux);
 		return p1;
 	}else{
 		return NULL;
+	}
+}
+
+/*funcoes de atualizacao*/
+void atualizaFaturacao(Faturacao f, Venda v){
+	Informacao i = searchInformacao(f,getProduto(v));
+	int quantidade = getQuantidade(v);
+	float faturado = getPreco(v);
+	int mes = getMes(v);
+	int filial = getFilial(v);
+
+	if(getPromo(v)=='N'){
+		addQuantidadeNormal(i,mes-1,filial-1,quantidade);
+		addFaturadoNormal(i,mes-1,filial-1,faturado);
+		/*printf("NORMAL %s Q:%d F:%f\n", getProduto(i), getQuantidadeNormal(i,mes-1,filial-1), getFaturadoNormal(i,mes-1,filial-1));*/
+	}else{
+		addQuantidadePromocao(i,mes-1,filial-1,quantidade);
+		addFaturadoPromocao(i,mes-1,filial-1,faturado);
+		/*printf("PROMO %s Q:%d F:%f\n",getProduto(i), getQuantidadePromocao(i,mes-1,filial-1), getFaturadoPromocao(i,mes-1,filial-1));*/
 	}
 }

@@ -104,8 +104,6 @@ AVL insert(AVL t, int dir, void *data, int *cresceu,int(*comp)(void*,void*)) {
 	return t;
 }
 
-
-
 AVL insertAVL(AVL t, void* data, int *cresceu, int(*comp)(void*,void*)){
 	if (t==NULL) {
 		t = (AVL)malloc(sizeof(struct node));

@@ -4,15 +4,18 @@
 #include "headers/AVL.h"
 #include "headers/produtos.h"
 #include "headers/clientes.h"
+#include "headers/faturacao.h"
 #include "headers/vendas.h"
 
-Produtos readProdutos (FILE *fp) {
+Produtos readProdutos (FILE *fp, Faturacao f) {
 	char buf[10], *s;
 	Produtos p=NULL;
 	while (fgets(buf,10,fp)) {
 		s=strtok(buf,"\r\n");
 		p=insertProduto(p,s);
+		f=insertInformacao(f,s);
 		addProdutos(p,1);
+		addFaturacao(f,1);
 	}
 	return p;
 }
@@ -28,7 +31,7 @@ Clientes readClientes (FILE *fp) {
 	return c;
 }
 
-int readVendas (FILE *fp, Produtos p, Clientes c, Venda v) {
+int readVendas (FILE *fp, Faturacao f, Produtos p, Clientes c) {
 	int i=0;
 	char buf[50], *s;
 	Venda venda;
@@ -36,7 +39,7 @@ int readVendas (FILE *fp, Produtos p, Clientes c, Venda v) {
 		s=strtok(buf,"\r\n");
 		venda=initVenda(s);
 		if (validaVenda(venda,p,c)==1) {
-			
+			atualizaFaturacao(f,venda);
 			i++;
 		}
 		
@@ -53,7 +56,7 @@ int main () {
 	/*Estruturas*/
 	Produtos prod;
 	Clientes cli;
-	Venda vend=NULL;
+	Faturacao f;
 
 	/*Variaveis auxiliares*/
 	int totalVendas;
@@ -73,9 +76,10 @@ int main () {
 	begin = clock(); 
 
 	/*Ler os ficheiros para as estruturas*/
-	prod=readProdutos(fp);
+	f=initInformacao();
+	prod=readProdutos(fp,f);
 	cli=readClientes(fc);
-	totalVendas=readVendas(fv,prod,cli,vend);
+	totalVendas=readVendas(fv,f,prod,cli);
 
 	/*Imprimir informacao dos ficheiros*/
 	printf("%d produtos válidos\n",getTotalProdutos(prod));
@@ -88,6 +92,5 @@ int main () {
 	/*Tempo que demorou a guardar tudo*/
 	printf("Tudo guardado e validado em %fs!\n",time_spent);
 
-	/*imprimirLista(getListaClientesLetra(cli,'A'),9,8);*/
 	return 0;
 }
