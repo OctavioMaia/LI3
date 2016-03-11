@@ -8,6 +8,7 @@ char* getProduto(Venda v);
 float getPreco (Venda c);
 int getQuantidade (Venda c);
 char getPromo(Venda c);
+char* getCliente(Venda v);
 int getMes (Venda c);
 int getFilial (Venda c);
 

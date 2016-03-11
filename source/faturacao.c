@@ -5,7 +5,7 @@
 #include "../headers/faturacao.h"
 
 typedef struct informacao{
-	char produto[5];
+	char produto[6];
 	int quantidadeN[12][3];
 	int quantidadeP[12][3];
 	float faturadoN[12][3];
@@ -22,7 +22,7 @@ AVL getFaturacaoLetra (Faturacao f, char ch) {
 	return f->avl[ch-'A'];
 }
 
-char *getCodigoProduto(Informacao i){
+char* getCodigoProduto(Informacao i){
 	return i->produto;
 }
 
@@ -54,7 +54,7 @@ char** getListaFaturacaoLetra (Faturacao f, char ch) {
 }
 
 /*SETS*/
-void setCodidoProduto (Informacao i, char *s) {
+void setCodigoProdutoFaturacao (Informacao i, char *s) {
 	strcpy(i->produto,s);
 }
 
@@ -104,10 +104,9 @@ Informacao initInformacao(){
 Faturacao insertInformacao(Faturacao f, char *s) {
 	int i, pos=s[0]-'A';
 	Informacao aux = initInformacao();
-	setCodigoProduto(aux,s);
+	setCodigoProdutoFaturacao(aux,s);
 
-	if (f==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/
-		/*printf("criado faturacao global\n");*/
+	if (f==NULL) {	/*Se não existir a estrutura, criá-la*/
 		f=(Faturacao)malloc(sizeof(struct faturacao));
 		for (i=0; i<26; i++) 
 			f->avl[i]=NULL;

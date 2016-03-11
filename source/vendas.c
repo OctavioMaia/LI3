@@ -35,6 +35,10 @@ char getPromo(Venda v){
 	return v->promo;
 }
 
+char* getCliente(Venda v){
+	return v->cliente;
+}
+
 int getMes (Venda v) {
 	return v->mes;
 }

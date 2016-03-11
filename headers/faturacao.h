@@ -11,7 +11,7 @@ int getTotalFaturacoes (Faturacao f);
 char** getListaFaturacaoLetra (Faturacao f, char ch);
 
 /*Sets*/
-void setCodigoProduto (Informacao i, char *s);
+void setCodigoProdutoFaturacao (Informacao i, char *s);
 void addQuantidadeNormal(Informacao i, int mes, int filial, int quantidade);
 void addQuantidadePromocao(Informacao i, int mes, int filial, int quantidade);
 void addFaturadoNormal(Informacao i, int mes, int filial, int faturado);
