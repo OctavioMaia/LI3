@@ -81,7 +81,8 @@ int main () {
 	begin = clock(); 
 
 	/*Ler os ficheiros para as estruturas*/
-	f=initInformacao();
+	f=initFaturacao();
+	vf=initVendasFilial();
 	prod=readProdutos(fp,f,vf);
 	cli=readClientes(fc);
 	totalVendas=readVendas(fv,f,vf,prod,cli);

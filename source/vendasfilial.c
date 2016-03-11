@@ -12,7 +12,7 @@ typedef struct historico{
 
 typedef struct listaproduto{
 	char produto[6];
-	Historico historico[12][3];
+	Historico h[12][3];
 }listaproduto;
 
 typedef struct vendasfilial {
@@ -26,7 +26,7 @@ AVL getVendasFilialLetra (VendasFilial vf, char ch) {
 }
 
 Historico getHistorico(ListaProduto lp, int mes, int filial){
-	return lp->historico[mes][filial];
+	return lp->h[mes][filial];
 }
 
 char* getCodigoListaProduto (ListaProduto p){
@@ -63,15 +63,19 @@ int vfcmpstr (char *a, ListaProduto b) {
 }
 
 /*funcoes*/
+VendasFilial initVendasFilial(){
+	return (VendasFilial)malloc(sizeof(vendasfilial));
+}
+
 ListaProduto initListaProduto(){
 	int i,j;
 	ListaProduto lp = (ListaProduto)malloc(sizeof(struct listaproduto));
 
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
-			lp->historico[i][j]=(Historico)malloc(sizeof(historico));
-			lp->historico[i][j]->clientes=(char**)malloc(sizeof(char**));
-			lp->historico[i][j]->quantidade=0;
+			lp->h[i][j]=(Historico)malloc(sizeof(historico));
+			lp->h[i][j]->clientes=(char**)malloc(sizeof(char**));
+			lp->h[i][j]->quantidade=(int*)malloc(sizeof(int*));
 		}
 	}
 	return lp;
@@ -113,17 +117,12 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 	int filial = getFilial(v);
 	char* cliente = getCliente(v);
 
-	printf("antes1 %s\n",getProduto(v));
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
-	printf("antes2\n");
 	Historico h = getHistorico(lp,mes-1,filial-1);
-	printf("depois\n");
 
 	if(h){
 		for(i=0; h->clientes[i]!=NULL;i++);
 		for(j=0; h->quantidade[j]!=NULL;j++);
-		printf("c:%d q:%d\n",i,j );
-
 	}else{
 		printf("Nao devia acontecer\n");
 	}

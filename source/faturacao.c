@@ -88,6 +88,10 @@ int infcmpstr (char *a, Informacao b) {
 }
 
 /*funcoes*/
+Faturacao initFaturacao(){
+	return (Faturacao)malloc(sizeof(struct faturacao));
+}
+
 Informacao initInformacao(){
 	int i,j;
 	Informacao info = (Informacao)malloc(sizeof(struct informacao));

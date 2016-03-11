@@ -19,6 +19,7 @@ void addFaturadoPromocao(Informacao i, int mes, int filial, int faturado);
 void addFaturacao (Faturacao f, int total);
 
 /*funcoes*/
+Faturacao initFaturacao();
 Informacao initInformacao();
 Faturacao insertInformacao(Faturacao f, char *s);
 Informacao searchInformacao(Faturacao f, char *s);
