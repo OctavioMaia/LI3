@@ -53,7 +53,7 @@ int main () {
 	/*Estruturas*/
 	Produtos prod;
 	Clientes cli;
-	Venda vend;
+	Venda vend=NULL;
 
 	/*Variaveis auxiliares*/
 	int totalVendas;
