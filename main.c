@@ -66,7 +66,6 @@ int main () {
 
 	/*Variaveis auxiliares*/
 	int totalVendas;
-	int decisao; /*para o switch*/
 
 	/*Abertura dos ficheiros*/
 	FILE *fp = fopen("data/Produtos.txt","r");
@@ -101,23 +100,7 @@ int main () {
 	/*Tempo que demorou a guardar tudo*/
 	printf("Tudo guardado e validado em %fs!\n",time_spent);
 	printf("----------------------------\n");
-	printf("Introduza o número da query a executar: ");
-	scanf("%d", &decisao);
 
-	switch (decisao){
-	char ch;
-		case 1:
-			puts("Ficheiros já validados e guardados!");
-			break;
-		case 2:
-			printf("Introduza a letra para pesquisar: ");
-			scanf(" %c", &ch);
-		 	query2(prod,ch);
-		  	break;
-		default: /* execute default action */
-		  	break;
-	}
-
-
+	exec(prod,cli,f,vf);
 	return 0;
 }

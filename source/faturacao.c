@@ -145,11 +145,11 @@ void atualizaFaturacao(Faturacao f, Venda v){
 
 	if(getPromo(v)=='N'){
 		addQuantidadeNormal(i,mes-1,filial-1,quantidade);
-		addFaturadoNormal(i,mes-1,filial-1,faturado);
+		addFaturadoNormal(i,mes-1,filial-1,faturado*quantidade);
 		/*printf("NORMAL %s Q:%d F:%f\n", getProduto(i), getQuantidadeNormal(i,mes-1,filial-1), getFaturadoNormal(i,mes-1,filial-1));*/
 	}else{
 		addQuantidadePromocao(i,mes-1,filial-1,quantidade);
-		addFaturadoPromocao(i,mes-1,filial-1,faturado);
+		addFaturadoPromocao(i,mes-1,filial-1,faturado*quantidade);
 		/*printf("PROMO %s Q:%d F:%f\n",getProduto(i), getQuantidadePromocao(i,mes-1,filial-1), getFaturadoPromocao(i,mes-1,filial-1));*/
 	}
 }
