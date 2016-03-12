@@ -83,6 +83,12 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       scanf(" %d", &global);
       query3(f,mes,codigo,global);
       break;
+    case 4:
+      printf("---------------------------Query 4-------------------------------\n");
+      printf("Deseja ver os resultados por filial (1) ou global (0)? ");
+      scanf(" %d", &global);
+      query4(f,prod,global);
+      break;
     default: /* execute default action */
       puts("Query inválida!");
       break;
@@ -137,4 +143,13 @@ void query3(Faturacao F, int mes, char *s, int global){
   time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
   printf("Sucesso, demoramos %fs!\n",time_spent);
   printf("---------------------------------------------------------------------\n");
+}
+
+void query4(Faturacao F, Produtos prod, int global){
+  /*Informacao info;
+  char **lista;
+  int m,f,qN=0,qP=0;
+
+  lista=getListaTodosProdutos(prod);
+  imprimirLista(lista,9,8);*/
 }
