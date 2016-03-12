@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "../headers/AVL.h"
 #include "../headers/produtos.h"
@@ -124,12 +125,12 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 	if(h){
 		for(i=0;h->clientes[i]!=NULL;i++);
 
-		h->clientes[i]=malloc(sizeof(char)*5);
+		h->clientes[i]=(char*)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
 		h->clientes[i]=cliente;
-		h->quantidade[i]=malloc(sizeof(int));
+		h->quantidade[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
 		h->quantidade[i]=quantidade;	
 		
-		printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getProduto(lp),h->quantidade[i],mes,filial);
+		printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);
 	}else{
 		printf("Nao devia acontecer\n");
 	}
