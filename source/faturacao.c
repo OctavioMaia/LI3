@@ -100,7 +100,10 @@ Informacao initInformacao(){
 
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
-			info->quantidadeN[i][j]=info->quantidadeP[i][j]=info->faturadoN[i][j]=info->faturadoP[i][j]=0;
+			info->quantidadeN[i][j]=0;
+			info->quantidadeP[i][j]=0;
+			info->faturadoN[i][j]=0;
+			info->faturadoP[i][j]=0;
 		}
 	}
 

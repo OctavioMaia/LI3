@@ -55,7 +55,6 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
   int decisao; /*para o switch*/
   printf("Introduza o número da query a executar: ");
   scanf("%d", &decisao);
-  printf("---------------------------------------------------------------------\n");
   switch (decisao){
   char ch;
   char codigo[6];
@@ -119,10 +118,10 @@ void query3(Faturacao F, int mes, char *s, int global){
 
   if(global==0){ /*se = 0 mostrar resultados globais*/
     for(f=0;f<3;f++){
-      qN+=getQuantidadeNormal(info,mes-1,f-1);
-      qP+=getQuantidadePromocao(info,mes-1,f-1);
-      fN+=getFaturadoNormal(info,mes-1,f-1);
-      fP+=getFaturadoPromocao(info,mes-1,f-1);
+      qN+=getQuantidadeNormal(info,mes-1,f);
+      qP+=getQuantidadePromocao(info,mes-1,f);
+      fN+=getFaturadoNormal(info,mes-1,f);
+      fP+=getFaturadoPromocao(info,mes-1,f);
     }
     printf("Quantidade vendida em modo N: %d\n",qN);
     printf("Quantidade vendida em modo P: %d\n",qP);
