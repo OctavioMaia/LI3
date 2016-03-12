@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/AVL.h"
-#include "../headers/produtos.h"
 #include "../headers/clientes.h"
+#include "../headers/produtos.h"
 #include "../headers/vendas.h"
 
 typedef struct venda {

@@ -13,4 +13,4 @@ int getMes (Venda c);
 int getFilial (Venda c);
 
 Venda initVenda (char *s);
-/*int validaVenda (Venda c, Produtos prod, Clientes cli);*/
+int validaVenda (Venda c, Produtos prod, Clientes cli);

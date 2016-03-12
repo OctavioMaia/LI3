@@ -5,6 +5,9 @@
 #include "../headers/AVL.h"
 #include "../headers/produtos.h"
 #include "../headers/clientes.h"
+#include "../headers/vendas.h"
+#include "../headers/faturacao.h"
+#include "../headers/vendasfilial.h"
 #include "../headers/queries.h"
 
 /* Lista google*/

@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../headers/AVL.h"
+#include "../headers/produtos.h"
+#include "../headers/clientes.h"
 #include "../headers/vendas.h"
 #include "../headers/faturacao.h"
 

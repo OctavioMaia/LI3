@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../headers/AVL.h"
+#include "../headers/clientes.h"
 #include "../headers/produtos.h"
 #include "../headers/vendas.h"
 #include "../headers/vendasfilial.h"

@@ -25,4 +25,4 @@ Faturacao insertInformacao(Faturacao f, char *s);
 Informacao searchInformacao(Faturacao f, char *s);
 
 /*funcoes de atualizacao*/
-/*void atualizaFaturacao(Faturacao f,Venda v);*/
+void atualizaFaturacao(Faturacao f,Venda v);

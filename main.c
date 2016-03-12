@@ -4,9 +4,10 @@
 #include "headers/AVL.h"
 #include "headers/produtos.h"
 #include "headers/clientes.h"
-#include "headers/faturacao.h"
 #include "headers/vendas.h"
+#include "headers/faturacao.h"
 #include "headers/vendasfilial.h"
+#include "headers/queries.h"
 
 Produtos readProdutos (FILE *fp, Faturacao f, VendasFilial vf) {
 	char buf[10], *s;
