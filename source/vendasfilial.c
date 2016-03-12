@@ -112,17 +112,24 @@ ListaProduto searchListaProduto(VendasFilial f, char *s) {
 
 /*funcoes auxiliares*/
 void atualizaHistorico(VendasFilial vf, Venda v){
-	int i,j;
+	int i;
 	int mes = getMes(v);
 	int filial = getFilial(v);
+	int quantidade = getQuantidade(v);
 	char* cliente = getCliente(v);
 
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
 	Historico h = getHistorico(lp,mes-1,filial-1);
 
 	if(h){
-		for(i=0; h->clientes[i]!=NULL;i++);
-		for(j=0; h->quantidade[j]!=NULL;j++);
+		for(i=0;h->clientes[i]!=NULL;i++);
+
+		h->clientes[i]=malloc(sizeof(char)*5);
+		h->clientes[i]=cliente;
+		h->quantidade[i]=malloc(sizeof(int));
+		h->quantidade[i]=quantidade;	
+		
+		printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getProduto(lp),h->quantidade[i],mes,filial);
 	}else{
 		printf("Nao devia acontecer\n");
 	}
