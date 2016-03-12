@@ -131,7 +131,7 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 		h->quantidade[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
 		h->quantidade[i]=quantidade;	
 		
-		printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);
+		/*printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);*/
 	}else{
 		printf("Nao devia acontecer\n");
 	}
