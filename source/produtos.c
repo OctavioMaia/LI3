@@ -48,16 +48,6 @@ char** getListaProdutosLetra (Produtos p, char ch) {
 	return s;
 }
 
-char** getListaTodosProdutos (Produtos p){
-	char **s=NULL,ch;
-	if (p!=NULL){
-		for(ch='A';ch<='Z';ch++){
-			s=toString(getProdutosLetra(p,ch),p->total);
-		}
-	}
-	return s;
-}
-
 /* ----------------------
    Funções de modificação
    ----------------------

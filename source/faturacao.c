@@ -156,3 +156,14 @@ void atualizaFaturacao(Faturacao f, Venda v){
 		/*printf("PROMO %s Q:%d F:%f\n",getProduto(i), getQuantidadePromocao(i,mes-1,filial-1), getFaturadoPromocao(i,mes-1,filial-1));*/
 	}
 }
+
+int nuncaComprado(Informacao i){
+	int quantidadeN=0,quantidadeP=0,m,f;
+	for(m=0;m<12;m++){
+		for(f=0;f<3;f++){
+			quantidadeN+=getQuantidadeNormal(i,m,f);
+			quantidadeP+=getQuantidadePromocao(i,m,f);
+		}
+	}
+	return quantidadeN+quantidadeP;
+}

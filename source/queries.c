@@ -146,10 +146,23 @@ void query3(Faturacao F, int mes, char *s, int global){
 }
 
 void query4(Faturacao F, Produtos prod, int global){
-  /*Informacao info;
-  char **lista;
-  int m,f,qN=0,qP=0;
+  Informacao info;
+  char **lista=NULL,**s,ch;
+  int i,j=0,conta=0,mes,filial;
 
-  lista=getListaTodosProdutos(prod);
-  imprimirLista(lista,9,8);*/
+  if (prod!=NULL){
+    for(ch='A';ch<='Z';ch++){
+      s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
+      for(i=0; s[i]!=NULL;i++){
+        info=searchInformacao(F,s[i]);
+        if(nuncaComprado(info)==0){
+          conta++;
+          printf("%d\n",conta );
+        }
+      }
+    }
+  }
+
+
+  imprimirLista(lista,9,8);
 }
