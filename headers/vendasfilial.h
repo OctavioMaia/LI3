@@ -4,9 +4,13 @@ typedef struct listaproduto *ListaProduto;
 
 /*GETS*/
 AVL getVendasFilialLetra (VendasFilial vf, char ch);
+int getTotalVendasFilial (VendasFilial vf);
 Historico getHistorico(ListaProduto lp, int mes, int filial);
 char* getCodigoListaProduto (ListaProduto p);
-int getTotalVendasFilial (VendasFilial vf);
+char** getClientesN(Historico h);
+int* getQuantidadeN(Historico h);
+char** getClientesP(Historico h);
+int* getQuantidadeP(Historico h);
 char** getListaVendasFilialLetra (VendasFilial vf, char ch);
 
 /*SETS*/

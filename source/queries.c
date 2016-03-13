@@ -61,6 +61,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
   char codigo[6];
   int global;
   int mes;
+  int filial;
     case -1:
       puts("Execução cancelada pelo utilizador!");
       printf("---------------------------------------------------------------------\n");
@@ -96,6 +97,14 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       printf("\033[1m-------------------------Query 7--------------------------\033[0m \n");
       query7(cli);
       break;
+    case 8:
+      printf("\033[1m-------------------------Query 8--------------------------\033[0m \n");
+      printf("\033[1mIntroduza o código de produto: \033[0m ");
+      scanf(" %s", codigo);
+      printf("\033[1mIntroduza a filial para pesquisar: \033[0m ");
+      scanf(" %d", &filial);
+      query8(vf,codigo,filial);
+      break;
     default: /* execute default action */
       puts("Query inválida!");
       break;
@@ -115,7 +124,7 @@ void query2(Produtos p, char ch){
     end = clock(); /*end contador*/
     
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
-    printf("Sucesso, demoramos %fs!\n",time_spent);
+    printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
     imprimirLista(lista,10,9);
   }else{
     printf("Introduza uma letra maiúscula!\n");
@@ -125,7 +134,7 @@ void query2(Produtos p, char ch){
 
 void query3(Faturacao F, int mes, char *s, int global){
   Informacao info;
-  clock_t begin, end; /*Contadores de tempo de execucao para query 2*/
+  clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
   int f,qN=0,qP=0;
   float fN=0,fP=0;
@@ -154,7 +163,7 @@ void query3(Faturacao F, int mes, char *s, int global){
       printf("Faturacao em modo P: \t\t%f\t%f\t%f\n",getFaturadoPromocao(info,mes-1,0),getFaturadoPromocao(info,mes-1,1),getFaturadoPromocao(info,mes-1,2));
     }
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
-    printf("Sucesso, demoramos %fs!\n",time_spent);
+    printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
     printf("---------------------------------------------------------------------\n");
   }else{
     printf("Código de produto inválido!\n");
@@ -166,6 +175,10 @@ void query4(Faturacao F, Produtos prod, int decisao){
   Informacao info;
   char **lista=(char**)malloc(sizeof(char**)),**s,ch;
   int i,n=0,filial1=0,filial2=0,filial3=0;
+  
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
 
   if(decisao==0){ /*resultados globais , ou seja, soma das 3 filiais*/
     if (prod){
@@ -181,6 +194,9 @@ void query4(Faturacao F, Produtos prod, int decisao){
         }
       }
     }
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+    printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
     printf("Existem %d códigos de produtos que ninguém comprou!\n",n);
   }else{ /*filial a filial*/
     if (prod){
@@ -207,6 +223,10 @@ void query4(Faturacao F, Produtos prod, int decisao){
         }
       }
     }
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+    printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
+
     printf("Existem %d códigos de produtos que ninguém comprou na filial 1!\n",filial1);
     printf("Existem %d códigos de produtos que ninguém comprou na filial 2!\n",filial2);
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
@@ -218,6 +238,10 @@ void query7(Clientes cli){
   int i,n=0;
   char **lista=(char**)malloc(sizeof(char**)),**s,ch;
   Cliente temporario=NULL;
+
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
 
   if (cli){
     for(ch='A';ch<='Z';ch++){
@@ -232,6 +256,59 @@ void query7(Clientes cli){
       }
     }
   }
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+  printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
+  
   printf("Existem %d clientes que compraram em todas as filiais!\n",n);
   imprimirLista(lista,10,9);
+}
+
+void query8(VendasFilial vf,char *produto, int filial){
+  int i,mes,qN,qP,n=0,p=0;
+  char **tempN,**tempP, **listaN=(char**)malloc(sizeof(char**)), **listaP=(char**)malloc(sizeof(char**));
+  Historico h=NULL;
+  ListaProduto lp = searchListaProduto(vf,produto);
+
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
+
+  if(lp){
+    for(mes=0;mes<12;mes++){
+      h=getHistorico(lp,mes,filial-1);
+      if(h){
+        tempN=getClientesN(h);
+        tempP=getClientesP(h);
+
+        for(qN=0;tempN[qN]!=NULL;qN++){
+          listaN[n]=malloc(sizeof(char*));
+          listaN[n]=tempN[qN];
+          n++;
+        }
+      
+        for(qP=0;tempP[qP]!=NULL;qP++){
+          listaP[p]=malloc(sizeof(char*));
+          listaP[p]=tempP[qP];
+          p++;
+        }
+      }
+    }
+
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+    printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
+
+    printf("Quantidade de clientes que compraram em modo N: %d\n",n);
+    printf("Lista de clientes que compraram em modo N: ");
+    for(i=0;listaN[i]!=NULL;i++) printf("%s ",listaN[i]);
+    printf("\n");
+
+    printf("Quantidade de clientes que compraram em modo P: %d\n",p);
+    printf("Lista de clientes que compraram em modo P: ");
+    for(i=0;listaP[i]!=NULL;i++) printf("%s ",listaP[i]);
+    printf("\n");
+  }else{
+    printf("Introduza um código de produto válido!\n");
+  }
 }

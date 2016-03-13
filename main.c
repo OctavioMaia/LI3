@@ -76,6 +76,9 @@ int main () {
 	if (!fp || !fc || !fv) {
 		perror("Erro na abertura dos ficheiros");
 		return -1;
+	}else{
+		printf("Leitura efetuada com sucesso!\n");
+		printf("Começando leitura dos ficheiros para memória...\n");
 	}
 
 	/*Inicializacao do contador*/
@@ -98,7 +101,7 @@ int main () {
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
 	/*Tempo que demorou a guardar tudo*/
-	printf("Tudo guardado e validado em %fs!\n",time_spent);
+	printf("\x1b[31mTudo guardado e validado em %fs!\n\x1b[0m",time_spent);
 	printf("----------------------------\n");
 
 	exec(prod,cli,f,vf);

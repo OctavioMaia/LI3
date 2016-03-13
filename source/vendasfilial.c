@@ -8,8 +8,10 @@
 #include "../headers/vendasfilial.h"
 
 typedef struct historico{
-	char** clientes;
-	int* quantidade;
+	char** clientesN;
+	int* quantidadeN;
+	char** clientesP;
+	int* quantidadeP;
 }historico;
 
 typedef struct listaproduto{
@@ -27,6 +29,10 @@ AVL getVendasFilialLetra (VendasFilial vf, char ch) {
 	return vf->avl[ch-'A'];
 }
 
+int getTotalVendasFilial (VendasFilial vf) {
+	return vf->total;
+}
+
 Historico getHistorico(ListaProduto lp, int mes, int filial){
 	return lp->h[mes][filial];
 }
@@ -35,8 +41,20 @@ char* getCodigoListaProduto (ListaProduto p){
 	return p->produto;
 }
 
-int getTotalVendasFilial (VendasFilial vf) {
-	return vf->total;
+char** getClientesN(Historico h){
+	return h->clientesN;
+}
+
+int* getQuantidadeN(Historico h){
+	return h->quantidadeN;
+}
+
+char** getClientesP(Historico h){
+	return h->clientesP;
+}
+
+int* getQuantidadeP(Historico h){
+	return h->quantidadeP;
 }
 
 char** getListaVendasFilialLetra (VendasFilial vf, char ch) {
@@ -76,8 +94,10 @@ ListaProduto initListaProduto(){
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
 			lp->h[i][j]=(Historico)malloc(sizeof(historico));
-			lp->h[i][j]->clientes=(char**)malloc(sizeof(char**));
-			lp->h[i][j]->quantidade=(int*)malloc(sizeof(int*));
+			lp->h[i][j]->clientesN=(char**)malloc(sizeof(char**));
+			lp->h[i][j]->quantidadeN=(int*)malloc(sizeof(int*));
+			lp->h[i][j]->clientesP=(char**)malloc(sizeof(char**));
+			lp->h[i][j]->quantidadeP=(int*)malloc(sizeof(int*));
 		}
 	}
 	return lp;
@@ -119,19 +139,31 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 	int filial = getFilial(v);
 	int quantidade = getQuantidade(v);
 	char* cliente = getCliente(v);
+	char tipo = getPromo(v);
 
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
 	Historico h = getHistorico(lp,mes-1,filial-1);
 
 	if(h){
-		for(i=0;h->clientes[i]!=NULL;i++);
+		if(tipo=='N'){
+			for(i=0;h->clientesN[i]!=NULL;i++);
 
-		h->clientes[i]=(char*)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
-		h->clientes[i]=cliente;
-		h->quantidade[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
-		h->quantidade[i]=quantidade;	
-		
-		/*printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);*/
+			h->clientesN[i]=(char*)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
+			h->clientesN[i]=cliente;
+			h->quantidadeN[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
+			h->quantidadeN[i]=quantidade;	
+			
+			/*printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);*/
+		}else{
+			for(i=0;h->clientesP[i]!=NULL;i++);
+
+			h->clientesP[i]=(char*)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
+			h->clientesP[i]=cliente;
+			h->quantidadeP[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
+			h->quantidadeP[i]=quantidade;	
+			
+			/*printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);*/
+		}
 	}else{
 		printf("Nao devia acontecer\n");
 	}

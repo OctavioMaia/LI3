@@ -7,3 +7,4 @@ void query3(Faturacao f, int mes, char *s, int global);
 void query4(Faturacao F, Produtos prod, int global);
 
 void query7(Clientes cli);
+void query8(VendasFilial vf,char *produto, int filial);
