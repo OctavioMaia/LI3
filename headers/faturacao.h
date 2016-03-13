@@ -26,4 +26,5 @@ Informacao searchInformacao(Faturacao f, char *s);
 
 /*funcoes de atualizacao*/
 void atualizaFaturacao(Faturacao f,Venda v);
-int nuncaComprado(Informacao i);
+int nuncaCompradoGlobal(Informacao i);
+int nuncaCompradoFilial(Informacao i, int filial);

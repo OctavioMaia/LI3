@@ -157,13 +157,22 @@ void atualizaFaturacao(Faturacao f, Venda v){
 	}
 }
 
-int nuncaComprado(Informacao i){
+int nuncaCompradoGlobal(Informacao i){
 	int quantidadeN=0,quantidadeP=0,m,f;
 	for(m=0;m<12;m++){
 		for(f=0;f<3;f++){
 			quantidadeN+=getQuantidadeNormal(i,m,f);
 			quantidadeP+=getQuantidadePromocao(i,m,f);
 		}
+	}
+	return quantidadeN+quantidadeP;
+}
+
+int nuncaCompradoFilial(Informacao i, int filial){
+	int quantidadeN=0,quantidadeP=0,m;
+	for(m=0;m<12;m++){
+		quantidadeN+=getQuantidadeNormal(i,m,filial-1);
+		quantidadeP+=getQuantidadePromocao(i,m,filial-1);	
 	}
 	return quantidadeN+quantidadeP;
 }
