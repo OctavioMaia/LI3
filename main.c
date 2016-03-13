@@ -43,11 +43,10 @@ int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c) 
 		s=strtok(buf,"\r\n");
 		venda=initVenda(s);
 		if (validaVenda(venda,p,c)==1) {
-			atualizaFaturacao(f,c,venda);
+			atualizaFaturacao(f,p,c,venda);
 			atualizaHistorico(vf,venda);
 			i++;
 		}
-		
 	}
 	return i;
 }
@@ -102,7 +101,7 @@ int main () {
 
 	/*Tempo que demorou a guardar tudo*/
 	printf("\x1b[31mTudo guardado e validado em %fs!\n\x1b[0m",time_spent);
-	printf("----------------------------\n");
+    printf("---------------------------------------------------------------------\n");
 
 	exec(prod,cli,f,vf);
 	return 0;

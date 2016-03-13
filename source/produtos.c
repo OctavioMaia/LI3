@@ -5,6 +5,7 @@
 
 typedef struct produto{
 	char codigo[6];
+	int quantidade_vendida;
 }produto;
 
 typedef struct produtos {
@@ -41,6 +42,10 @@ int getTotalProdutos (Produtos p) {
 	return p->total;
 }
 
+int getQuantidadeVendida(Produto p){
+	return p->quantidade_vendida;
+}
+
 char** getListaProdutosLetra (Produtos p, char ch) {
 	char** s=NULL;
 	if (p!=NULL)
@@ -60,8 +65,14 @@ void addProdutos (Produtos p, int total) {
 	p->total+=total;
 }
 
+void setQuantidadeVendida(Produto p, int qt){
+	p->quantidade_vendida+=qt;
+}
+
 Produto initProduto(){
-	return (Produto)malloc(sizeof(struct produto));
+	Produto p = (Produto)malloc(sizeof(struct produto));
+	setQuantidadeVendida(p,0);
+	return p;
 }
 
 Produtos insertProduto(Produtos p, char *s) {

@@ -12,6 +12,7 @@ typedef struct produto *Produto;
 */
 AVL getProdutosLetra (Produtos p, char ch);
 int getTotalProdutos (Produtos p);
+int getQuantidadeVendida(Produto p);
 char** getListaProdutosLetra (Produtos p, char ch);
 char** getListaTodosProdutos (Produtos p);
 
@@ -21,6 +22,7 @@ char** getListaTodosProdutos (Produtos p);
 */
 void setProdutos (Produtos p, int n);
 void addProdutos (Produtos p, int n);
+void setQuantidadeVendida(Produto p, int qt);
 
 /* -----------------------------------
    Funções de manipulação dos Produtos

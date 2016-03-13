@@ -8,3 +8,5 @@ void query4(Faturacao F, Produtos prod, int global);
 
 void query7(Clientes cli);
 void query8(VendasFilial vf,char *produto, int filial);
+
+void query12(Clientes cli, Produtos prod);

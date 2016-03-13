@@ -105,6 +105,10 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       scanf(" %d", &filial);
       query8(vf,codigo,filial);
       break;
+    case 12:
+      printf("\033[1m-------------------------Query 12-------------------------\033[0m \n");
+      query12(cli,prod);
+      break;
     default: /* execute default action */
       puts("Query inválida!");
       break;
@@ -311,4 +315,42 @@ void query8(VendasFilial vf,char *produto, int filial){
   }else{
     printf("Introduza um código de produto válido!\n");
   }
+}
+
+void query12(Clientes cli, Produtos prod){
+  int i,clientes=0,produtos=0;
+  char **s,ch;
+  Cliente temporarioC=NULL;
+  Produto temporarioP=NULL;
+
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
+
+  if (cli && prod){
+    for(ch='A';ch<='Z';ch++){
+      s=toString(getClientesLetra(cli,ch),getTotalClientes(cli));
+      for(i=0; s[i]!=NULL;i++){
+        temporarioC=searchCliente(cli,s[i]);
+        if(getComprouFilial1(temporarioC)==0 && getComprouFilial2(temporarioC)==0 && getComprouFilial3(temporarioC)==0){ /*nunca comprou */
+          clientes++;
+        }
+      }
+    }
+    for(ch='A';ch<='Z';ch++){
+      s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
+      for(i=0; s[i]!=NULL;i++){
+        temporarioP=searchProduto(prod,s[i]);
+        if(getQuantidadeVendida(temporarioP)==0){ /*nunca comprou */
+          produtos++;
+        }
+      }
+    }
+  }
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+  printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
+  
+  printf("Existem %d clientes que nunca compraram!\n",clientes);
+  printf("Existem %d produtos que nunca foram comprados!\n",produtos);
 }
