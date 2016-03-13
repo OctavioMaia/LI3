@@ -92,6 +92,10 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       scanf(" %d", &global);
       query4(f,prod,global);
       break;
+    case 7:
+      printf("\033[1m-------------------------Query 7--------------------------\033[0m \n");
+      query7(cli);
+      break;
     default: /* execute default action */
       puts("Query inválida!");
       break;
@@ -207,5 +211,27 @@ void query4(Faturacao F, Produtos prod, int decisao){
     printf("Existem %d códigos de produtos que ninguém comprou na filial 2!\n",filial2);
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
   }
+  imprimirLista(lista,10,9);
+}
+
+void query7(Clientes cli){
+  int i,n=0;
+  char **lista=(char**)malloc(sizeof(char**)),**s,ch;
+  Cliente temporario=NULL;
+
+  if (cli){
+    for(ch='A';ch<='Z';ch++){
+      s=toString(getClientesLetra(cli,ch),getTotalClientes(cli));
+      for(i=0; s[i]!=NULL;i++){
+        temporario=searchCliente(cli,s[i]);
+        if(getComprouFilial1(temporario)==1 && getComprouFilial2(temporario)==1 && getComprouFilial3(temporario)==1){ /*passamos 0 pois 0 significa todas as filiais*/
+          lista[n]=malloc(sizeof(char*));
+          lista[n]=getCodigoCliente(temporario);
+          n++;
+        }
+      }
+    }
+  }
+  printf("Existem %d clientes que compraram em todas as filiais!\n",n);
   imprimirLista(lista,10,9);
 }

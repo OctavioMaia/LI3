@@ -139,12 +139,18 @@ Informacao searchInformacao(Faturacao f, char *s) {
 }
 
 /*funcoes de atualizacao*/
-void atualizaFaturacao(Faturacao f, Venda v){
+void atualizaFaturacao(Faturacao f, Clientes c, Venda v){
 	Informacao i = searchInformacao(f,getProduto(v));
 	int quantidade = getQuantidade(v);
 	float faturado = getPreco(v);
 	int mes = getMes(v);
 	int filial = getFilial(v);
+	char *cod_cliente = getCliente(v);
+
+	Cliente cliente = searchCliente(c,cod_cliente);
+	if(filial==1) setComprouFilial1(cliente);
+	if(filial==2) setComprouFilial2(cliente);
+	if(filial==2) setComprouFilial3(cliente);
 
 	if(getPromo(v)=='N'){
 		addQuantidadeNormal(i,mes-1,filial-1,quantidade);

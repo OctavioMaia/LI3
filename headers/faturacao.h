@@ -25,6 +25,6 @@ Faturacao insertInformacao(Faturacao f, char *s);
 Informacao searchInformacao(Faturacao f, char *s);
 
 /*funcoes de atualizacao*/
-void atualizaFaturacao(Faturacao f,Venda v);
+void atualizaFaturacao(Faturacao f,Clientes c, Venda v);
 int nuncaCompradoGlobal(Informacao i);
 int nuncaCompradoFilial(Informacao i, int filial);

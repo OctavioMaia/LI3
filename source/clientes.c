@@ -5,6 +5,9 @@
 
 typedef struct cliente{
 	char codigo[5];
+	int comprou_filial1;
+	int comprou_filial2;
+	int comprou_filial3;
 }cliente;
 
 typedef struct clientes{
@@ -26,6 +29,18 @@ char* getCodigoCliente (Cliente c) {
 
 int getTotalClientes (Clientes c) {
 	return c->total;
+}
+
+int getComprouFilial1 (Cliente c) {
+	return c->comprou_filial1;
+}
+
+int getComprouFilial2 (Cliente c) {
+	return c->comprou_filial2;
+}
+
+int getComprouFilial3 (Cliente c) {
+	return c->comprou_filial3;
 }
 
 char** getListaClientesLetra (Clientes c, char ch) {
@@ -50,6 +65,19 @@ void addClientes (Clientes c, int n) {
 void setCodigoCliente (Cliente c, char *s) {
 	strcpy(c->codigo,s);
 }
+
+void setComprouFilial1 (Cliente c) {
+	c->comprou_filial1=1;
+}
+
+void setComprouFilial2 (Cliente c) {
+	c->comprou_filial2=1;
+}
+
+void setComprouFilial3 (Cliente c) {
+	c->comprou_filial3=1;
+}
+
 
 /* -----------------------------------
    Funções de manipulação dos Clientes

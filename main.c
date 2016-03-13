@@ -43,7 +43,7 @@ int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c) 
 		s=strtok(buf,"\r\n");
 		venda=initVenda(s);
 		if (validaVenda(venda,p,c)==1) {
-			atualizaFaturacao(f,venda);
+			atualizaFaturacao(f,c,venda);
 			atualizaHistorico(vf,venda);
 			i++;
 		}
