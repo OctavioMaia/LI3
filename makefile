@@ -8,6 +8,7 @@ build: $(FILES)
 
 clean:
 	rm -f *.o core
+	rm gerevendas
 
 rebuild:
 	clean build

@@ -38,6 +38,10 @@ AVL getProdutosLetra (Produtos p, char ch) {
 	return p->avl[ch-'A'];
 }
 
+char* getCodProduto(Produto p){
+	return p->codigo;
+}
+
 int getTotalProdutos (Produtos p) {
 	return p->total;
 }

@@ -142,7 +142,7 @@ Informacao searchInformacao(Faturacao f, char *s) {
 void atualizaFaturacao(Faturacao f, Produtos p, Clientes c, Venda v){
 	Informacao i = searchInformacao(f,getProduto(v));
 	int quantidade = getQuantidade(v);
-	float faturado = getPreco(v);
+	float preco = getPreco(v);
 	int mes = getMes(v);
 	int filial = getFilial(v);
 	char *cod_cliente = getCliente(v);
@@ -151,18 +151,18 @@ void atualizaFaturacao(Faturacao f, Produtos p, Clientes c, Venda v){
 	Produto prod = searchProduto(p,cod_produto);
 	Cliente cliente = searchCliente(c,cod_cliente);
 	
+	updateCliente(c,cod_cliente,cod_produto,quantidade,preco*quantidade);
+	
 	setQuantidadeVendida(prod, quantidade);
-	if(filial==1) setComprouFilial1(cliente);
-	if(filial==2) setComprouFilial2(cliente);
-	if(filial==2) setComprouFilial3(cliente);
+	setComprouFilial(cliente,filial-1);
 
 	if(getPromo(v)=='N'){
 		addQuantidadeNormal(i,mes-1,filial-1,quantidade);
-		addFaturadoNormal(i,mes-1,filial-1,faturado*quantidade);
+		addFaturadoNormal(i,mes-1,filial-1,preco*quantidade);
 		/*printf("NORMAL %s Q:%d F:%f\n", getProduto(i), getQuantidadeNormal(i,mes-1,filial-1), getFaturadoNormal(i,mes-1,filial-1));*/
 	}else{
 		addQuantidadePromocao(i,mes-1,filial-1,quantidade);
-		addFaturadoPromocao(i,mes-1,filial-1,faturado*quantidade);
+		addFaturadoPromocao(i,mes-1,filial-1,preco*quantidade);
 		/*printf("PROMO %s Q:%d F:%f\n",getProduto(i), getQuantidadePromocao(i,mes-1,filial-1), getFaturadoPromocao(i,mes-1,filial-1));*/
 	}
 }

@@ -1,13 +1,15 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
 
 typedef struct cliente{
 	char codigo[5];
-	int comprou_filial1;
-	int comprou_filial2;
-	int comprou_filial3;
+	int comprou_filial[3];
+	char** produtos;
+	int* quantidade;
+	float* faturacao;
 }cliente;
 
 typedef struct clientes{
@@ -31,16 +33,20 @@ int getTotalClientes (Clientes c) {
 	return c->total;
 }
 
-int getComprouFilial1 (Cliente c) {
-	return c->comprou_filial1;
+int getComprouFilial (Cliente c, int filial) {
+	return c->comprou_filial[filial];
 }
 
-int getComprouFilial2 (Cliente c) {
-	return c->comprou_filial2;
+char** getProdutosCliente(Cliente c){
+	return c->produtos;
 }
 
-int getComprouFilial3 (Cliente c) {
-	return c->comprou_filial3;
+int* getQuantidadeProdutos(Cliente c){
+	return c->quantidade;
+}
+
+float* getFaturacaoProdutos(Cliente c){
+	return c->faturacao;
 }
 
 char** getListaClientesLetra (Clientes c, char ch) {
@@ -66,18 +72,9 @@ void setCodigoCliente (Cliente c, char *s) {
 	strcpy(c->codigo,s);
 }
 
-void setComprouFilial1 (Cliente c) {
-	c->comprou_filial1=1;
+void setComprouFilial (Cliente c, int filial) {
+	c->comprou_filial[filial]=1;
 }
-
-void setComprouFilial2 (Cliente c) {
-	c->comprou_filial2=1;
-}
-
-void setComprouFilial3 (Cliente c) {
-	c->comprou_filial3=1;
-}
-
 
 /* -----------------------------------
    Funções de manipulação dos Clientes
@@ -87,12 +84,36 @@ int clicmp (Cliente a, Cliente b) {
 	return strcmp(a->codigo,b->codigo);
 }
 
-int clicmpstr (char a[], Cliente b) {
+int clicmpstr (char *a, Cliente b) {
 	return strcmp(a,b->codigo);
 }
 
+void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int quantidade, float preco){
+	int pos, encontrado=0;
+	Cliente cliente = searchCliente(c,cod_cliente);
+	char** lista_produtos = getProdutosCliente(cliente);
+
+	for(pos=0;lista_produtos[pos]!=NULL;pos++){
+		if(lista_produtos[pos]==cod_produto){
+			printf("JA COMPRADO, UPDATE!\n");
+			cliente->quantidade[pos]+=quantidade;	
+			cliente->faturacao[pos]+=preco;
+			encontrado=1;
+		}
+	}
+	if(encontrado==0){ /*nao encontramos, logo vamos criar no final da lista*/
+		cliente->produtos[pos]=cod_produto;
+		cliente->quantidade[pos]=quantidade;
+		cliente->faturacao[pos]=preco;
+	}
+}
+
 Cliente initCliente () {
-	return (Cliente)malloc(sizeof(struct cliente));
+	Cliente c = (Cliente)malloc(sizeof(struct cliente));
+	c->produtos=(char**)malloc(sizeof(char**)*100); 
+	c->quantidade=(int*)malloc(sizeof(int*)*100);
+	c->faturacao=(float*)malloc(sizeof(float*)*100); 
+	return c;
 }
 
 Clientes insertCliente (Clientes c, char *s) {
@@ -119,5 +140,6 @@ Cliente searchCliente (Clientes c, char *s) {
 		c1=getData(aux);
 		return c1;
 	}
-	else return NULL;
+	else 
+		return NULL;
 }

@@ -11,6 +11,7 @@ typedef struct produto *Produto;
    -------------------
 */
 AVL getProdutosLetra (Produtos p, char ch);
+char* getCodProduto(Produto p);
 int getTotalProdutos (Produtos p);
 int getQuantidadeVendida(Produto p);
 char** getListaProdutosLetra (Produtos p, char ch);
