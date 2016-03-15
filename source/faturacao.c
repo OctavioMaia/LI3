@@ -153,7 +153,8 @@ void atualizaFaturacao(Faturacao f, Produtos p, Clientes c, Venda v){
 	
 	updateCliente(c,cod_cliente,cod_produto,mes,filial,quantidade,preco*quantidade);
 	
-	setQuantidadeVendida(prod, quantidade);
+	setQuantidadeVendidaFilial(prod, filial-1,quantidade);
+	setQuantidadeClientes(prod,1);
 	setComprouFilial(cliente,filial-1);
 
 	if(getPromo(v)=='N'){

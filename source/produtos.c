@@ -5,7 +5,8 @@
 
 typedef struct produto{
 	char codigo[6];
-	int quantidade_vendida;
+	int quantidade_clientes;
+	int quantidade_vendida[3];
 }produto;
 
 typedef struct produtos {
@@ -46,8 +47,16 @@ int getTotalProdutos (Produtos p) {
 	return p->total;
 }
 
+int getQuantidadeVendidaFilial(Produto p, int filial){
+	return p->quantidade_vendida[filial];
+}
+
 int getQuantidadeVendida(Produto p){
-	return p->quantidade_vendida;
+	return p->quantidade_vendida[0]+p->quantidade_vendida[1]+p->quantidade_vendida[2];
+}
+
+int getQuantidadeClientes(Produto p){
+	return p->quantidade_clientes;
 }
 
 char** getListaProdutosLetra (Produtos p, char ch) {
@@ -69,13 +78,20 @@ void addProdutos (Produtos p, int total) {
 	p->total+=total;
 }
 
-void setQuantidadeVendida(Produto p, int qt){
-	p->quantidade_vendida+=qt;
+void setQuantidadeVendidaFilial(Produto p, int filial, int qt){
+	p->quantidade_vendida[filial]+=qt;
+}
+
+void setQuantidadeClientes(Produto p, int qt){
+	p->quantidade_clientes+=qt;
 }
 
 Produto initProduto(){
 	Produto p = (Produto)malloc(sizeof(struct produto));
-	setQuantidadeVendida(p,0);
+	p->quantidade_vendida[0]=0;
+	p->quantidade_vendida[1]=0;
+	p->quantidade_vendida[2]=0;
+	p->quantidade_clientes=0;
 	return p;
 }
 

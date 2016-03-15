@@ -122,6 +122,13 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       if(filial==1 || filial==2 || filial==3) query8(vf,codigo,filial);
       else puts("Introduza um número de filial válido!");
       break;
+
+    case 10:
+      puts("\033[1m-------------------------Query 10-------------------------\033[0m");
+      printf("\033[1mIntroduza o número de produtos a listar: \033[0m ");
+      scanf(" %d", &mes);
+      query10(prod,mes);
+      break;
     case 11:
       puts("\033[1m-------------------------Query 11-------------------------\033[0m");
       printf("\033[1mIntroduza o código de cliente: \033[0m ");
@@ -394,6 +401,72 @@ void query8(VendasFilial vf,char *produto, int filial){
   }else{
     printf("Introduza um código de produto válido!\n");
   }
+}
+
+int valor_max(int count, int values[]) {
+  int i;
+  int themax = values[0];
+  for(i = 1; i < count; ++i) {
+        themax = values[i] > themax ? values[i] : themax;
+  }
+  return themax;
+}
+
+void query10(Produtos prod, int n){
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  int i,j, conta=0,posicao=0, *qClientes,*filial1,*filial2,*filial3,*total,*copia,max;
+  char **s,ch,**lista = (char**)malloc(sizeof(char*)*190000);
+  Produto p=NULL;
+
+  qClientes=(int*)malloc(sizeof(int)*190000);
+  filial1=(int*)malloc(sizeof(int)*190000);
+  filial2=(int*)malloc(sizeof(int)*190000);
+  filial3=(int*)malloc(sizeof(int)*190000);
+  total=(int*)malloc(sizeof(int)*190000);
+  
+  begin = clock(); /*init contador*/
+
+  if (prod){
+    for(ch='A';ch<='Z';ch++){
+      s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
+      for(i=0; s[i]!=NULL;i++){
+        conta++;
+        p=searchProduto(prod,s[i]);
+        if(p){
+          lista[posicao]=malloc(sizeof(char*));
+          lista[posicao]=s[i];
+          qClientes[posicao]=getQuantidadeClientes(p);
+          filial1[posicao]=getQuantidadeVendidaFilial(p,0);
+          filial2[posicao]=getQuantidadeVendidaFilial(p,1);
+          filial3[posicao]=getQuantidadeVendidaFilial(p,2);
+          total[posicao]=filial1[posicao]+filial2[posicao]+filial3[posicao];
+          posicao++;
+        }
+      }
+    }
+  }
+
+  copia=total;
+  
+  printf("\033[1m Código\tClientes\tTotal\tFilial 1\tFilial 2\tFilial 3\033[0m\n");
+  for(j=0;j<n;j++){
+    max=valor_max(conta,copia);
+    for(i=0;total[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
+    printf(" %s     %d           %d     %d             %d             %d\n", 
+      lista[i],
+      qClientes[i],
+      total[i],
+      filial1[i],
+      filial2[i],
+      filial3[i]);
+    total[i]=0;
+  }
+
+  /*for(i=0;lista[i];i++) printf("cod %s qC %d f1 %d f2 %d f3 %d\n",lista[i],qClientes[i],filial1[i],filial2[i],filial3[i]);*/
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+  printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
 }
 
 void query11(Clientes c, char* cod_cliente){

@@ -10,5 +10,8 @@ void query6(Faturacao f, Produtos prod, int m1, int m2);
 void query7(Clientes cli);
 void query8(VendasFilial vf,char *produto, int filial);
 
+void query10(Produtos prod, int n);
 void query11(Clientes c, char* cod_cliente);
 void query12(Clientes cli, Produtos prod);
+
+int valor_max(int count, int values[]);
