@@ -18,6 +18,7 @@ int getComprouFilial (Cliente c, int filial);
 char** getProdutosCliente(Cliente c);
 int* getQuantidadeProdutos(Cliente c);
 float* getFaturacaoProdutos(Cliente c);
+int getValorTabela(Cliente c, int mes, int filial);
 
 /* ----------------------
    Funções de modificação
@@ -27,7 +28,7 @@ void setClientes (Clientes c, int n);
 void addClientes (Clientes c, int n);
 void setCodigoCliente (Cliente c, char *s);
 void setComprouFilial (Cliente c, int filial);
-void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int quantidade, float preco);
+void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int filial, int quantidade, float preco);
 
 Cliente initCliente();
 Clientes insertCliente (Clientes c, char *s);

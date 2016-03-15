@@ -9,6 +9,7 @@ typedef struct cliente{
 	char** produtos;
 	int* quantidade;
 	float* faturacao;
+	int tabela[12][3];
 }cliente;
 
 typedef struct clientes{
@@ -46,6 +47,10 @@ int* getQuantidadeProdutos(Cliente c){
 
 float* getFaturacaoProdutos(Cliente c){
 	return c->faturacao;
+}
+
+int getValorTabela(Cliente c, int mes, int filial){
+	return c->tabela[mes][filial];
 }
 
 char** getListaClientesLetra (Clientes c, char ch) {
@@ -87,16 +92,16 @@ int clicmpstr (char *a, Cliente b) {
 	return strcmp(a,b->codigo);
 }
 
-void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int quantidade, float preco){
+void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int filial, int quantidade, float preco){
 	int pos, encontrado=0;
 	Cliente cliente = searchCliente(c,cod_cliente);
 	char** lista_produtos = getProdutosCliente(cliente);
 
 	for(pos=0;lista_produtos[pos]!=NULL;pos++){
-		if(lista_produtos[pos]==cod_produto){
-			/*ja foi comprado pelo cliente, logo apenas atualizamos a quantidade comprada e o dinheiro gasto*/
+		if(lista_produtos[pos]==cod_produto){ /*ja foi comprado pelo cliente, logo apenas atualizamos a quantidade comprada e o dinheiro gasto*/
 			cliente->quantidade[pos]+=quantidade;	
 			cliente->faturacao[pos]+=preco;
+			cliente->tabela[mes-1][filial-1]+=quantidade;
 			encontrado=1;
 		}
 	}
@@ -104,14 +109,23 @@ void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int quantida
 		cliente->produtos[pos]=cod_produto;
 		cliente->quantidade[pos]=quantidade;
 		cliente->faturacao[pos]=preco;
+		cliente->tabela[mes-1][filial-1]+=quantidade;
 	}
 }
 
 Cliente initCliente () {
+	int i,j;
 	Cliente c = (Cliente)malloc(sizeof(struct cliente));
 	c->produtos=(char**)malloc(sizeof(char**)*100); 
 	c->quantidade=(int*)malloc(sizeof(int*)*100);
 	c->faturacao=(float*)malloc(sizeof(float*)*100); 
+	
+	for(i=0;i<12;i++){
+		for(j=0;j<3;j++){
+			c->tabela[i][j]=(long)malloc(sizeof(int));
+			c->tabela[i][j]=0;
+		}
+	}
 	return c;
 }
 

@@ -151,7 +151,7 @@ void atualizaFaturacao(Faturacao f, Produtos p, Clientes c, Venda v){
 	Produto prod = searchProduto(p,cod_produto);
 	Cliente cliente = searchCliente(c,cod_cliente);
 	
-	updateCliente(c,cod_cliente,cod_produto,quantidade,preco*quantidade);
+	updateCliente(c,cod_cliente,cod_produto,mes,filial,quantidade,preco*quantidade);
 	
 	setQuantidadeVendida(prod, quantidade);
 	setComprouFilial(cliente,filial-1);

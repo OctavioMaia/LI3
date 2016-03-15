@@ -95,6 +95,20 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       if(global==0 || global==1) query4(f,prod,global);
       else puts("Introduza uma decisão válida (0 ou 1)!");
       break;
+    case 5:
+      puts("\033[1m-------------------------Query 5--------------------------\033[0m");
+      printf("\033[1mIntroduza o código de cliente: \033[0m ");
+      scanf(" %s", codigo);
+      query5(cli,codigo);
+      break;
+    case 6:
+      puts("\033[1m-------------------------Query 6--------------------------\033[0m");
+      printf("\033[1mIntroduza o mês inicial de pesquisa: \033[0m ");
+      scanf(" %d", &mes);
+      printf("\033[1mIntroduza o mês final de pesquisa: \033[0m ");
+      scanf(" %d", &filial);
+      query6(f,prod,mes,filial);
+      break;
     case 7:
       puts("\033[1m-------------------------Query 7--------------------------\033[0m");
       query7(cli);
@@ -245,6 +259,60 @@ void query4(Faturacao F, Produtos prod, int decisao){
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
   }
   imprimirLista(lista,10,9);
+}
+
+void query5(Clientes cli, char *cod_cliente){
+  int mes;
+  Cliente c = searchCliente(cli,cod_cliente);
+
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
+
+  if(c){
+    printf("\033[1m Mês\t\tFilial 1\tFilial 2\tFilial3\n\033[0m");
+    for(mes=0;mes<12;mes++){
+      printf("  %d\t\t %d\t\t %d\t\t %d\n",mes+1,getValorTabela(c,mes,0),getValorTabela(c,mes,1),getValorTabela(c,mes,2));
+    }
+  }else{
+    printf("Código de cliente inválido!\n");
+  }
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+  printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
+}
+
+void query6(Faturacao f, Produtos prod, int m1, int m2){
+  int i,mes,filial,qTotal=0;
+  float fTotal=0;
+  char **s,ch;
+  Informacao temp=NULL;
+
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
+
+  if((m1<=m2) && m1>0 && m1 <=12 && m2>0 && m2 <=12 ){
+    for(ch='A';ch<='Z';ch++){
+      s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
+      for(i=0; s[i]!=NULL;i++){
+        temp = searchInformacao(f,s[i]);
+        for(mes=m1-1;mes<=m2-1;mes++){
+          for(filial=0;filial<3;filial++){
+            qTotal+=getQuantidadeNormal(temp,mes,filial)+getQuantidadePromocao(temp,mes,filial);
+            fTotal+=getFaturadoNormal(temp,mes,filial)+getFaturadoPromocao(temp,mes,filial);
+          }
+        }
+      }
+    }
+  }else{
+    printf("Introduza um intervalo de meses correto!\n");
+  }
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
+  printf("Total de vendas registadas: %d\n",qTotal); 
+  printf("Total faturado: %f\n",fTotal);
+  printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
 }
 
 void query7(Clientes cli){
