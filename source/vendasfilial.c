@@ -94,10 +94,10 @@ ListaProduto initListaProduto(){
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
 			lp->h[i][j]=(Historico)malloc(sizeof(historico));
-			lp->h[i][j]->clientesN=(char**)malloc(sizeof(char**));
-			lp->h[i][j]->quantidadeN=(int*)malloc(sizeof(int*));
-			lp->h[i][j]->clientesP=(char**)malloc(sizeof(char**));
-			lp->h[i][j]->quantidadeP=(int*)malloc(sizeof(int*));
+			lp->h[i][j]->clientesN=(char**)malloc(sizeof(char*));
+			lp->h[i][j]->quantidadeN=(int*)malloc(sizeof(int));
+			lp->h[i][j]->clientesP=(char**)malloc(sizeof(char*));
+			lp->h[i][j]->quantidadeP=(int*)malloc(sizeof(int));
 		}
 	}
 	return lp;

@@ -279,7 +279,7 @@ void query7(Clientes cli){
 
 void query8(VendasFilial vf,char *produto, int filial){
   int i,mes,qN,qP,n=0,p=0;
-  char **tempN,**tempP, **listaN=(char**)malloc(sizeof(char**)), **listaP=(char**)malloc(sizeof(char**));
+  char **tempN,**tempP, **listaN=(char**)malloc(sizeof(char*)*100), **listaP=(char**)malloc(sizeof(char*)*100);
   Historico h=NULL;
   ListaProduto lp = searchListaProduto(vf,produto);
 
@@ -294,17 +294,19 @@ void query8(VendasFilial vf,char *produto, int filial){
         tempN=getClientesN(h);
         tempP=getClientesP(h);
 
-        for(qN=0;tempN[qN]!=NULL;qN++){
-          listaN[n]=malloc(sizeof(char*));
-          listaN[n]=tempN[qN];
-          n++;
-        }
+        if(tempN)
+          for(qN=0;tempN[qN]!=NULL;qN++){
+            listaN[n]=malloc(sizeof(char*));
+            listaN[n]=tempN[qN];
+            n++;
+          }
       
-        for(qP=0;tempP[qP]!=NULL;qP++){
-          listaP[p]=malloc(sizeof(char*));
-          listaP[p]=tempP[qP];
-          p++;
-        }
+        if(tempP)
+          for(qP=0;tempP[qP]!=NULL;qP++){
+            listaP[p]=malloc(sizeof(char*));
+            listaP[p]=tempP[qP];
+            p++;
+          }
       }
     }
 
@@ -331,7 +333,7 @@ void query11(Clientes c, char* cod_cliente){
   float *faturacoes,*copia,faturado=0,largest[3];
   clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
-  char **lista, **tres_maiores = (char**)malloc(sizeof(char**));
+  char **lista, **tres_maiores = (char**)malloc(sizeof(char*));
   Cliente temp;
 
   begin = clock(); /*init contador*/

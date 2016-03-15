@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
@@ -95,7 +94,7 @@ void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int quantida
 
 	for(pos=0;lista_produtos[pos]!=NULL;pos++){
 		if(lista_produtos[pos]==cod_produto){
-			printf("JA COMPRADO, UPDATE!\n");
+			/*ja foi comprado pelo cliente, logo apenas atualizamos a quantidade comprada e o dinheiro gasto*/
 			cliente->quantidade[pos]+=quantidade;	
 			cliente->faturacao[pos]+=preco;
 			encontrado=1;
