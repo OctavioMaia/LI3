@@ -52,6 +52,17 @@ void imprimirAux(char **s, int c , int l,int t, int pa) {
   }
 }
 
+int valor_max(int n, int valores[]) {
+  int i;
+  int max = valores[0];
+  for(i = 1; i < n; ++i) {
+        max = valores[i] > max ? valores[i] : max;
+  }
+  return max;
+}
+
+/*QUERIES*/
+
 void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
   int decisao; /*para o switch*/
   printf("\033[1mIntroduza o número da query a executar: \033[0m");
@@ -401,15 +412,6 @@ void query8(VendasFilial vf,char *produto, int filial){
   }else{
     printf("Introduza um código de produto válido!\n");
   }
-}
-
-int valor_max(int count, int values[]) {
-  int i;
-  int themax = values[0];
-  for(i = 1; i < count; ++i) {
-        themax = values[i] > themax ? values[i] : themax;
-  }
-  return themax;
 }
 
 void query10(Produtos prod, int n){
