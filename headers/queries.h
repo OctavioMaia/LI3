@@ -9,7 +9,7 @@ void query5(Clientes cli, char *cod_cliente);
 void query6(Faturacao f, Produtos prod, int m1, int m2);
 void query7(Clientes cli);
 void query8(VendasFilial vf,char *produto, int filial);
-
+void query9(Clientes cli, char* cod_cliente, int mes);
 void query10(Produtos prod, int n);
 void query11(Clientes c, char* cod_cliente);
 void query12(Clientes cli, Produtos prod);

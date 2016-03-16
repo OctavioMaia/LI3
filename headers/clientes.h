@@ -17,6 +17,7 @@ char** getListaClientesLetra (Clientes c, char ch);
 int getComprouFilial (Cliente c, int filial);
 char** getProdutosCliente(Cliente c);
 int* getQuantidadeProdutos(Cliente c);
+int* getMesVenda(Cliente c);
 float* getFaturacaoProdutos(Cliente c);
 int getValorTabela(Cliente c, int mes, int filial);
 

@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 #include <time.h>
 #include "../headers/AVL.h"
 #include "../headers/produtos.h"
@@ -55,14 +53,13 @@ void imprimirAux(char **s, int c , int l,int t, int pa) {
 int valor_max(int n, int valores[]) {
   int i;
   int max = valores[0];
-  for(i = 1; i < n; ++i) {
-        max = valores[i] > max ? valores[i] : max;
-  }
+  for(i = 1; i < n; ++i)
+    max = valores[i] > max ? valores[i] : max;
+  
   return max;
 }
 
 /*QUERIES*/
-
 void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
   int decisao; /*para o switch*/
   printf("\033[1mIntroduza o número da query a executar: \033[0m");
@@ -133,7 +130,14 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       if(filial==1 || filial==2 || filial==3) query8(vf,codigo,filial);
       else puts("Introduza um número de filial válido!");
       break;
-
+    case 9:
+      puts("\033[1m-------------------------Query 9--------------------------\033[0m");
+      printf("\033[1mIntroduza o código de cliente: \033[0m ");
+      scanf(" %s", codigo);
+      printf("\033[1mIntroduza o mes de pesquisa: \033[0m ");
+      scanf(" %d", &mes);
+      query9(cli,codigo,mes);
+      break;
     case 10:
       puts("\033[1m-------------------------Query 10-------------------------\033[0m");
       printf("\033[1mIntroduza o número de produtos a listar: \033[0m ");
@@ -411,6 +415,49 @@ void query8(VendasFilial vf,char *produto, int filial){
     printf("\n");
   }else{
     printf("Introduza um código de produto válido!\n");
+  }
+}
+
+void query9(Clientes cli, char* cod_cliente, int m){
+  Cliente temp;
+  char **lista_produtos,**lista_mes;
+  int *quantidade,*quantidade_mes, *mes, *copia, i, j=0, max;
+
+  double time_spent;
+  clock_t begin, end; /*Contadores de tempo de execucao*/
+  begin = clock(); /*init contador*/
+
+  temp = searchCliente(cli,cod_cliente);
+  if(temp && m>=1 && m<=12){
+    lista_mes=(char**)malloc(sizeof(char*)*100);
+    quantidade_mes=(int*)malloc(sizeof(int)*100);
+    lista_produtos=getProdutosCliente(temp);
+    quantidade=getQuantidadeProdutos(temp);
+    mes=getMesVenda(temp);
+
+    for(i=0;lista_produtos[i]!=NULL;i++){
+      if(mes[i]==m){
+        lista_mes[j]=lista_produtos[i];
+        quantidade_mes[j]=quantidade[i];
+        j++;
+      }
+    }
+
+    copia=quantidade_mes;
+  
+    printf("\033[1m Código    Mês\t   Total comprado\033[0m\n");
+    for(i=0;i<j;i++){
+      max=valor_max(j,copia);
+      for(i=0;quantidade_mes[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
+        printf(" %s     %d           %d\n", lista_mes[i],m,quantidade_mes[i]);
+      quantidade_mes[i]=0;
+    }
+
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query*/
+    printf("\x1b[31mSucesso, demoramos %fs!\n\x1b[0m",time_spent);
+  }else{
+    printf("Introduza um código de cliente válido!\n");
   }
 }
 
