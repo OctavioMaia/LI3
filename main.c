@@ -64,7 +64,7 @@ int main () {
 	VendasFilial vf;
 
 	/*Variaveis auxiliares*/
-	int totalVendas;
+	int totalVendas;		
 
 	/*Abertura dos ficheiros*/
 	FILE *fp = fopen("data/Produtos.txt","r");
@@ -76,8 +76,8 @@ int main () {
 		perror("Erro na abertura dos ficheiros");
 		return -1;
 	}else{
-		printf("Leitura efetuada com sucesso!\n");
-		printf("Começando leitura dos ficheiros para memória...\n");
+		puts("Leitura efetuada com sucesso!");
+		puts("Começando leitura dos ficheiros para memória...");
 	}
 
 	/*Inicializacao do contador*/
@@ -100,9 +100,9 @@ int main () {
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
 	/*Tempo que demorou a guardar tudo*/
-	printf("\x1b[31mTudo guardado e validado em %fs!\n\x1b[0m",time_spent);
-    printf("---------------------------------------------------------------------\n");
+	printf("\033[1m\x1b[31mTudo guardado e validado em %fs!\n\n\x1b[0m\033[0m",time_spent);
 
+	imprimirQueries();
 	exec(prod,cli,f,vf);
 	return 0;
 }

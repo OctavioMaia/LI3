@@ -1,5 +1,7 @@
 void imprimirLista(char **s,int c,int l);
 void imprimirAux(char **s, int c , int l,int t, int pa);
+void imprimirQueries();
+int valor_max(int n, int valores[]);
 
 void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf);
 void query2(Produtos p, char ch);
@@ -13,5 +15,3 @@ void query9(Clientes cli, char* cod_cliente, int mes);
 void query10(Produtos prod, int n);
 void query11(Clientes c, char* cod_cliente);
 void query12(Clientes cli, Produtos prod);
-
-int valor_max(int count, int values[]);
