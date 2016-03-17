@@ -63,6 +63,15 @@ int valor_max(int n, int valores[]) {
   return max;
 }
 
+float valor_max_float(int n, float valores[]) {
+  int i;
+  float max = valores[0];
+  for(i = 1; i < n; ++i)
+    max = valores[i] > max ? valores[i] : max;
+  
+  return max;
+}
+
 void imprimirQueries() {
   puts("\t\t\t\t\033[1mLista de Queries\033[0m");
   puts("\033[1mQuery 2\033[0m - Imprimir lista de produtos cujo código se inicia por uma dada letra.");
@@ -357,15 +366,15 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
         }
       }
     }
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec */
+    printf("Total de vendas registadas: %d\n",qTotal); 
+    printf("Total faturado: %f\n",fTotal);
+    printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
+    printf("---------------------------------------------------------------------\n");
   }else{
     printf("Introduza um intervalo de meses correto!\n");
   }
-  end = clock(); /*end contador*/
-  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec */
-  printf("Total de vendas registadas: %d\n",qTotal); 
-  printf("Total faturado: %f\n",fTotal);
-  printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
-  printf("---------------------------------------------------------------------\n");
 }
 
 void query7(Clientes cli){
@@ -561,13 +570,13 @@ void query10(Produtos prod, int n){
 }
 
 void query11(Clientes c, STRING cod_cliente){
-  int i,total=0;
-  float faturado=0,largest[3];
+  int i,j,total=0,conta, pos[3];
+  float faturado=0,max,valores[3];
   clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
   LISTA_INT quantidades;
   LISTA_FLOAT faturacoes,copia;
-  LISTA_STRING lista, tres_maiores = (LISTA_STRING)malloc(sizeof(STRING));
+  LISTA_STRING lista;
   Cliente temp;
 
   begin = clock(); /*init contador*/
@@ -576,38 +585,28 @@ void query11(Clientes c, STRING cod_cliente){
   if(temp){
     lista = getProdutosCliente(temp);
     quantidades = getQuantidadeProdutos(temp);
-    faturacoes = getFaturacaoProdutos(temp);
+    copia = faturacoes = getFaturacaoProdutos(temp);
 
     for(i=0;lista[i]!=NULL;i++){ /*soma as quantidades compradas, bem como o € gasto*/
       total+=quantidades[i];
       faturado+=faturacoes[i];
     }
 
-    copia=faturacoes;
-    largest[0] = 0;
-    largest[1] = 0;
-    largest[2] = 0;
-   
-    for(i=0; copia[i]; i++) {
-      if(copia[i] > largest[0] && copia[i] < largest[1] && copia[i] < largest[2]) {
-        largest[0] = copia[i];
-        tres_maiores[0] = lista[i];
-        copia[i]=0;
-      }
-      if(copia[i] > largest[1] && copia[i] > largest[0] && copia[i] < largest[2]) {;
-        largest[1] = copia[i];
-        tres_maiores[1] = lista[i];
-        copia[i]=0;
-      }
-      if(copia[i] > largest[2] && copia[i] > largest[0] && copia[i] > largest[1]) {;
-        largest[2] = copia[i];
-        tres_maiores[2] = lista[i];
-        copia[i]=0;
-      }
-    }
+    for(conta=0;lista[conta]!=NULL;conta++);
 
     printf("Produtos nos quais o cliente \033[1m%s\033[0m gastou mais dinheiro durante o ano: \033[1m(top 3)\033[0m\n\n", cod_cliente);
-    for(i=0;i<3;i++) printf("\t\t\t\t%s %f\n",tres_maiores[i],largest[i]);
+    for(i=0;i<3;i++){
+      max=valor_max_float(conta,copia);
+      valores[i]=max;
+      for(j=0;copia[j]!=max;j++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
+      printf("\t\t\t\t%s %f\n",lista[j],max);
+      copia[j]=0;
+      pos[i]=j;
+    }
+
+    faturacoes[pos[0]]=valores[0];
+    faturacoes[pos[1]]=valores[1];
+    faturacoes[pos[2]]=valores[2];
 
     printf("\nNo total, o cliente \033[1m%s\033[0m comprou \033[1m%d\033[0m produtos, num valor total de \033[1m%f\033[0m !\n",cod_cliente,total,faturado);
 
@@ -616,6 +615,7 @@ void query11(Clientes c, STRING cod_cliente){
 
     printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
     printf("---------------------------------------------------------------------\n");
+    setFaturacaoProdutos(temp, faturacoes);
   }else{
     printf("Introduza um código de cliente válido!\n");
   }

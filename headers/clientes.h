@@ -34,6 +34,8 @@ void setClientes (Clientes c, int n);
 void addClientes (Clientes c, int n);
 void setCodigoCliente (Cliente c, STRING s);
 void setComprouFilial (Cliente c, int filial);
+void setFaturacaoProdutos(Cliente c, LISTA_FLOAT faturacao);
+
 void updateCliente(Clientes c, STRING cod_cliente,STRING cod_produto, int mes, int filial, int quantidade, float preco);
 
 Cliente initCliente();

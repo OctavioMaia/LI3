@@ -87,6 +87,10 @@ void setComprouFilial (Cliente c, int filial) {
 	c->comprou_filial[filial]=1;
 }
 
+void setFaturacaoProdutos(Cliente c, LISTA_FLOAT faturacao){
+	c->faturacao=faturacao;
+}
+
 /* -----------------------------------
    Funções de manipulação dos Clientes
    -----------------------------------
