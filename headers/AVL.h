@@ -1,7 +1,5 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 
-typedef char** LISTA;
-
 #define L 0	/*Esquerda*/
 #define R 1	/*Direita*/
 #define EH -1	/*Balanço equivalente*/
@@ -28,14 +26,14 @@ AVL getChild (AVL a, int dir);
  * Se a AVL contém elementos, usa a função de comparação para decidir se
  * insere a informação à esquerda ou à direita.
  */
-AVL insertAVL (AVL t, void* data, int *cresceu, int(*comp)(void*,void*));
+AVL insertAVL (AVL t, void* data, int* cresceu, int(*comp)(void*,void*));
 
 
 /* toString
  * Esta função reserva espaço na memoria para a informação
  * devolvida pela função toStringAux.
  */
-LISTA toString (AVL a, int n);
+LISTA_STRING toString (AVL a, int n);
 
 
 /* search

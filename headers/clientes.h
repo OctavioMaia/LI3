@@ -4,6 +4,8 @@ typedef struct node *ListaClientes;
 typedef struct cliente *Cliente;
 typedef struct clientes *Clientes;
 
+typedef STRING CLIENTE;
+
 /*            ======================================
               Funções relativas à estrutura Clientes
               ======================================
@@ -14,14 +16,14 @@ typedef struct clientes *Clientes;
    -------------------
 */
 AVL getClientesLetra (Clientes c, char ch);
-char* getCodigoCliente (Cliente c);
+CLIENTE getCodigoCliente (Cliente c);
 int getTotalClientes (Clientes c);
-LISTA  getListaClientesLetra (Clientes c, char ch);
+LISTA_STRING  getListaClientesLetra (Clientes c, char ch);
 int getComprouFilial (Cliente c, int filial);
-LISTA  getProdutosCliente(Cliente c);
-int* getQuantidadeProdutos(Cliente c);
-int* getMesVenda(Cliente c);
-float* getFaturacaoProdutos(Cliente c);
+LISTA_STRING  getProdutosCliente(Cliente c);
+LISTA_INT getQuantidadeProdutos(Cliente c);
+LISTA_INT getMesVenda(Cliente c);
+LISTA_FLOAT getFaturacaoProdutos(Cliente c);
 int getValorTabela(Cliente c, int mes, int filial);
 
 /* ----------------------
@@ -30,11 +32,11 @@ int getValorTabela(Cliente c, int mes, int filial);
 */
 void setClientes (Clientes c, int n);
 void addClientes (Clientes c, int n);
-void setCodigoCliente (Cliente c, char *s);
+void setCodigoCliente (Cliente c, STRING s);
 void setComprouFilial (Cliente c, int filial);
-void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int filial, int quantidade, float preco);
+void updateCliente(Clientes c, STRING cod_cliente,STRING cod_produto, int mes, int filial, int quantidade, float preco);
 
 Cliente initCliente();
 Clientes initClientes();
-Clientes insertCliente (Clientes c, char *s);
-Cliente searchCliente (Clientes c, char *s);
+Clientes insertCliente (Clientes c, STRING s);
+Cliente searchCliente (Clientes c, STRING s);

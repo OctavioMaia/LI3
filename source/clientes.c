@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include "../headers/tipos.h"
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
 
@@ -7,10 +8,10 @@
 typedef struct cliente{
 	char codigo[5];
 	int comprou_filial[3];
-	LISTA produtos;
-	int* quantidade;
-	int* mes;
-	float* faturacao;
+	LISTA_STRING produtos;
+	LISTA_INT quantidade;
+	LISTA_INT mes;
+	LISTA_FLOAT faturacao;
 	int tabela[12][3];
 }cliente;
 
@@ -27,7 +28,7 @@ ListaClientes getClientesLetra (Clientes c, char ch) {
 	return c->avl[ch-'A'];
 }
 
-char* getCodigoCliente (Cliente c) {
+CLIENTE getCodigoCliente (Cliente c) {
 	return c->codigo;
 }
 
@@ -39,19 +40,19 @@ int getComprouFilial (Cliente c, int filial) {
 	return c->comprou_filial[filial];
 }
 
-LISTA getProdutosCliente(Cliente c){
+LISTA_STRING getProdutosCliente(Cliente c){
 	return c->produtos;
 }
 
-int* getQuantidadeProdutos(Cliente c){
+LISTA_INT getQuantidadeProdutos(Cliente c){
 	return c->quantidade;
 }
 
-int* getMesVenda(Cliente c){
+LISTA_INT getMesVenda(Cliente c){
 	return c->mes;
 }
 
-float* getFaturacaoProdutos(Cliente c){
+LISTA_FLOAT getFaturacaoProdutos(Cliente c){
 	return c->faturacao;
 }
 
@@ -59,8 +60,8 @@ int getValorTabela(Cliente c, int mes, int filial){
 	return c->tabela[mes][filial];
 }
 
-LISTA getListaClientesLetra (Clientes c, char ch) {
-	LISTA s=NULL;
+LISTA_STRING getListaClientesLetra (Clientes c, char ch) {
+	LISTA_STRING s=NULL;
 	if (c!=NULL)
 		s=toString(getClientesLetra(c,ch),c->total);
 	return s;
@@ -78,7 +79,7 @@ void addClientes (Clientes c, int n) {
 	c->total+=n;
 }
 
-void setCodigoCliente (Cliente c, char *s) {
+void setCodigoCliente (Cliente c, CLIENTE s) {
 	strcpy(c->codigo,s);
 }
 
@@ -94,15 +95,15 @@ int clicmp (Cliente a, Cliente b) {
 	return strcmp(a->codigo,b->codigo);
 }
 
-int clicmpstr (char *a, Cliente b) {
+int clicmpstr (STRING a, Cliente b) {
 	return strcmp(a,b->codigo);
 }
 
-void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int filial, int quantidade, float preco){
+void updateCliente(Clientes c, STRING cod_cliente,STRING cod_produto, int mes, int filial, int quantidade, float preco){
 	int pos, encontrado=0;
 	Cliente cliente = searchCliente(c,cod_cliente);
-	LISTA lista_produtos = getProdutosCliente(cliente);
-	int* lista_mes = getMesVenda(cliente);
+	LISTA_STRING lista_produtos = getProdutosCliente(cliente);
+	LISTA_INT lista_mes = getMesVenda(cliente);
 
 	for(pos=0;lista_produtos[pos]!=NULL;pos++){
 		if(lista_produtos[pos]==cod_produto && lista_mes[pos]==mes){ /*ja foi comprado pelo cliente nesse mes, 
@@ -129,10 +130,10 @@ Clientes initClientes(){
 Cliente initCliente () {
 	int i,j;
 	Cliente c = (Cliente)malloc(sizeof(struct cliente));
-	c->produtos=(LISTA)malloc(sizeof(char*)*100); 
-	c->quantidade=(int*)malloc(sizeof(int)*100);
-	c->faturacao=(float*)malloc(sizeof(float)*100); 
-	c->mes=(int*)malloc(sizeof(int)*100); 
+	c->produtos=(LISTA_STRING)malloc(sizeof(STRING)*100); 
+	c->quantidade=(LISTA_INT)malloc(sizeof(int)*100);
+	c->faturacao=(LISTA_FLOAT)malloc(sizeof(float)*100); 
+	c->mes=(LISTA_INT)malloc(sizeof(int)*100); 
 	
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
@@ -143,7 +144,7 @@ Cliente initCliente () {
 	return c;
 }
 
-Clientes insertCliente (Clientes c, char *s) {
+Clientes insertCliente (Clientes c, STRING s) {
 	int i, pos=s[0]-'A';
 
 	Cliente aux = initCliente();
@@ -160,7 +161,7 @@ Clientes insertCliente (Clientes c, char *s) {
 	return c;
 }
 
-Cliente searchCliente (Clientes c, char *s) {
+Cliente searchCliente (Clientes c, CLIENTE s) {
 	Cliente c1;
 	ListaClientes aux=search(c->avl[s[0]-'A'],s,(int (*)(void*,void*))clicmpstr);
 	if (aux!=NULL) {

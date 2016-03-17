@@ -14,13 +14,13 @@ typedef struct produto *Produto;
    -------------------
 */
 AVL getProdutosLetra (Produtos p, char ch);
-char* getCodProduto(Produto p);
+STRING getCodProduto(Produto p);
 int getTotalProdutos (Produtos p);
 int getQuantidadeVendidaFilial(Produto p, int filial);
 int getQuantidadeVendida(Produto p);
 int getQuantidadeClientes(Produto p);
-LISTA  getListaProdutosLetra (Produtos p, char ch);
-LISTA  getListaTodosProdutos (Produtos p);
+LISTA_STRING  getListaProdutosLetra (Produtos p, char ch);
+LISTA_STRING  getListaTodosProdutos (Produtos p);
 
 /* ----------------------
    Funções de modificação
@@ -37,5 +37,5 @@ void setQuantidadeClientes(Produto p, int qt);
 */
 Produto initProduto();
 Produtos initProdutos();
-Produtos insertProduto (Produtos p, char *s);
-Produto searchProduto(Produtos p, char *s);
+Produtos insertProduto (Produtos p, STRING s);
+Produto searchProduto(Produtos p, STRING s);

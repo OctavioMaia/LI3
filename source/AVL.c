@@ -1,15 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../headers/tipos.h"
 #include "../headers/AVL.h"
 
-
-/* node
- * Esta estrutura contem:
- * o apontador para informação do nó,
- * o factor de balanceamento do nó,
- * e os apontadores para os filhos do nó.
- */
 typedef struct node {
 	void *data;		/*Apontador para informação do nó*/
 	int bf;			/*Factor de balanceamento do nó*/
@@ -85,7 +79,7 @@ AVL balance(AVL t, int dir) {
  * num dos nodos e balanceia a árvore de modo a manter a diferença de
  * altura entre estes menor ou igual a 1.
  */
-AVL insert(AVL t, int dir, void *data, int *cresceu,int(*comp)(void*,void*)) {
+AVL insert(AVL t, int dir, void *data, int* cresceu,int(*comp)(void*,void*)) {
 	t->child[dir] = insertAVL(t->child[dir],data,cresceu,comp);
 	if (*cresceu) {
 		if (t->bf==!dir) {
@@ -104,7 +98,7 @@ AVL insert(AVL t, int dir, void *data, int *cresceu,int(*comp)(void*,void*)) {
 	return t;
 }
 
-AVL insertAVL(AVL t, void* data, int *cresceu, int(*comp)(void*,void*)){
+AVL insertAVL(AVL t, void* data, int* cresceu, int(*comp)(void*,void*)){
 	if (t==NULL) {
 		t = (AVL)malloc(sizeof(struct node));
 		t->data = data;
@@ -127,7 +121,7 @@ AVL insertAVL(AVL t, void* data, int *cresceu, int(*comp)(void*,void*)){
  * É depois chamada recursivamente para a esquerda e
  * direita da AVL.
  */
-LISTA toStringAux (AVL a, LISTA s, int *i) {
+LISTA_STRING toStringAux (AVL a, LISTA_STRING s, int* i) {
 	if (a!=NULL) {		
 		s=toStringAux(a->child[L],s,i);
 		s[(*i)]=a->data;
@@ -138,9 +132,9 @@ LISTA toStringAux (AVL a, LISTA s, int *i) {
 }
 
 
-LISTA toString (AVL a, int n) {
+LISTA_STRING toString (AVL a, int n) {
 	int i=0;
-	LISTA s = malloc(sizeof(char*)*n);
+	LISTA_STRING s = malloc(sizeof(STRING)*n);
 
 	if (a!=NULL) {
 		s=toStringAux(a,s,&i);

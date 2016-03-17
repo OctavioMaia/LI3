@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../headers/tipos.h"
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
 #include "../headers/produtos.h"
@@ -19,7 +20,7 @@ typedef struct venda {
    Funções de consulta
    -------------------
 */
-char* getProduto(Venda v){
+STRING getProduto(Venda v){
 	return v->produto;
 }
 
@@ -35,7 +36,7 @@ char getPromo(Venda v){
 	return v->promo;
 }
 
-char* getCliente(Venda v){
+STRING getCliente(Venda v){
 	return v->cliente;
 }
 
@@ -51,7 +52,7 @@ int getFilial (Venda v) {
    Funções de modificação
    ----------------------
 */
-Venda initVenda (char *s) {
+Venda initVenda (STRING s) {
 	Venda v=(Venda)malloc(sizeof(struct venda));
 	sscanf(s,"%s %f %d %c %s %d %d",v->produto,&v->preco,&v->quant,&v->promo,v->cliente,&v->mes,&v->filial);	
 	return v;

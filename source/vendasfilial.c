@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "../headers/tipos.h"
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
 #include "../headers/produtos.h"
@@ -8,10 +9,10 @@
 #include "../headers/vendasfilial.h"
 
 typedef struct historico{
-	LISTA clientesN;
-	int* quantidadeN;
-	LISTA clientesP;
-	int* quantidadeP;
+	LISTA_STRING clientesN;
+	LISTA_INT quantidadeN;
+	LISTA_STRING clientesP;
+	LISTA_INT quantidadeP;
 }historico;
 
 typedef struct listaproduto{
@@ -37,35 +38,35 @@ Historico getHistorico(ListaProduto lp, int mes, int filial){
 	return lp->h[mes][filial];
 }
 
-char* getCodigoListaProduto (ListaProduto p){
+STRING getCodigoListaProduto (ListaProduto p){
 	return p->produto;
 }
 
-LISTA getClientesN(Historico h){
+LISTA_STRING getClientesN(Historico h){
 	return h->clientesN;
 }
 
-int* getQuantidadeN(Historico h){
+LISTA_INT getQuantidadeN(Historico h){
 	return h->quantidadeN;
 }
 
-LISTA getClientesP(Historico h){
+LISTA_STRING getClientesP(Historico h){
 	return h->clientesP;
 }
 
-int* getQuantidadeP(Historico h){
+LISTA_INT getQuantidadeP(Historico h){
 	return h->quantidadeP;
 }
 
-LISTA getListaVendasFilialLetra (VendasFilial vf, char ch) {
-	LISTA s=NULL;
+LISTA_STRING getListaVendasFilialLetra (VendasFilial vf, char ch) {
+	LISTA_STRING s=NULL;
 	if (vf!=NULL)
 		s=toString(getVendasFilialLetra(vf,ch),vf->total);
 	return s;
 }
 
 /*SETS*/
-void setCodigoListaProduto (ListaProduto p, char *s) {
+void setCodigoListaProduto (ListaProduto p, STRING s) {
 	strcpy(p->produto,s);
 }
 
@@ -78,7 +79,7 @@ int vfcmp (ListaProduto a, ListaProduto b) {
 	return strcmp(a->produto,b->produto);
 }
 
-int vfcmpstr (char *a, ListaProduto b) {
+int vfcmpstr (STRING a, ListaProduto b) {
 	return strcmp(a,b->produto);
 }
 
@@ -94,16 +95,16 @@ ListaProduto initListaProduto(){
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
 			lp->h[i][j]=(Historico)malloc(sizeof(historico));
-			lp->h[i][j]->clientesN=(LISTA)malloc(sizeof(char*));
-			lp->h[i][j]->quantidadeN=(int*)malloc(sizeof(int));
-			lp->h[i][j]->clientesP=(LISTA)malloc(sizeof(char*));
-			lp->h[i][j]->quantidadeP=(int*)malloc(sizeof(int));
+			lp->h[i][j]->clientesN=(LISTA_STRING)malloc(sizeof(STRING));
+			lp->h[i][j]->quantidadeN=(LISTA_INT)malloc(sizeof(int));
+			lp->h[i][j]->clientesP=(LISTA_STRING)malloc(sizeof(STRING));
+			lp->h[i][j]->quantidadeP=(LISTA_INT)malloc(sizeof(int));
 		}
 	}
 	return lp;
 }
 
-VendasFilial insertListaProduto(VendasFilial f, char *s) {
+VendasFilial insertListaProduto(VendasFilial f, STRING s) {
 	int i, pos=s[0]-'A';
 	ListaProduto aux = initListaProduto();
 	/*printf("antes %s ", getCodigoListaProduto(aux));*/
@@ -121,7 +122,7 @@ VendasFilial insertListaProduto(VendasFilial f, char *s) {
 	return f;
 }
 
-ListaProduto searchListaProduto(VendasFilial f, char *s) {
+ListaProduto searchListaProduto(VendasFilial f, STRING s) {
 	ListaProduto p1;
 	ListaVFilial aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))vfcmpstr);
 	if (aux!=NULL) {
@@ -138,7 +139,7 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 	int mes = getMes(v);
 	int filial = getFilial(v);
 	int quantidade = getQuantidade(v);
-	char* cliente = getCliente(v);
+	STRING cliente = getCliente(v);
 	char tipo = getPromo(v);
 
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
@@ -148,7 +149,7 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 		if(tipo=='N'){
 			for(i=0;h->clientesN[i]!=NULL;i++);
 
-			h->clientesN[i]=(char*)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
+			h->clientesN[i]=(STRING)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
 			h->clientesN[i]=cliente;
 			h->quantidadeN[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
 			h->quantidadeN[i]=quantidade;	
@@ -157,7 +158,7 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 		}else{
 			for(i=0;h->clientesP[i]!=NULL;i++);
 
-			h->clientesP[i]=(char*)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
+			h->clientesP[i]=(STRING)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
 			h->clientesP[i]=cliente;
 			h->quantidadeP[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
 			h->quantidadeP[i]=quantidade;	

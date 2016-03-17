@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include "../headers/tipos.h"
 #include "../headers/AVL.h"
 #include "../headers/produtos.h"
 
@@ -10,7 +11,7 @@ typedef struct produto{
 }produto;
 
 typedef struct produtos {
-	ListaProdutos avl[26];			/*Divisao dos produtos em 26 avl's*/
+	ListaProdutos avl[26];		/*Divisao dos produtos em 26 avl's*/
 	int total;					/*Nº produtos total (nas 3 filiais)*/
 }produtos;
 
@@ -23,11 +24,11 @@ int prodcmp (Produto a, Produto b) {
 	return strcmp(a->codigo,b->codigo);
 }
 
-int prodcmpstr (char *a, Produto b) {
+int prodcmpstr (STRING a, Produto b) {
 	return strcmp(a,b->codigo);
 }
 
-void setCodigoProduto (Produto p, char *s) {
+void setCodigoProduto (Produto p, STRING s) {
 	strcpy(p->codigo,s);
 }
 
@@ -39,7 +40,7 @@ ListaProdutos getProdutosLetra (Produtos p, char ch) {
 	return p->avl[ch-'A'];
 }
 
-char* getCodProduto(Produto p){
+STRING getCodProduto(Produto p){
 	return p->codigo;
 }
 
@@ -59,8 +60,8 @@ int getQuantidadeClientes(Produto p){
 	return p->quantidade_clientes;
 }
 
-LISTA getListaProdutosLetra (Produtos p, char ch) {
-	LISTA s=NULL;
+LISTA_STRING getListaProdutosLetra (Produtos p, char ch) {
+	LISTA_STRING s=NULL;
 	if (p!=NULL)
 		s=toString(getProdutosLetra(p,ch),p->total);
 	return s;
@@ -99,7 +100,7 @@ Produto initProduto(){
 	return p;
 }
 
-Produtos insertProduto(Produtos p, char *s) {
+Produtos insertProduto(Produtos p, STRING s) {
 	int i, pos=s[0]-'A';
 
 	Produto aux = initProduto();
@@ -116,7 +117,7 @@ Produtos insertProduto(Produtos p, char *s) {
 	return p;
 }
 
-Produto searchProduto(Produtos p, char *s) {
+Produto searchProduto(Produtos p, STRING s) {
 	Produto p1;
 	ListaProdutos aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
 	if (aux!=NULL) {

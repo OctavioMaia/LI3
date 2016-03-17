@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "headers/tipos.h"
 #include "headers/AVL.h"
 #include "headers/produtos.h"
 #include "headers/clientes.h"
