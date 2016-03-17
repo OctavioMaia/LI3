@@ -10,7 +10,7 @@
 #include "../headers/queries.h"
 
 /* Lista google*/
-void imprimirLista(char **s,int c,int l) {
+void imprimirLista(LISTA s,int c,int l) {
   int i = 0;
   int numpags;
 
@@ -23,13 +23,13 @@ void imprimirLista(char **s,int c,int l) {
   imprimirAux(s,c,l,numpags,0);
 }
 
-void imprimirAux(char **s, int c , int l,int t, int pa) {
+void imprimirAux(LISTA s, int c , int l,int t, int pa) {
   int j,p;/*j vai ate ao numero de colunas*/ /*scanf da pagina a ler*/
   int i=0;
   int y=0;
-  char **aux = s;
-  char **atual;
-  
+  LISTA aux = s;
+  char buf[30];
+
   printf("\033[1m----------------------------------Página %d----------------------------------\033[0m \n",pa+1);
   for (i=0;i<l && aux[y+1];i++){   
       for (j=0;j<c && aux[y];j++,y++){
@@ -39,15 +39,14 @@ void imprimirAux(char **s, int c , int l,int t, int pa) {
   }
     
   printf("\033[1m----------------------------------------------------------------------------\033[0m\n");
-  printf("\033[1mExistem %d páginas. Página a verificar? (-1 para sair) \033[0m",t);  
-  scanf(" %d",&p);
- 
-  if (p==-1 || p > t || p==0)
-    printf("Exit!\n");
-  else{
-    atual=s+(p-1)*l*c-(pa*c*l);
-      imprimirAux (atual,c,l,t,p-1);   
-  }
+  printf("\033[1mExistem %d páginas. \nPágina a verificar? (+ pag. seguinte | - pag. anterior | 0 sair) \033[0m",t);  
+  scanf(" %s",buf);
+
+  p=atoi(buf);
+  if (buf[0]=='+') imprimirAux(s+(pa+1)*l*c-(pa*c*l),c,l,t,pa+1); 
+  else if (buf[0]=='-') imprimirAux(s+(pa-1)*l*c-(pa*c*l),c,l,t,pa-1);
+  else if (p==-1 || p > t+1 || p<=0) printf("Exit!\n");
+  else imprimirAux (s+(p-1)*l*c-(pa*c*l),c,l,t,p);   
 }
 
 int valor_max(int n, int valores[]) {
@@ -184,7 +183,8 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
 void query2(Produtos p, char ch){
   clock_t begin, end; /*Contadores de tempo de execucao para query 2*/
   double time_spent;
-  char **lista;
+  LISTA lista;
+  int i;
 
   if(ch >= 'A' && ch <= 'Z'){
     begin = clock(); /*init contador*/
@@ -193,6 +193,9 @@ void query2(Produtos p, char ch){
     
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec query 2*/
     printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
+
+    for(i=0;lista[i]!=NULL;i++);
+    printf("\nExistem \033[1m%d\033[0m produtos começados pela letra %c!\n",i,ch );
     imprimirLista(lista,10,9);
   }else{
     printf("Introduza uma letra maiúscula!\n");
@@ -241,7 +244,8 @@ void query3(Faturacao F, int mes, char *s, int global){
 
 void query4(Faturacao F, Produtos prod, int decisao){
   Informacao info;
-  char **lista=(char**)malloc(sizeof(char**)),**s,ch;
+  LISTA lista=(LISTA)malloc(sizeof(LISTA)), s;
+  char ch;
   int i,n=0,filial1=0,filial2=0,filial3=0;
   
   double time_spent;
@@ -327,7 +331,8 @@ void query5(Clientes cli, char *cod_cliente){
 void query6(Faturacao f, Produtos prod, int m1, int m2){
   int i,mes,filial,qTotal=0;
   float fTotal=0;
-  char **s,ch;
+  LISTA s;
+  char ch;
   Informacao temp=NULL;
 
   double time_spent;
@@ -360,7 +365,8 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
 
 void query7(Clientes cli){
   int i,n=0;
-  char **lista=(char**)malloc(sizeof(char**)),**s,ch;
+  LISTA lista=(LISTA)malloc(sizeof(LISTA)),s;
+  char ch;
   Cliente temporario=NULL;
 
   double time_spent;
@@ -389,7 +395,7 @@ void query7(Clientes cli){
 
 void query8(VendasFilial vf,char *produto, int filial){
   int i,mes,qN,qP,n=0,p=0;
-  char **tempN,**tempP, **listaN=(char**)malloc(sizeof(char*)*100), **listaP=(char**)malloc(sizeof(char*)*100);
+  LISTA tempN,tempP,listaN=(LISTA)malloc(sizeof(char*)*100), listaP=(LISTA)malloc(sizeof(char*)*100);
   Historico h=NULL;
   ListaProduto lp = searchListaProduto(vf,produto);
 
@@ -441,7 +447,7 @@ void query8(VendasFilial vf,char *produto, int filial){
 
 void query9(Clientes cli, char* cod_cliente, int m){
   Cliente temp;
-  char **lista_produtos,**lista_mes;
+  LISTA lista_produtos,lista_mes;
   int *quantidade,*quantidade_mes, *mes, *copia, i, j=0, max;
 
   double time_spent;
@@ -450,7 +456,7 @@ void query9(Clientes cli, char* cod_cliente, int m){
 
   temp = searchCliente(cli,cod_cliente);
   if(temp && m>=1 && m<=12){
-    lista_mes=(char**)malloc(sizeof(char*)*100);
+    lista_mes=(LISTA)malloc(sizeof(char*)*100);
     quantidade_mes=(int*)malloc(sizeof(int)*100);
     lista_produtos=getProdutosCliente(temp);
     quantidade=getQuantidadeProdutos(temp);
@@ -487,14 +493,15 @@ void query10(Produtos prod, int n){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, *qClientes,*filial1,*filial2,*filial3,*total,*copia,max;
-  char **s,ch,**lista = (char**)malloc(sizeof(char*)*190000);
+  LISTA s,lista = (LISTA)malloc(sizeof(char*)*100);
+  char ch;
   Produto p=NULL;
 
-  qClientes=(int*)malloc(sizeof(int)*190000);
-  filial1=(int*)malloc(sizeof(int)*190000);
-  filial2=(int*)malloc(sizeof(int)*190000);
-  filial3=(int*)malloc(sizeof(int)*190000);
-  total=(int*)malloc(sizeof(int)*190000);
+  qClientes=(int*)malloc(sizeof(int)*100);
+  filial1=(int*)malloc(sizeof(int)*100);
+  filial2=(int*)malloc(sizeof(int)*100);
+  filial3=(int*)malloc(sizeof(int)*100);
+  total=(int*)malloc(sizeof(int)*100);
   
   begin = clock(); /*init contador*/
 
@@ -546,7 +553,7 @@ void query11(Clientes c, char* cod_cliente){
   float *faturacoes,*copia,faturado=0,largest[3];
   clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
-  char **lista, **tres_maiores = (char**)malloc(sizeof(char*));
+  LISTA lista, tres_maiores = (LISTA)malloc(sizeof(char*));
   Cliente temp;
 
   begin = clock(); /*init contador*/
@@ -602,7 +609,8 @@ void query11(Clientes c, char* cod_cliente){
 
 void query12(Clientes cli, Produtos prod){
   int i,clientes=0,produtos=0;
-  char **s,ch;
+  LISTA s;
+  char ch;
   Cliente temporarioC=NULL;
   Produto temporarioP=NULL;
 

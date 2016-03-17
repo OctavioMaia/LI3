@@ -10,7 +10,7 @@ typedef struct produto{
 }produto;
 
 typedef struct produtos {
-	AVL avl[26];			/*Divisao dos produtos em 26 AVL's*/
+	ListaProdutos avl[26];			/*Divisao dos produtos em 26 avl's*/
 	int total;					/*Nº produtos total (nas 3 filiais)*/
 }produtos;
 
@@ -35,7 +35,7 @@ void setCodigoProduto (Produto p, char *s) {
    Funções de consulta
    -------------------
 */
-AVL getProdutosLetra (Produtos p, char ch) {
+ListaProdutos getProdutosLetra (Produtos p, char ch) {
 	return p->avl[ch-'A'];
 }
 
@@ -59,8 +59,8 @@ int getQuantidadeClientes(Produto p){
 	return p->quantidade_clientes;
 }
 
-char** getListaProdutosLetra (Produtos p, char ch) {
-	char** s=NULL;
+LISTA getListaProdutosLetra (Produtos p, char ch) {
+	LISTA s=NULL;
 	if (p!=NULL)
 		s=toString(getProdutosLetra(p,ch),p->total);
 	return s;
@@ -86,6 +86,10 @@ void setQuantidadeClientes(Produto p, int qt){
 	p->quantidade_clientes+=qt;
 }
 
+Produtos initProdutos(){
+	return (Produtos)malloc(sizeof(struct produtos));
+}
+
 Produto initProduto(){
 	Produto p = (Produto)malloc(sizeof(struct produto));
 	p->quantidade_vendida[0]=0;
@@ -102,7 +106,7 @@ Produtos insertProduto(Produtos p, char *s) {
 	setCodigoProduto(aux,s);
 
 	if (p==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/
-		p=(Produtos)malloc(sizeof(struct produtos));
+		p = initProdutos();
 		for (i=0; i<26; i++) 
 			p->avl[i]=NULL;
 		p->total=0;
@@ -114,7 +118,7 @@ Produtos insertProduto(Produtos p, char *s) {
 
 Produto searchProduto(Produtos p, char *s) {
 	Produto p1;
-	AVL aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
+	ListaProdutos aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);
 		return p1;

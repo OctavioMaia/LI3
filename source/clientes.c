@@ -3,10 +3,11 @@
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
 
+
 typedef struct cliente{
 	char codigo[5];
 	int comprou_filial[3];
-	char** produtos;
+	LISTA produtos;
 	int* quantidade;
 	int* mes;
 	float* faturacao;
@@ -14,7 +15,7 @@ typedef struct cliente{
 }cliente;
 
 typedef struct clientes{
-	AVL avl[26];
+	ListaClientes avl[26];
 	int total;
 }clientes;
 
@@ -22,7 +23,7 @@ typedef struct clientes{
    Funções de consulta
    -------------------
 */
-AVL getClientesLetra (Clientes c, char ch) {
+ListaClientes getClientesLetra (Clientes c, char ch) {
 	return c->avl[ch-'A'];
 }
 
@@ -38,7 +39,7 @@ int getComprouFilial (Cliente c, int filial) {
 	return c->comprou_filial[filial];
 }
 
-char** getProdutosCliente(Cliente c){
+LISTA getProdutosCliente(Cliente c){
 	return c->produtos;
 }
 
@@ -58,8 +59,8 @@ int getValorTabela(Cliente c, int mes, int filial){
 	return c->tabela[mes][filial];
 }
 
-char** getListaClientesLetra (Clientes c, char ch) {
-	char** s=NULL;
+LISTA getListaClientesLetra (Clientes c, char ch) {
+	LISTA s=NULL;
 	if (c!=NULL)
 		s=toString(getClientesLetra(c,ch),c->total);
 	return s;
@@ -100,7 +101,7 @@ int clicmpstr (char *a, Cliente b) {
 void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int filial, int quantidade, float preco){
 	int pos, encontrado=0;
 	Cliente cliente = searchCliente(c,cod_cliente);
-	char** lista_produtos = getProdutosCliente(cliente);
+	LISTA lista_produtos = getProdutosCliente(cliente);
 	int* lista_mes = getMesVenda(cliente);
 
 	for(pos=0;lista_produtos[pos]!=NULL;pos++){
@@ -121,13 +122,17 @@ void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int
 	}
 }
 
+Clientes initClientes(){
+	return (Clientes)malloc(sizeof(struct clientes));
+}
+
 Cliente initCliente () {
 	int i,j;
 	Cliente c = (Cliente)malloc(sizeof(struct cliente));
-	c->produtos=(char**)malloc(sizeof(char**)*100); 
-	c->quantidade=(int*)malloc(sizeof(int*)*100);
-	c->faturacao=(float*)malloc(sizeof(float*)*100); 
-	c->mes=(int*)malloc(sizeof(float*)*100); 
+	c->produtos=(LISTA)malloc(sizeof(char*)*100); 
+	c->quantidade=(int*)malloc(sizeof(int)*100);
+	c->faturacao=(float*)malloc(sizeof(float)*100); 
+	c->mes=(int*)malloc(sizeof(int)*100); 
 	
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
@@ -145,7 +150,7 @@ Clientes insertCliente (Clientes c, char *s) {
 	setCodigoCliente(aux,s);
 	
 	if (c==NULL) {	/*Se não existir a estrutura Clientes, criá-la*/
-		c=(Clientes)malloc(sizeof(struct clientes));
+		c=initClientes();
 		for (i=0; i<26; i++) 
 			c->avl[i]=NULL;
 		c->total=0;
@@ -157,7 +162,7 @@ Clientes insertCliente (Clientes c, char *s) {
 
 Cliente searchCliente (Clientes c, char *s) {
 	Cliente c1;
-	AVL aux=search(c->avl[s[0]-'A'],s,(int (*)(void*,void*))clicmpstr);
+	ListaClientes aux=search(c->avl[s[0]-'A'],s,(int (*)(void*,void*))clicmpstr);
 	if (aux!=NULL) {
 		c1=getData(aux);
 		return c1;

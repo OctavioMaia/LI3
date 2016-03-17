@@ -127,7 +127,7 @@ AVL insertAVL(AVL t, void* data, int *cresceu, int(*comp)(void*,void*)){
  * É depois chamada recursivamente para a esquerda e
  * direita da AVL.
  */
-char** toStringAux (AVL a, char** s, int *i) {
+LISTA toStringAux (AVL a, LISTA s, int *i) {
 	if (a!=NULL) {		
 		s=toStringAux(a->child[L],s,i);
 		s[(*i)]=a->data;
@@ -138,9 +138,9 @@ char** toStringAux (AVL a, char** s, int *i) {
 }
 
 
-char** toString (AVL a, int n) {
+LISTA toString (AVL a, int n) {
 	int i=0;
-	char** s = malloc(sizeof(char*)*n);
+	LISTA s = malloc(sizeof(char*)*n);
 
 	if (a!=NULL) {
 		s=toStringAux(a,s,&i);

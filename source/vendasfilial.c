@@ -8,9 +8,9 @@
 #include "../headers/vendasfilial.h"
 
 typedef struct historico{
-	char** clientesN;
+	LISTA clientesN;
 	int* quantidadeN;
-	char** clientesP;
+	LISTA clientesP;
 	int* quantidadeP;
 }historico;
 
@@ -20,12 +20,12 @@ typedef struct listaproduto{
 }listaproduto;
 
 typedef struct vendasfilial {
-	AVL avl[26];	/*Divisao dos produtos em 26 AVL's*/
+	ListaVFilial avl[26];	/*Divisao dos produtos em 26 avl's*/
 	int total;
 }vendasfilial;
 
 /*GETS*/
-AVL getVendasFilialLetra (VendasFilial vf, char ch) {
+ListaVFilial getVendasFilialLetra (VendasFilial vf, char ch) {
 	return vf->avl[ch-'A'];
 }
 
@@ -41,7 +41,7 @@ char* getCodigoListaProduto (ListaProduto p){
 	return p->produto;
 }
 
-char** getClientesN(Historico h){
+LISTA getClientesN(Historico h){
 	return h->clientesN;
 }
 
@@ -49,7 +49,7 @@ int* getQuantidadeN(Historico h){
 	return h->quantidadeN;
 }
 
-char** getClientesP(Historico h){
+LISTA getClientesP(Historico h){
 	return h->clientesP;
 }
 
@@ -57,8 +57,8 @@ int* getQuantidadeP(Historico h){
 	return h->quantidadeP;
 }
 
-char** getListaVendasFilialLetra (VendasFilial vf, char ch) {
-	char** s=NULL;
+LISTA getListaVendasFilialLetra (VendasFilial vf, char ch) {
+	LISTA s=NULL;
 	if (vf!=NULL)
 		s=toString(getVendasFilialLetra(vf,ch),vf->total);
 	return s;
@@ -94,9 +94,9 @@ ListaProduto initListaProduto(){
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
 			lp->h[i][j]=(Historico)malloc(sizeof(historico));
-			lp->h[i][j]->clientesN=(char**)malloc(sizeof(char*));
+			lp->h[i][j]->clientesN=(LISTA)malloc(sizeof(char*));
 			lp->h[i][j]->quantidadeN=(int*)malloc(sizeof(int));
-			lp->h[i][j]->clientesP=(char**)malloc(sizeof(char*));
+			lp->h[i][j]->clientesP=(LISTA)malloc(sizeof(char*));
 			lp->h[i][j]->quantidadeP=(int*)malloc(sizeof(int));
 		}
 	}
@@ -111,7 +111,7 @@ VendasFilial insertListaProduto(VendasFilial f, char *s) {
 	/*printf("depois %s\n", getCodigoListaProduto(aux));*/
 
 	if (f==NULL) {	/*Se não existir a estrutura , criá-la*/
-		f=(VendasFilial)malloc(sizeof(struct vendasfilial));
+		f=initVendasFilial();
 		for (i=0; i<26; i++) 
 			f->avl[i]=NULL;
 		f->total=0;
@@ -123,7 +123,7 @@ VendasFilial insertListaProduto(VendasFilial f, char *s) {
 
 ListaProduto searchListaProduto(VendasFilial f, char *s) {
 	ListaProduto p1;
-	AVL aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))vfcmpstr);
+	ListaVFilial aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))vfcmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);
 		return p1;

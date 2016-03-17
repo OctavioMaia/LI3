@@ -1,4 +1,5 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+typedef struct node *ListaClientes;
 
 typedef struct cliente *Cliente;
 typedef struct clientes *Clientes;
@@ -15,9 +16,9 @@ typedef struct clientes *Clientes;
 AVL getClientesLetra (Clientes c, char ch);
 char* getCodigoCliente (Cliente c);
 int getTotalClientes (Clientes c);
-char** getListaClientesLetra (Clientes c, char ch);
+LISTA  getListaClientesLetra (Clientes c, char ch);
 int getComprouFilial (Cliente c, int filial);
-char** getProdutosCliente(Cliente c);
+LISTA  getProdutosCliente(Cliente c);
 int* getQuantidadeProdutos(Cliente c);
 int* getMesVenda(Cliente c);
 float* getFaturacaoProdutos(Cliente c);
@@ -34,5 +35,6 @@ void setComprouFilial (Cliente c, int filial);
 void updateCliente(Clientes c, char* cod_cliente,char* cod_produto, int mes, int filial, int quantidade, float preco);
 
 Cliente initCliente();
+Clientes initClientes();
 Clientes insertCliente (Clientes c, char *s);
 Cliente searchCliente (Clientes c, char *s);

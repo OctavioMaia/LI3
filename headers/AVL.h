@@ -1,5 +1,7 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 
+typedef char** LISTA;
+
 #define L 0	/*Esquerda*/
 #define R 1	/*Direita*/
 #define EH -1	/*Balanço equivalente*/
@@ -33,7 +35,7 @@ AVL insertAVL (AVL t, void* data, int *cresceu, int(*comp)(void*,void*));
  * Esta função reserva espaço na memoria para a informação
  * devolvida pela função toStringAux.
  */
-char** toString (AVL a, int n);
+LISTA toString (AVL a, int n);
 
 
 /* search

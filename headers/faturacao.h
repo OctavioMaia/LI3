@@ -1,4 +1,5 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+typedef struct node *ListaFaturacao;
 
 typedef struct informacao *Informacao;
 typedef struct faturacao *Faturacao;
@@ -10,7 +11,7 @@ int getQuantidadePromocao(Informacao i, int mes, int filial);
 float getFaturadoNormal(Informacao i, int mes, int filial);
 float getFaturadoPromocao(Informacao i, int mes, int filial);
 int getTotalFaturacoes (Faturacao f);
-char** getListaFaturacaoLetra (Faturacao f, char ch);
+LISTA  getListaFaturacaoLetra (Faturacao f, char ch);
 
 /*Sets*/
 void setCodigoProdutoFaturacao (Informacao i, char *s);

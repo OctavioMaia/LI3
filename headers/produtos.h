@@ -1,4 +1,5 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+typedef struct node *ListaProdutos;
 
 typedef struct produtos *Produtos;
 typedef struct produto *Produto;
@@ -18,8 +19,8 @@ int getTotalProdutos (Produtos p);
 int getQuantidadeVendidaFilial(Produto p, int filial);
 int getQuantidadeVendida(Produto p);
 int getQuantidadeClientes(Produto p);
-char** getListaProdutosLetra (Produtos p, char ch);
-char** getListaTodosProdutos (Produtos p);
+LISTA  getListaProdutosLetra (Produtos p, char ch);
+LISTA  getListaTodosProdutos (Produtos p);
 
 /* ----------------------
    Funções de modificação
@@ -35,5 +36,6 @@ void setQuantidadeClientes(Produto p, int qt);
    -----------------------------------
 */
 Produto initProduto();
+Produtos initProdutos();
 Produtos insertProduto (Produtos p, char *s);
 Produto searchProduto(Produtos p, char *s);

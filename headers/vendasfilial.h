@@ -1,4 +1,5 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+typedef struct node *ListaVFilial;
 
 typedef struct historico *Historico;
 typedef struct vendasfilial *VendasFilial;
@@ -9,11 +10,11 @@ AVL getVendasFilialLetra (VendasFilial vf, char ch);
 int getTotalVendasFilial (VendasFilial vf);
 Historico getHistorico(ListaProduto lp, int mes, int filial);
 char* getCodigoListaProduto (ListaProduto p);
-char** getClientesN(Historico h);
+LISTA  getClientesN(Historico h);
 int* getQuantidadeN(Historico h);
-char** getClientesP(Historico h);
+LISTA  getClientesP(Historico h);
 int* getQuantidadeP(Historico h);
-char** getListaVendasFilialLetra (VendasFilial vf, char ch);
+LISTA  getListaVendasFilialLetra (VendasFilial vf, char ch);
 
 /*SETS*/
 void setCodigoListaProduto (ListaProduto p, char *s);

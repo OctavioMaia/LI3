@@ -15,12 +15,12 @@ typedef struct informacao{
 }informacao;
 
 typedef struct faturacao {
-	AVL avl[26];			/*Divisao dos produtos em 26 AVL's*/
+	ListaFaturacao avl[26];			/*Divisao dos produtos em 26 AVL's*/
 	int total;
 }faturacao;
 
 /*GETS*/
-AVL getFaturacaoLetra (Faturacao f, char ch) {
+ListaFaturacao getFaturacaoLetra (Faturacao f, char ch) {
 	return f->avl[ch-'A'];
 }
 
@@ -48,8 +48,8 @@ int getTotalFaturacoes (Faturacao f) {
 	return f->total;
 }
 
-char** getListaFaturacaoLetra (Faturacao f, char ch) {
-	char** s=NULL;
+LISTA getListaFaturacaoLetra (Faturacao f, char ch) {
+	LISTA s=NULL;
 	if (f!=NULL)
 		s=toString(getFaturacaoLetra(f,ch),f->total);
 	return s;
@@ -116,7 +116,7 @@ Faturacao insertInformacao(Faturacao f, char *s) {
 	setCodigoProdutoFaturacao(aux,s);
 
 	if (f==NULL) {	/*Se não existir a estrutura, criá-la*/
-		f=(Faturacao)malloc(sizeof(struct faturacao));
+		f=initFaturacao();
 		for (i=0; i<26; i++) 
 			f->avl[i]=NULL;
 		f->total=0;
@@ -128,7 +128,7 @@ Faturacao insertInformacao(Faturacao f, char *s) {
 
 Informacao searchInformacao(Faturacao f, char *s) {
 	Informacao p1;
-	AVL aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
+	ListaFaturacao aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
 	if (aux!=NULL) {
 		/*printf("encontrei %s\n",s);*/
 		p1=getData(aux);
