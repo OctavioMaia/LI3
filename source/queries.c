@@ -552,48 +552,52 @@ void query11(Clientes c, char* cod_cliente){
   begin = clock(); /*init contador*/
 
   temp = searchCliente(c,cod_cliente);
-  lista= getProdutosCliente(temp);
-  quantidades = getQuantidadeProdutos(temp);
-  faturacoes = getFaturacaoProdutos(temp);
+  if(temp){
+    lista= getProdutosCliente(temp);
+    quantidades = getQuantidadeProdutos(temp);
+    faturacoes = getFaturacaoProdutos(temp);
 
-  for(i=0;lista[i]!=NULL;i++){ /*soma as quantidades compradas, bem como o € gasto*/
-    total+=quantidades[i];
-    faturado+=faturacoes[i];
+    for(i=0;lista[i]!=NULL;i++){ /*soma as quantidades compradas, bem como o € gasto*/
+      total+=quantidades[i];
+      faturado+=faturacoes[i];
+    }
+
+    copia=faturacoes;
+    largest[0] = 0;
+    largest[1] = 0;
+    largest[2] = 0;
+   
+    for(i=0; copia[i]; i++) {
+      if(copia[i] > largest[0] && copia[i] < largest[1] && copia[i] < largest[2]) {
+        largest[0] = copia[i];
+        tres_maiores[0] = lista[i];
+        copia[i]=0;
+      }
+      if(copia[i] > largest[1] && copia[i] > largest[0] && copia[i] < largest[2]) {;
+        largest[1] = copia[i];
+        tres_maiores[1] = lista[i];
+        copia[i]=0;
+      }
+      if(copia[i] > largest[2] && copia[i] > largest[0] && copia[i] > largest[1]) {;
+        largest[2] = copia[i];
+        tres_maiores[2] = lista[i];
+        copia[i]=0;
+      }
+    }
+
+    printf("Produtos nos quais o cliente \033[1m%s\033[0m gastou mais dinheiro durante o ano: \033[1m(top 3)\033[0m\n\n", cod_cliente);
+    for(i=0;i<3;i++) printf("\t\t\t\t%s %f\n",tres_maiores[i],largest[i]);
+
+    printf("\nNo total, o cliente \033[1m%s\033[0m comprou \033[1m%d\033[0m produtos, num valor total de \033[1m%f\033[0m !\n",cod_cliente,total,faturado);
+
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
+
+    printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
+    printf("---------------------------------------------------------------------\n");
+  }else{
+    printf("Introduza um código de cliente válido!\n");
   }
-
-  copia=faturacoes;
-  largest[0] = 0;
-  largest[1] = 0;
-  largest[2] = 0;
- 
-  for(i=0; copia[i]; i++) {
-    if(copia[i] > largest[0] && copia[i] < largest[1] && copia[i] < largest[2]) {
-      largest[0] = copia[i];
-      tres_maiores[0] = lista[i];
-      copia[i]=0;
-    }
-    if(copia[i] > largest[1] && copia[i] > largest[0] && copia[i] < largest[2]) {;
-      largest[1] = copia[i];
-      tres_maiores[1] = lista[i];
-      copia[i]=0;
-    }
-    if(copia[i] > largest[2] && copia[i] > largest[0] && copia[i] > largest[1]) {;
-      largest[2] = copia[i];
-      tres_maiores[2] = lista[i];
-      copia[i]=0;
-    }
-  }
-
-  printf("Produtos nos quais o cliente \033[1m%s\033[0m gastou mais dinheiro durante o ano: \033[1m(top 3)\033[0m\n\n", cod_cliente);
-  for(i=0;i<3;i++) printf("\t\t\t\t\t%s %f\n",tres_maiores[i],largest[i]);
-
-  printf("\nNo total, o cliente \033[1m%s\033[0m comprou \033[1m%d\033[0m produtos, num valor total de \033[1m%f\033[0m !\n",cod_cliente,total,faturado);
-
-  end = clock(); /*end contador*/
-  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
-
-  printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
-  printf("---------------------------------------------------------------------\n");
 }
 
 void query12(Clientes cli, Produtos prod){

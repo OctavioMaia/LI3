@@ -1,3 +1,5 @@
+/*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+
 typedef struct historico *Historico;
 typedef struct vendasfilial *VendasFilial;
 typedef struct listaproduto *ListaProduto;

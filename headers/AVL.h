@@ -1,13 +1,4 @@
-/********************************************************************\
-                                AVL.h
-
- Módulo genérico para a manipulação de árvores binária balanceadas,
- segundo os algoritmos de Adelson Velsky e Landis.
- Baseado nas notas teóricas de Algoritmos e Complexidade
-
-@authors Afonso Silva, Cláudia Marques e João Vieira
-
-\********************************************************************/
+/*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 
 #define L 0	/*Esquerda*/
 #define R 1	/*Direita*/

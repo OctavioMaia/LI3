@@ -1,3 +1,5 @@
+/*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+
 typedef struct produtos *Produtos;
 typedef struct produto *Produto;
 

@@ -1,3 +1,5 @@
+/*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+
 typedef struct cliente *Cliente;
 typedef struct clientes *Clientes;
 

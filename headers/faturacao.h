@@ -1,3 +1,5 @@
+/*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
+
 typedef struct informacao *Informacao;
 typedef struct faturacao *Faturacao;
 
