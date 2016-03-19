@@ -53,7 +53,7 @@ int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c) 
 }
 
 /* Main */
-int main () {
+int main (int argc, char** argv) {
 	/*Contadores de tempo de execucao*/
 	clock_t begin, end;
 	double time_spent;
@@ -70,15 +70,21 @@ int main () {
 	/*Abertura dos ficheiros*/
 	FILE *fp = fopen("data/Produtos.txt","r");
 	FILE *fc = fopen("data/Clientes.txt","r");
-	FILE *fv = fopen("data/Vendas_1M.txt","r");
+	FILE *fv = fopen(argv[1],"r");
 
 	/*Verificação da integridade dos ficheiros*/
-	if (!fp || !fc || !fv) {
-		perror("Erro na abertura dos ficheiros");
+	if (!fp) {
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Produtos.txt\"!\033[0m\n");
+		return -1;
+	}else if(!fc){
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Clientes.txt\"!\033[0m\n");
+		return -1;
+	}else if(!fv){
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro %s!\033[0m\n",argv[1]);
 		return -1;
 	}else{
-		puts("Leitura efetuada com sucesso!");
-		puts("Começando leitura dos ficheiros para memória...");
+		puts("\t\t\033[1mLeitura efetuada com sucesso!\033[0m");
+		puts("\t\t\033[1mComeçando leitura dos ficheiros para memória...\033[0m");
 	}
 
 	/*Inicializacao do contador*/
@@ -92,9 +98,9 @@ int main () {
 	totalVendas=readVendas(fv,f,vf,prod,cli);
 
 	/*Imprimir informacao dos ficheiros*/
-	printf("%d produtos válidos\n",getTotalProdutos(prod));
-	printf("%d clientes válidos\n",getTotalClientes(cli));
-	printf("%d vendas válidas\n",totalVendas);
+	printf("\t\t\t\t\033[1m%d\033[0m produtos válidos\n",getTotalProdutos(prod));
+	printf("\t\t\t\t\033[1m%d\033[0m clientes válidos\n",getTotalClientes(cli));
+	printf("\t\t\t\t\033[1m%d\033[0m vendas válidas\n",totalVendas);
 
 	/*Finalizacao do contador*/
 	end = clock(); 
