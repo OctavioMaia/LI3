@@ -25,7 +25,7 @@ ListaFaturacao getFaturacaoLetra (Faturacao f, char ch) {
 	return f->avl[ch-'A'];
 }
 
-STRING getCodigoProduto(Informacao i){
+PRODUTO getCodigoProduto(Informacao i){
 	return i->produto;
 }
 
@@ -57,7 +57,7 @@ LISTA_STRING getListaFaturacaoLetra (Faturacao f, char ch) {
 }
 
 /*SETS*/
-void setCodigoProdutoFaturacao (Informacao i, STRING s) {
+void setCodigoProdutoFaturacao (Informacao i, PRODUTO s) {
 	strcpy(i->produto,s);
 }
 
@@ -86,7 +86,7 @@ int infcmp (Informacao a, Informacao b) {
 	return strcmp(a->produto,b->produto);
 }
 
-int infcmpstr (STRING a, Informacao b) {
+int infcmpstr (PRODUTO a, Informacao b) {
 	return strcmp(a,b->produto);
 }
 
@@ -111,7 +111,7 @@ Informacao initInformacao(){
 	return info;
 }
 
-Faturacao insertInformacao(Faturacao f, STRING s) {
+Faturacao insertInformacao(Faturacao f, PRODUTO s) {
 	int i, pos=s[0]-'A';
 	Informacao aux = initInformacao();
 	setCodigoProdutoFaturacao(aux,s);
@@ -127,7 +127,7 @@ Faturacao insertInformacao(Faturacao f, STRING s) {
 	return f;
 }
 
-Informacao searchInformacao(Faturacao f, STRING s) {
+Informacao searchInformacao(Faturacao f, PRODUTO s) {
 	Informacao p1;
 	ListaFaturacao aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
 	if (aux!=NULL) {
@@ -146,8 +146,8 @@ void atualizaFaturacao(Faturacao f, Produtos p, Clientes c, Venda v){
 	float preco = getPreco(v);
 	int mes = getMes(v);
 	int filial = getFilial(v);
-	STRING cod_cliente = getCliente(v);
-	STRING cod_produto = getProduto(v);
+	CLIENTE cod_cliente = getCliente(v);
+	PRODUTO cod_produto = getProduto(v);
 
 	Produto prod = searchProduto(p,cod_produto);
 	Cliente cliente = searchCliente(c,cod_cliente);

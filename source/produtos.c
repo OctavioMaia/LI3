@@ -24,11 +24,11 @@ int prodcmp (Produto a, Produto b) {
 	return strcmp(a->codigo,b->codigo);
 }
 
-int prodcmpstr (STRING a, Produto b) {
+int prodcmpstr (PRODUTO a, Produto b) {
 	return strcmp(a,b->codigo);
 }
 
-void setCodigoProduto (Produto p, STRING s) {
+void setCodigoProduto (Produto p, PRODUTO s) {
 	strcpy(p->codigo,s);
 }
 
@@ -40,7 +40,7 @@ ListaProdutos getProdutosLetra (Produtos p, char ch) {
 	return p->avl[ch-'A'];
 }
 
-STRING getCodProduto(Produto p){
+PRODUTO getCodProduto(Produto p){
 	return p->codigo;
 }
 
@@ -100,7 +100,7 @@ Produto initProduto(){
 	return p;
 }
 
-Produtos insertProduto(Produtos p, STRING s) {
+Produtos insertProduto(Produtos p, PRODUTO s) {
 	int i, pos=s[0]-'A';
 
 	Produto aux = initProduto();
@@ -117,7 +117,7 @@ Produtos insertProduto(Produtos p, STRING s) {
 	return p;
 }
 
-Produto searchProduto(Produtos p, STRING s) {
+Produto searchProduto(Produtos p, PRODUTO s) {
 	Produto p1;
 	ListaProdutos aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
 	if (aux!=NULL) {
@@ -126,4 +126,18 @@ Produto searchProduto(Produtos p, STRING s) {
 	}else{
 		return NULL;
 	}
+}
+
+int removeProduto(Produtos p, PRODUTO s){
+	int flag=0;
+	Produto temp = searchProduto(p,s);
+
+	if(temp){/*Cliente existe, podemos remover*/
+		ListaProdutos l = (AVL) getListaProdutosLetra(p,s[0]);
+		l = deleteAVL(l, s);
+		flag=1;
+	}else{
+		flag=0;
+	}
+	return flag;
 }

@@ -99,11 +99,11 @@ int clicmp (Cliente a, Cliente b) {
 	return strcmp(a->codigo,b->codigo);
 }
 
-int clicmpstr (STRING a, Cliente b) {
+int clicmpstr (CLIENTE a, Cliente b) {
 	return strcmp(a,b->codigo);
 }
 
-void updateCliente(Clientes c, STRING cod_cliente,STRING cod_produto, int mes, int filial, int quantidade, float preco){
+void updateCliente(Clientes c, CLIENTE cod_cliente, STRING cod_produto, int mes, int filial, int quantidade, float preco){
 	int pos, encontrado=0;
 	Cliente cliente = searchCliente(c,cod_cliente);
 	LISTA_STRING lista_produtos = getProdutosCliente(cliente);
@@ -148,7 +148,7 @@ Cliente initCliente () {
 	return c;
 }
 
-Clientes insertCliente (Clientes c, STRING s) {
+Clientes insertCliente (Clientes c, CLIENTE s) {
 	int i, pos=s[0]-'A';
 
 	Cliente aux = initCliente();
@@ -174,4 +174,18 @@ Cliente searchCliente (Clientes c, CLIENTE s) {
 	}
 	else 
 		return NULL;
+}
+
+int removeCliente(Clientes c, CLIENTE s){
+	int flag=0;
+	Cliente temp = searchCliente(c,s);
+
+	if(temp){/*Cliente existe, podemos remover*/
+		ListaClientes l = (AVL) getListaClientesLetra(c,s[0]);
+		l = deleteAVL(l, s);
+		flag=1;
+	}else{
+		flag=0;
+	}
+	return flag;
 }

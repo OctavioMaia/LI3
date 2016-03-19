@@ -3,8 +3,11 @@ FILES = main.c source/AVL.c source/clientes.c source/produtos.c source/vendas.c 
 OUT_EXE = gerevendas
 CFLAGS=-Wall -pedantic -o2 -ansi
 
-build: $(FILES)
+build: 	$(FILES)
 	$(CC) $(CFLAGS) -o $(OUT_EXE) $(FILES)
+
+run: 	build
+	./gerevendas
 
 clean:
 	rm -f *.o core

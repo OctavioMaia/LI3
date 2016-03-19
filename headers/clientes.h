@@ -4,7 +4,7 @@ typedef struct node *ListaClientes;
 typedef struct cliente *Cliente;
 typedef struct clientes *Clientes;
 
-typedef STRING CLIENTE;
+typedef char* CLIENTE;
 
 /*            ======================================
               Funções relativas à estrutura Clientes
@@ -32,13 +32,14 @@ int getValorTabela(Cliente c, int mes, int filial);
 */
 void setClientes (Clientes c, int n);
 void addClientes (Clientes c, int n);
-void setCodigoCliente (Cliente c, STRING s);
+void setCodigoCliente (Cliente c, CLIENTE s);
 void setComprouFilial (Cliente c, int filial);
 void setFaturacaoProdutos(Cliente c, LISTA_FLOAT faturacao);
 
-void updateCliente(Clientes c, STRING cod_cliente,STRING cod_produto, int mes, int filial, int quantidade, float preco);
+void updateCliente(Clientes c, CLIENTE cod_cliente, STRING cod_produto, int mes, int filial, int quantidade, float preco);
 
 Cliente initCliente();
 Clientes initClientes();
-Clientes insertCliente (Clientes c, STRING s);
-Cliente searchCliente (Clientes c, STRING s);
+Clientes insertCliente (Clientes c, CLIENTE s);
+Cliente searchCliente (Clientes c, CLIENTE s);
+int removeCliente(Clientes c, CLIENTE s);

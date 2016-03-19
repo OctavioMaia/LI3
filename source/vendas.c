@@ -20,7 +20,7 @@ typedef struct venda {
    Funções de consulta
    -------------------
 */
-STRING getProduto(Venda v){
+PRODUTO getProduto(Venda v){
 	return v->produto;
 }
 
@@ -36,7 +36,7 @@ char getPromo(Venda v){
 	return v->promo;
 }
 
-STRING getCliente(Venda v){
+CLIENTE getCliente(Venda v){
 	return v->cliente;
 }
 

@@ -4,6 +4,8 @@ typedef struct node *ListaProdutos;
 typedef struct produtos *Produtos;
 typedef struct produto *Produto;
 
+typedef char* PRODUTO;
+
 /*            ======================================
               Funções relativas à estrutura Produtos
               ======================================
@@ -14,7 +16,7 @@ typedef struct produto *Produto;
    -------------------
 */
 AVL getProdutosLetra (Produtos p, char ch);
-STRING getCodProduto(Produto p);
+PRODUTO getCodProduto(Produto p);
 int getTotalProdutos (Produtos p);
 int getQuantidadeVendidaFilial(Produto p, int filial);
 int getQuantidadeVendida(Produto p);
@@ -37,5 +39,6 @@ void setQuantidadeClientes(Produto p, int qt);
 */
 Produto initProduto();
 Produtos initProdutos();
-Produtos insertProduto (Produtos p, STRING s);
-Produto searchProduto(Produtos p, STRING s);
+Produtos insertProduto (Produtos p, PRODUTO s);
+Produto searchProduto(Produtos p, PRODUTO s);
+int removeProduto(Produtos p, PRODUTO s);

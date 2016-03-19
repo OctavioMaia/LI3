@@ -113,6 +113,40 @@ AVL insertAVL(AVL t, void* data, int* cresceu, int(*comp)(void*,void*)){
   return t;
 }
 
+AVL min(AVL nodo){
+    AVL atual = nodo;
+    while (atual->child[L] != NULL){
+        atual = atual->child[L];
+    } 
+    return atual;
+}
+
+AVL deleteAVL(AVL t, void *data){
+    if (data == NULL) return t;
+    if (strcmp(data,t->data)<0){
+        t->child[L] = deleteAVL(t->child[L], data);
+    }else if (strcmp(data,t->data)>0){
+            t->child[R] = deleteAVL(t->child[R], data);
+    }
+    else{
+        AVL temp;
+        if (t->child[L] == NULL){
+            AVL temp2 = t->child[R];
+            free(t);
+            return temp2;
+        }else{
+            if (t->child[R] == NULL){
+                AVL temp2 = t->child[L];
+                free(t);
+                return temp2;
+            }
+        }
+        temp = min(t->child[R]);
+        strcpy(t->data,temp->data);
+        t->child[R] = deleteAVL(t->child[R], temp->data);
+    }
+    return t;
+}
 
 /* toStringAux
  * Esta função recebe uma AVL, uma lista de apontadores,

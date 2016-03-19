@@ -29,6 +29,14 @@ AVL getChild (AVL a, int dir);
 AVL insertAVL (AVL t, void* data, int* cresceu, int(*comp)(void*,void*));
 
 
+/* deleteAVL
+ * Esta função recebe uma AVL, bem como o objeto a remover,
+ * seja ele um código de produto, cliente, venda, etc.
+ * Esta função itera a AVL e irá remover esse objeto, balanceando
+ * de seguida a AVL.
+ */
+AVL deleteAVL(AVL t, void *data);
+
 /* toString
  * Esta função reserva espaço na memoria para a informação
  * devolvida pela função toStringAux.
