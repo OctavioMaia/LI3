@@ -257,7 +257,7 @@ void query3(Faturacao F, int mes, PRODUTO s, int global){
 }
 
 void query4(Faturacao F, Produtos prod, int decisao){
-  Informacao info;
+  Informacao info=NULL;
   LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(PRODUTO)), s;
   char ch;
   int i,n=0,filial1=0,filial2=0,filial3=0;
@@ -412,7 +412,7 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
   clock_t begin, end; /*Contadores de tempo de execucao*/
   
   LISTA_STRING tempN,tempP,listaN,listaP;
-  ListaProduto lp;
+  ListaProduto lp=NULL;
   Historico h=NULL;
   int i,mes,qN,qP,n=0,p=0;
   listaN=(LISTA_STRING)malloc(sizeof(PRODUTO)*1000);
@@ -465,7 +465,7 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
 }
 
 void query9(Clientes cli, CLIENTE cod_cliente, int m){
-  Cliente temp;
+  Cliente temp=NULL;
   LISTA_STRING lista_produtos,lista_mes;
   LISTA_INT quantidade,quantidade_mes, mes, copia;
   int i, j=0, max;
@@ -577,7 +577,7 @@ void query11(Clientes c, CLIENTE cod_cliente){
   LISTA_INT quantidades;
   LISTA_FLOAT faturacoes,copia;
   LISTA_STRING lista;
-  Cliente temp;
+  Cliente temp=NULL;
 
   begin = clock(); /*init contador*/
 

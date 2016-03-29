@@ -39,7 +39,7 @@ Clientes readClientes (FILE *fp) {
 int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c) {
 	int i=0;
 	char buf[50], *s;
-	Venda venda;
+	Venda venda=NULL;
 	while (fgets(buf,50,fp)) {
 		s=strtok(buf,"\r\n");
 		venda=initVenda(s);
@@ -59,10 +59,10 @@ int main (int argc, char** argv) {
 	double time_spent;
 
 	/*Estruturas*/
-	Produtos prod;
-	Clientes cli;
-	Faturacao f;
-	VendasFilial vf;
+	Produtos prod=NULL;
+	Clientes cli=NULL;
+	Faturacao f=NULL;
+	VendasFilial vf=NULL;
 
 	/*Variaveis auxiliares*/
 	int totalVendas;		
