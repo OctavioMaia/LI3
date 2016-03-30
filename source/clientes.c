@@ -128,24 +128,16 @@ void updateCliente(Clientes c, CLIENTE cod_cliente, STRING cod_produto, int mes,
 }
 
 Clientes initClientes(){
-	Clientes temp;
-	int i;
-
-	temp = (Clientes)malloc(sizeof(struct clientes));
-	for(i=0;i<26;i++){
-		temp->avl[i]=NULL;
-	}
-
-	return temp;
+	return (Clientes)malloc(sizeof(struct clientes));
 }
 
 Cliente initCliente () {
 	int i,j;
 	Cliente c = (Cliente)malloc(sizeof(struct cliente));
-	c->produtos=(LISTA_STRING)malloc(sizeof(STRING)*100); 
-	c->quantidade=(LISTA_INT)malloc(sizeof(int)*100);
-	c->faturacao=(LISTA_FLOAT)malloc(sizeof(float)*100); 
-	c->mes=(LISTA_INT)malloc(sizeof(int)*100); 
+	c->produtos=(LISTA_STRING)malloc(sizeof(STRING)*1000); 
+	c->quantidade=(LISTA_INT)malloc(sizeof(int)*1000);
+	c->faturacao=(LISTA_FLOAT)malloc(sizeof(float)*1000); 
+	c->mes=(LISTA_INT)malloc(sizeof(int)*1000); 
 	
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){

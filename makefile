@@ -37,6 +37,13 @@ main.o: main.c
 gerevendas: $(FILES)
 	$(CC) $(CFLAGS) -o $(OUT_EXE) $(FILES)
 
+rebuild: clean
+		 make gerevendas
+
 exec1:
 	clear
 	./gerevendas data/Vendas_1M.txt
+
+exec5:
+	clear
+	./gerevendas data/Vendas_5M.txt

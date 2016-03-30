@@ -1,20 +1,22 @@
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 typedef struct node *ListaVFilial;
 
+typedef struct mes_filial *Mes_Filial;
 typedef struct historico *Historico;
 typedef struct vendasfilial *VendasFilial;
 typedef struct listaproduto *ListaProduto;
 
 /*GETS*/
-AVL getVendasFilialLetra (VendasFilial vf, char ch);
+ListaVFilial getVendasFilialLetra (VendasFilial vf, char ch);
 int getTotalVendasFilial (VendasFilial vf);
 Historico getHistorico(ListaProduto lp, int mes, int filial);
-PRODUTO getCodigoListaProduto (ListaProduto p);
-LISTA_STRING  getClientesN(Historico h);
-LISTA_INT getQuantidadeN(Historico h);
-LISTA_STRING  getClientesP(Historico h);
-LISTA_INT getQuantidadeP(Historico h);
-LISTA_STRING  getListaVendasFilialLetra (VendasFilial vf, char ch);
+STRING getCodigoListaProduto (ListaProduto p);
+AVL getClientesN(Historico h);
+AVL getClientesP(Historico h);
+STRING getCodigoMesFilial(Mes_Filial mf);
+int getQuantidadeMesFilial(Mes_Filial h);
+LISTA_STRING getListaVendasFilialN (Historico h, VendasFilial vf);
+LISTA_STRING getListaVendasFilialP (Historico h, VendasFilial vf);
 
 /*SETS*/
 void setCodigoListaProduto (ListaProduto p, PRODUTO s);

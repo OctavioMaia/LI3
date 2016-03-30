@@ -92,15 +92,7 @@ int infcmpstr (PRODUTO a, Informacao b) {
 
 /*funcoes*/
 Faturacao initFaturacao(){
-	Faturacao temp;
-	int i;
-
-	temp = (Faturacao)malloc(sizeof(struct faturacao));
-	for(i=0;i<26;i++){
-		temp->avl[i]=NULL;
-	}
-
-	return temp;
+	return (Faturacao)malloc(sizeof(struct faturacao));
 }
 
 Informacao initInformacao(){

@@ -413,35 +413,39 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
   
   LISTA_STRING tempN,tempP,listaN,listaP;
   ListaProduto lp=NULL;
+  AVL N,P;
   Historico h=NULL;
   int i,mes,qN,qP,n=0,p=0;
   listaN=(LISTA_STRING)malloc(sizeof(PRODUTO)*1000);
   listaP=(LISTA_STRING)malloc(sizeof(PRODUTO)*1000);
 
   lp= searchListaProduto(vf,produto);
-
+  N=P=NULL;
   begin = clock(); /*init contador*/
 
   if(lp && (filial==1 || filial==2 || filial==3) ){
     for(mes=0;mes<12;mes++){
       h=getHistorico(lp,mes,filial-1);
       if(h){
-        tempN=getClientesN(h);
-        tempP=getClientesP(h);
+        N=getClientesN(h);
+        P=getClientesP(h);
 
-        if(tempN)
+        if(N){
+          tempN=getListaVendasFilialN(h,vf);
           for(qN=0;tempN[qN]!=NULL;qN++){
-            listaN[n]=malloc(sizeof(PRODUTO));
+            listaN[n]=malloc(sizeof(char*));
             listaN[n]=tempN[qN];
             n++;
           }
-      
-        if(tempP)
+        }
+        if(P){
+          tempP=getListaVendasFilialP(h,vf);
           for(qP=0;tempP[qP]!=NULL;qP++){
-            listaP[p]=malloc(sizeof(PRODUTO));
+            listaP[p]=malloc(sizeof(char*));
             listaP[p]=tempP[qP];
             p++;
           }
+        }
       }
     }
 
@@ -465,7 +469,7 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
 }
 
 void query9(Clientes cli, CLIENTE cod_cliente, int m){
-  Cliente temp=NULL;
+  Cliente temp;
   LISTA_STRING lista_produtos,lista_mes;
   LISTA_INT quantidade,quantidade_mes, mes, copia;
   int i, j=0, max;

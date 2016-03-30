@@ -23,14 +23,13 @@ void setData (AVL a, void *v) {
 	a->data=v;
 }
 
-
 /*
  * rotate
  * Esta função recebe uma AVL e a direção para onde
  * a vai rodar.
  */
 AVL rotate(AVL t, int dir) {
-	AVL aux=NULL;
+	AVL aux;
 	if((!t) || (!t->child[!dir])) return NULL;
 	else{
 		aux = t->child[!dir];

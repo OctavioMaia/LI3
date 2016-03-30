@@ -8,11 +8,16 @@
 #include "../headers/vendas.h"
 #include "../headers/vendasfilial.h"
 
+
+typedef struct mes_filial{
+	char codigo[6];
+	int quantidade;	
+}mes_filial;
+
+
 typedef struct historico{
-	LISTA_STRING clientesN;
-	LISTA_INT quantidadeN;
-	LISTA_STRING clientesP;
-	LISTA_INT quantidadeP;
+	AVL clientesN;
+	AVL clientesP;
 }historico;
 
 typedef struct listaproduto{
@@ -42,26 +47,33 @@ STRING getCodigoListaProduto (ListaProduto p){
 	return p->produto;
 }
 
-LISTA_STRING getClientesN(Historico h){
+AVL getClientesN(Historico h){
 	return h->clientesN;
 }
 
-LISTA_INT getQuantidadeN(Historico h){
-	return h->quantidadeN;
-}
-
-LISTA_STRING getClientesP(Historico h){
+AVL getClientesP(Historico h){
 	return h->clientesP;
 }
 
-LISTA_INT getQuantidadeP(Historico h){
-	return h->quantidadeP;
+STRING getCodigoMesFilial(Mes_Filial mf){
+	return mf->codigo;
 }
 
-LISTA_STRING getListaVendasFilialLetra (VendasFilial vf, char ch) {
+int getQuantidadeMesFilial(Mes_Filial h){
+	return h->quantidade;
+}
+
+LISTA_STRING getListaVendasFilialN (Historico h, VendasFilial vf) {
 	LISTA_STRING s=NULL;
 	if (vf!=NULL)
-		s=toString(getVendasFilialLetra(vf,ch),vf->total);
+		s=toString(h->clientesN,vf->total);
+	return s;
+}
+
+LISTA_STRING getListaVendasFilialP (Historico h, VendasFilial vf) {
+	LISTA_STRING s=NULL;
+	if (vf!=NULL)
+		s=toString(h->clientesP,vf->total);
 	return s;
 }
 
@@ -74,6 +86,26 @@ void addVendasFilial (VendasFilial vf, int total) {
 	vf->total+=total;
 }
 
+void setQuantidade(Mes_Filial mf, int quantidade){
+	mf->quantidade=quantidade;
+}
+
+void addQuantidade(Mes_Filial mf, int quantidade){
+	mf->quantidade+=quantidade;
+}
+
+void setCodigoClienteMesFilial(Mes_Filial mf, char *codigo){
+	strcpy(mf->codigo,codigo);
+}
+
+void setAvlN(Historico h, AVL a){
+	h->clientesN=a;
+}
+
+void setAvlP(Historico h, AVL a){
+	h->clientesP=a;
+}
+
 /*funcoes comparacao*/
 int vfcmp (ListaProduto a, ListaProduto b) {
 	return strcmp(a->produto,b->produto);
@@ -83,17 +115,20 @@ int vfcmpstr (STRING a, ListaProduto b) {
 	return strcmp(a,b->produto);
 }
 
+int mfcmp (Mes_Filial a, Mes_Filial b) {
+	return strcmp(a->codigo,b->codigo);
+}
+
+int mfcmpstr (STRING a, Mes_Filial b) {
+	return strcmp(a,b->codigo);
+}
+
 /*funcoes*/
 VendasFilial initVendasFilial(){
-	VendasFilial temp;
-	int i;
+	VendasFilial vf = (VendasFilial)malloc(sizeof(struct vendasfilial));
+	vf->total=0;
 
-	temp = (VendasFilial)malloc(sizeof(struct vendasfilial));
-	for(i=0;i<26;i++){
-		temp->avl[i]=NULL;
-	}
-
-	return temp;
+	return vf;
 }
 
 ListaProduto initListaProduto(){
@@ -102,11 +137,9 @@ ListaProduto initListaProduto(){
 
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
-			lp->h[i][j]=(Historico)malloc(sizeof(historico));
-			lp->h[i][j]->clientesN=(LISTA_STRING)malloc(sizeof(STRING)*100); /*Esta merda crasha!, tirar o *100*/
-			lp->h[i][j]->quantidadeN=(LISTA_INT)malloc(sizeof(int)*100);
-			lp->h[i][j]->clientesP=(LISTA_STRING)malloc(sizeof(STRING)*100);
-			lp->h[i][j]->quantidadeP=(LISTA_INT)malloc(sizeof(int)*100);
+			lp->h[i][j]=(Historico)malloc(sizeof(struct historico));
+			lp->h[i][j]->clientesN=NULL;
+			lp->h[i][j]->clientesP=NULL;
 		}
 	}
 	return lp;
@@ -141,6 +174,15 @@ ListaProduto searchListaProduto(VendasFilial f, STRING s) {
 	}
 }
 
+Mes_Filial initMesFilial(){
+	Mes_Filial mf = (Mes_Filial)malloc(sizeof(mes_filial));
+
+	setCodigoClienteMesFilial(mf,"");
+	setQuantidade(mf,0);
+
+	return mf;
+}
+
 /*funcoes auxiliares*/
 void atualizaHistorico(VendasFilial vf, Venda v){
 	int i;
@@ -152,26 +194,32 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
 	Historico h = getHistorico(lp,mes-1,filial-1);
+	AVL t=NULL;
+	Mes_Filial mf=NULL;
 
 	if(h){
 		if(tipo=='N'){
-			for(i=0;h->clientesN[i]!=NULL;i++);
-
-			h->clientesN[i]=(STRING)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
-			h->clientesN[i]=cliente;
-			h->quantidadeN[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
-			h->quantidadeN[i]=quantidade;	
-			
-			/*printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);*/
+			t=getClientesN(h);
+			if(t==NULL){
+				mf = initMesFilial();
+				setCodigoClienteMesFilial(mf,cliente);
+				setQuantidade(mf,quantidade);
+				i=0;
+				setAvlN(h,insertAVL(t,mf,&i,(int (*)(void*,void*))mfcmp));
+				/*x=getData(search(t,cliente,(int (*)(void*,void*))mfcmpstr));
+				printf("NORMAL %s QUANTIDADE %d\n",getCodigoMesFilial(x),getQuantidadeMesFilial(x) );*/
+			}
 		}else{
-			for(i=0;h->clientesP[i]!=NULL;i++);
-
-			h->clientesP[i]=(STRING)malloc(sizeof(char)*5); /*aloca espaço para um cod de cliente (5 char)*/
-			h->clientesP[i]=cliente;
-			h->quantidadeP[i]=(long)malloc(sizeof(int)); /*aloquei long, pois se meter int da um aviso qq*/
-			h->quantidadeP[i]=quantidade;	
-			
-			/*printf("Pos:%d Cl:%s Prod:%s Qt:%d Mes:%d Filial:%d\n",i,h->clientes[i],getCodigoListaProduto(lp),h->quantidade[i],mes,filial);*/
+			t=getClientesP(h);
+			if(t==NULL){
+				mf = initMesFilial();
+				setCodigoClienteMesFilial(mf,cliente);
+				setQuantidade(mf,quantidade);
+				i=0;
+				setAvlP(h,insertAVL(t,mf,&i,(int (*)(void*,void*))mfcmp));
+				/*x=getData(search(t,cliente,(int (*)(void*,void*))mfcmpstr));
+				printf("PROMOCAO %s QUANTIDADE %d\n",getCodigoMesFilial(x),getQuantidadeMesFilial(x));*/
+			}
 		}
 	}else{
 		printf("Nao devia acontecer\n");

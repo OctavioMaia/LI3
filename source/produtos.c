@@ -88,15 +88,7 @@ void setQuantidadeClientes(Produto p, int qt){
 }
 
 Produtos initProdutos(){
-	Produtos temp;
-	int i;
-
-	temp = (Produtos)malloc(sizeof(struct produtos));
-	for(i=0;i<26;i++){
-		temp->avl[i]=NULL;
-	}
-
-	return temp;
+	return (Produtos)malloc(sizeof(struct produtos));
 }
 
 Produto initProduto(){
