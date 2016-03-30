@@ -85,7 +85,15 @@ int vfcmpstr (STRING a, ListaProduto b) {
 
 /*funcoes*/
 VendasFilial initVendasFilial(){
-	return (VendasFilial)malloc(sizeof(vendasfilial));
+	VendasFilial temp;
+	int i;
+
+	temp = (VendasFilial)malloc(sizeof(struct vendasfilial));
+	for(i=0;i<26;i++){
+		temp->avl[i]=NULL;
+	}
+
+	return temp;
 }
 
 ListaProduto initListaProduto(){
@@ -95,10 +103,10 @@ ListaProduto initListaProduto(){
 	for(i=0;i<12;i++){
 		for(j=0;j<3;j++){
 			lp->h[i][j]=(Historico)malloc(sizeof(historico));
-			lp->h[i][j]->clientesN=(LISTA_STRING)malloc(sizeof(STRING));
-			lp->h[i][j]->quantidadeN=(LISTA_INT)malloc(sizeof(int));
-			lp->h[i][j]->clientesP=(LISTA_STRING)malloc(sizeof(STRING));
-			lp->h[i][j]->quantidadeP=(LISTA_INT)malloc(sizeof(int));
+			lp->h[i][j]->clientesN=(LISTA_STRING)malloc(sizeof(STRING)*100); /*Esta merda crasha!, tirar o *100*/
+			lp->h[i][j]->quantidadeN=(LISTA_INT)malloc(sizeof(int)*100);
+			lp->h[i][j]->clientesP=(LISTA_STRING)malloc(sizeof(STRING)*100);
+			lp->h[i][j]->quantidadeP=(LISTA_INT)malloc(sizeof(int)*100);
 		}
 	}
 	return lp;
@@ -123,7 +131,7 @@ VendasFilial insertListaProduto(VendasFilial f, STRING s) {
 }
 
 ListaProduto searchListaProduto(VendasFilial f, STRING s) {
-	ListaProduto p1;
+	ListaProduto p1=NULL;
 	ListaVFilial aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))vfcmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);

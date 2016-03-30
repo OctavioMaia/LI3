@@ -88,7 +88,15 @@ void setQuantidadeClientes(Produto p, int qt){
 }
 
 Produtos initProdutos(){
-	return (Produtos)malloc(sizeof(struct produtos));
+	Produtos temp;
+	int i;
+
+	temp = (Produtos)malloc(sizeof(struct produtos));
+	for(i=0;i<26;i++){
+		temp->avl[i]=NULL;
+	}
+
+	return temp;
 }
 
 Produto initProduto(){
@@ -118,7 +126,7 @@ Produtos insertProduto(Produtos p, PRODUTO s) {
 }
 
 Produto searchProduto(Produtos p, PRODUTO s) {
-	Produto p1;
+	Produto p1=NULL;
 	ListaProdutos aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);

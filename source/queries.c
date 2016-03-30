@@ -218,7 +218,7 @@ void query2(Produtos p, char ch){
 }
 
 void query3(Faturacao F, int mes, PRODUTO s, int global){
-  Informacao info;
+  Informacao info=NULL;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
   int f,qN=0,qP=0;

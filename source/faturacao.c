@@ -92,7 +92,15 @@ int infcmpstr (PRODUTO a, Informacao b) {
 
 /*funcoes*/
 Faturacao initFaturacao(){
-	return (Faturacao)malloc(sizeof(struct faturacao));
+	Faturacao temp;
+	int i;
+
+	temp = (Faturacao)malloc(sizeof(struct faturacao));
+	for(i=0;i<26;i++){
+		temp->avl[i]=NULL;
+	}
+
+	return temp;
 }
 
 Informacao initInformacao(){
@@ -128,7 +136,7 @@ Faturacao insertInformacao(Faturacao f, PRODUTO s) {
 }
 
 Informacao searchInformacao(Faturacao f, PRODUTO s) {
-	Informacao p1;
+	Informacao p1=NULL;
 	ListaFaturacao aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
 	if (aux!=NULL) {
 		/*printf("encontrei %s\n",s);*/

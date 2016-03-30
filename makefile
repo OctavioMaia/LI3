@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS=-Wall -pedantic -o2 -ansi -g
+CFLAGS=-Wall -pedantic -o2 -ansi
 FILES = main.o avl.o clientes.o produtos.o vendas.o faturacao.o vendasfilial.o queries.o
 OUT_EXE = gerevendas
 

@@ -30,7 +30,7 @@ void setData (AVL a, void *v) {
  * a vai rodar.
  */
 AVL rotate(AVL t, int dir) {
-	AVL aux;
+	AVL aux=NULL;
 	if((!t) || (!t->child[!dir])) return NULL;
 	else{
 		aux = t->child[!dir];

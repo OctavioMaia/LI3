@@ -128,7 +128,15 @@ void updateCliente(Clientes c, CLIENTE cod_cliente, STRING cod_produto, int mes,
 }
 
 Clientes initClientes(){
-	return (Clientes)malloc(sizeof(struct clientes));
+	Clientes temp;
+	int i;
+
+	temp = (Clientes)malloc(sizeof(struct clientes));
+	for(i=0;i<26;i++){
+		temp->avl[i]=NULL;
+	}
+
+	return temp;
 }
 
 Cliente initCliente () {
@@ -166,7 +174,7 @@ Clientes insertCliente (Clientes c, CLIENTE s) {
 }
 
 Cliente searchCliente (Clientes c, CLIENTE s) {
-	Cliente c1;
+	Cliente c1=NULL;
 	ListaClientes aux=search(c->avl[s[0]-'A'],s,(int (*)(void*,void*))clicmpstr);
 	if (aux!=NULL) {
 		c1=getData(aux);
