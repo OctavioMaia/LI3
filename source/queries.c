@@ -265,12 +265,12 @@ void query3(Faturacao F, int mes, PRODUTO s, int global){
     printf("Código de produto inválido!\n");
     printf("---------------------------------------------------------------------\n");
   }
-  free(info);
+
 }
 
 void query4(Faturacao F, Produtos prod, int decisao){
   Informacao info=NULL;
-  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(PRODUTO)), s;
+  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(PRODUTO)*10000), s;
   char ch;
   int i,n=0,filial1=0,filial2=0,filial3=0;
   
@@ -330,7 +330,7 @@ void query4(Faturacao F, Produtos prod, int decisao){
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
   }
   imprimirLista(lista,10,9);
-  free(info);
+  
 }
 
 void query5(Clientes cli, CLIENTE cod_cliente){
@@ -388,7 +388,7 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
   }else{
     printf("Introduza um intervalo de meses correto!\n");
   }
-  free(temp);
+  
 }
 
 void query7(Clientes cli){
@@ -419,7 +419,7 @@ void query7(Clientes cli){
     printf("Existem %d clientes que compraram em todas as filiais!\n",n);
     imprimirLista(lista,10,9);
   }
-  free(temporario);
+ 
 }
 
 void query8(VendasFilial vf, PRODUTO produto, int filial){
@@ -476,8 +476,7 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
   }else{
     printf("Introduza um código de produto válido!\n");
   }
-  free(lp);
-  free(h);
+  
 }
 
 void query9(Clientes cli, CLIENTE cod_cliente, int m){
@@ -523,7 +522,7 @@ void query9(Clientes cli, CLIENTE cod_cliente, int m){
   }else{
     printf("Introduza um código de cliente válido!\n");
   }
-  free(temp);
+  
 }
 
 void query10(Produtos prod, int n){
@@ -531,7 +530,7 @@ void query10(Produtos prod, int n){
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, max;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
-  LISTA_STRING s,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*n);
+  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*100000);
   char ch;
   Produto p=NULL;
 
@@ -550,7 +549,7 @@ void query10(Produtos prod, int n){
         conta++;
         p=searchProduto(prod,s[i]);
         if(p){
-          lista[posicao]=malloc(sizeof(PRODUTO));
+          lista[posicao]=malloc(sizeof(PRODUTO)*1000);
           lista[posicao]=s[i];
           qClientes[posicao]=getQuantidadeClientes(p);
           filial1[posicao]=getQuantidadeVendidaFilial(p,0);
@@ -584,7 +583,6 @@ void query10(Produtos prod, int n){
   }
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
   printf("---------------------------------------------------------------------\n");
-  free(p);
 }
 
 void query11(Clientes c, CLIENTE cod_cliente){
@@ -637,7 +635,7 @@ void query11(Clientes c, CLIENTE cod_cliente){
   }else{
     printf("Introduza um código de cliente válido!\n");
   }
-  free(temp);
+  
 }
 
 void query12(Clientes cli, Produtos prod){
@@ -677,6 +675,4 @@ void query12(Clientes cli, Produtos prod){
     printf("Existem %d produtos que nunca foram comprados!\n",produtos);
     printf("---------------------------------------------------------------------\n");
   }
-  free(temporarioC);
-  free(temporarioP);
 }
