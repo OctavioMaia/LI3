@@ -118,11 +118,5 @@ int main (int argc, char** argv) {
 	imprimirQueries();
 	exec(prod,cli,f,vf);
 
-	/*Libertar memória
-	free(f);
-	free(vf);
-	free(prod);
-	free(cli);*/
-
 	return 0;
 }

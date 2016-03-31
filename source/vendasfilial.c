@@ -16,8 +16,8 @@ typedef struct mes_filial{
 
 
 typedef struct historico{
-	AVL clientesN;
-	AVL clientesP;
+	ListaClientes clientesN;
+	ListaClientes clientesP;
 }historico;
 
 typedef struct listaproduto{
@@ -47,11 +47,11 @@ STRING getCodigoListaProduto (ListaProduto p){
 	return p->produto;
 }
 
-AVL getClientesN(Historico h){
+ListaClientes getClientesN(Historico h){
 	return h->clientesN;
 }
 
-AVL getClientesP(Historico h){
+ListaClientes getClientesP(Historico h){
 	return h->clientesP;
 }
 
@@ -98,11 +98,11 @@ void setCodigoClienteMesFilial(Mes_Filial mf, char *codigo){
 	strcpy(mf->codigo,codigo);
 }
 
-void setAvlN(Historico h, AVL a){
+void setAvlN(Historico h, ListaClientes a){
 	h->clientesN=a;
 }
 
-void setAvlP(Historico h, AVL a){
+void setAvlP(Historico h, ListaClientes a){
 	h->clientesP=a;
 }
 
@@ -197,7 +197,7 @@ void atualizaHistorico(VendasFilial vf, Venda v){
 
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
 	Historico h = getHistorico(lp,mes-1,filial-1);
-	AVL t=NULL;
+	ListaClientes t=NULL;
 	Mes_Filial mf=NULL;
 
 	if(h){

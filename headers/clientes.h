@@ -15,7 +15,7 @@ typedef char* CLIENTE;
    Funções de consulta
    -------------------
 */
-AVL getClientesLetra (Clientes c, char ch);
+ListaClientes getClientesLetra (Clientes c, char ch);
 CLIENTE getCodigoCliente (Cliente c);
 int getTotalClientes (Clientes c);
 LISTA_STRING  getListaClientesLetra (Clientes c, char ch);

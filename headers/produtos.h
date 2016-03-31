@@ -15,7 +15,7 @@ typedef char* PRODUTO;
    Funções de consulta
    -------------------
 */
-AVL getProdutosLetra (Produtos p, char ch);
+ListaProdutos getProdutosLetra (Produtos p, char ch);
 PRODUTO getCodProduto(Produto p);
 int getTotalProdutos (Produtos p);
 int getQuantidadeVendidaFilial(Produto p, int filial);

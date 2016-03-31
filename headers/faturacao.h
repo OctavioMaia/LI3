@@ -4,7 +4,7 @@ typedef struct node *ListaFaturacao;
 typedef struct informacao *Informacao;
 typedef struct faturacao *Faturacao;
 
-AVL getFaturacaoLetra (Faturacao f, char ch);
+ListaFaturacao getFaturacaoLetra (Faturacao f, char ch);
 PRODUTO getCodigoProduto(Informacao i);
 int getQuantidadeNormal(Informacao i, int mes, int filial);
 int getQuantidadePromocao(Informacao i, int mes, int filial);

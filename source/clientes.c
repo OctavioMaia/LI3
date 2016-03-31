@@ -187,7 +187,7 @@ int removeCliente(Clientes c, CLIENTE s){
 	Cliente temp = searchCliente(c,s);
 
 	if(temp){/*Cliente existe, podemos remover*/
-		ListaClientes l = (AVL) getListaClientesLetra(c,s[0]);
+		ListaClientes l = (ListaClientes) getListaClientesLetra(c,s[0]);
 		l = deleteAVL(l, s);
 		flag=1;
 	}else{

@@ -88,6 +88,17 @@ void imprimirQueries() {
   puts("");
 }
 
+void exitPrograma(Faturacao f, VendasFilial vf, Produtos prod, Clientes cli){
+  /*Libertar memória*/
+  free(f);
+  free(vf);
+  free(prod);
+  free(cli);
+  
+  printf("Memória libertada!\n");
+  exit(0);
+}
+
 /*QUERIES*/
 void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
   int decisao,i; /*para o switch*/
@@ -104,7 +115,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
     case -1:
       puts("Execução cancelada pelo utilizador!");
       puts("---------------------------------------------------------------------");
-      exit(0);
+      exitPrograma(f,vf,prod,cli);
       break;
     case 0:
       for(i=0;i<100;i++) puts("");
