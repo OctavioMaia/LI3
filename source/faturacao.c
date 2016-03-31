@@ -8,7 +8,7 @@
 #include "../headers/faturacao.h"
 
 typedef struct informacao{
-	char produto[6];
+	char produto[7];
 	int quantidadeN[12][3];
 	int quantidadeP[12][3];
 	float faturadoN[12][3];
@@ -92,7 +92,13 @@ int infcmpstr (PRODUTO a, Informacao b) {
 
 /*funcoes*/
 Faturacao initFaturacao(){
-	return (Faturacao)malloc(sizeof(struct faturacao));
+	int i;
+	Faturacao f = (Faturacao)malloc(sizeof(struct faturacao));
+
+	for(i=0;i<26;i++)
+		f->avl[i]=NULL;
+
+	return f;
 }
 
 Informacao initInformacao(){

@@ -5,7 +5,7 @@
 #include "../headers/produtos.h"
 
 typedef struct produto{
-	char codigo[6];
+	char codigo[7];
 	int quantidade_clientes;
 	int quantidade_vendida[3];
 }produto;
@@ -88,7 +88,13 @@ void setQuantidadeClientes(Produto p, int qt){
 }
 
 Produtos initProdutos(){
-	return (Produtos)malloc(sizeof(struct produtos));
+	int i;
+	Produtos p = (Produtos)malloc(sizeof(struct produtos));
+
+	for(i=0;i<26;i++)
+		p->avl[i]=NULL;
+
+	return p;
 }
 
 Produto initProduto(){

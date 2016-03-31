@@ -7,11 +7,11 @@
 #include "../headers/vendas.h"
 
 typedef struct venda {
-	char produto[6];
+	char produto[7];
 	float preco;
 	int quant;
 	char promo;
-	char cliente[5];
+	char cliente[6];
 	int mes;
 	int filial;
 }venda;

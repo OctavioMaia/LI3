@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include "headers/tipos.h"
@@ -97,6 +98,11 @@ int main (int argc, char** argv) {
 	cli=readClientes(fc);
 	totalVendas=readVendas(fv,f,vf,prod,cli);
 
+	/*Fechar ficheiros*/
+	fclose(fp);
+	fclose(fc);
+	fclose(fv);
+
 	/*Imprimir informacao dos ficheiros*/
 	printf("\t\t\t\t\033[1m%d\033[0m produtos válidos\n",getTotalProdutos(prod));
 	printf("\t\t\t\t\033[1m%d\033[0m clientes válidos\n",getTotalClientes(cli));
@@ -111,5 +117,12 @@ int main (int argc, char** argv) {
 
 	imprimirQueries();
 	exec(prod,cli,f,vf);
+
+	/*Libertar memória
+	free(f);
+	free(vf);
+	free(prod);
+	free(cli);*/
+
 	return 0;
 }

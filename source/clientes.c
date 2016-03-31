@@ -6,13 +6,13 @@
 
 
 typedef struct cliente{
-	char codigo[5];
+	char codigo[6];
 	int comprou_filial[3];
+	int tabela[12][3];
 	LISTA_STRING produtos;
 	LISTA_INT quantidade;
 	LISTA_INT mes;
 	LISTA_FLOAT faturacao;
-	int tabela[12][3];
 }cliente;
 
 typedef struct clientes{
@@ -128,7 +128,13 @@ void updateCliente(Clientes c, CLIENTE cod_cliente, STRING cod_produto, int mes,
 }
 
 Clientes initClientes(){
-	return (Clientes)malloc(sizeof(struct clientes));
+	int i;
+	Clientes c = (Clientes)malloc(sizeof(struct clientes));
+
+	for(i=0;i<26;i++)
+		c->avl[i]=NULL;
+
+	return c;
 }
 
 Cliente initCliente () {

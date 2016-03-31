@@ -10,7 +10,7 @@
 
 
 typedef struct mes_filial{
-	char codigo[6];
+	char codigo[6]; /*cod cliente*/
 	int quantidade;	
 }mes_filial;
 
@@ -21,7 +21,7 @@ typedef struct historico{
 }historico;
 
 typedef struct listaproduto{
-	char produto[6];
+	char produto[7];
 	Historico h[12][3];
 }listaproduto;
 
@@ -125,8 +125,11 @@ int mfcmpstr (STRING a, Mes_Filial b) {
 
 /*funcoes*/
 VendasFilial initVendasFilial(){
+	int i;
 	VendasFilial vf = (VendasFilial)malloc(sizeof(struct vendasfilial));
-	vf->total=0;
+	
+	for(i=0;i<26;i++)
+		vf->avl[i]=NULL;
 
 	return vf;
 }
