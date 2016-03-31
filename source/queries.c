@@ -547,6 +547,10 @@ void query10(Produtos prod, int n){
 
   copia=total;
   
+  /*for(i=0;lista[i];i++) printf("cod %s qC %d f1 %d f2 %d f3 %d\n",lista[i],qClientes[i],filial1[i],filial2[i],filial3[i]);*/
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
+  
   printf("\033[1m Código\tClientes\tTotal\tFilial 1\tFilial 2\tFilial 3\033[0m\n");
   for(j=0;j<n;j++){
     max=valor_max(conta,copia);
@@ -561,9 +565,6 @@ void query10(Produtos prod, int n){
     total[i]=0;
   }
 
-  /*for(i=0;lista[i];i++) printf("cod %s qC %d f1 %d f2 %d f3 %d\n",lista[i],qClientes[i],filial1[i],filial2[i],filial3[i]);*/
-  end = clock(); /*end contador*/
-  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
   printf("---------------------------------------------------------------------\n");
 }

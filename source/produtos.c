@@ -110,6 +110,10 @@ Produtos insertProduto(Produtos p, PRODUTO s) {
 	int i, pos=s[0]-'A';
 
 	Produto aux = initProduto();
+	setQuantidadeVendidaFilial(aux,0,0); /*nao sei se preciso disto*/
+	setQuantidadeVendidaFilial(aux,1,0);
+	setQuantidadeVendidaFilial(aux,2,0);
+
 	setCodigoProduto(aux,s);
 
 	if (p==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/

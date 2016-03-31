@@ -147,6 +147,21 @@ AVL deleteAVL(AVL t, void *data){
     return t;
 }
 
+AVL search (AVL a, void* s, int(*comp)(void*,void*)) {
+	int c;
+	if (!a) return NULL;
+	c=comp(s,a->data);
+	
+	if (c==0)
+		return a;
+	else if (c<0) 
+		return search(a->child[L],s,comp); 
+	else 
+		return search(a->child[R],s,comp);
+	
+	return NULL; 
+}
+
 /* toStringAux
  * Esta função recebe uma AVL, uma lista de apontadores,
  * um apontador que serve como flag para saber onde inserir
@@ -175,20 +190,4 @@ LISTA_STRING toString (AVL a, int n) {
 	}else{
 		return NULL;
 	}
-}
-
-
-AVL search (AVL a, void* s, int(*comp)(void*,void*)) {
-	int c;
-	if (!a) return NULL;
-	c=comp(s,a->data);
-	
-	if (c==0)
-		return a;
-	else if (c<0) 
-		return search(a->child[L],s,comp); 
-	else 
-		return search(a->child[R],s,comp);
-	
-	return NULL; 
 }
