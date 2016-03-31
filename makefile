@@ -7,8 +7,8 @@ clear:
 	clear
 
 clean: 
-	rm -f *.o
-	rm gerevendas
+	rm *.o
+	if [ -f "gerevendas" ]; then rm gerevendas; fi;	
 
 avl.o: source/AVL.c headers/AVL.h
 	$(CC) $(CFLAGS) -c source/AVL.c -o avl.o
@@ -38,7 +38,7 @@ gerevendas: $(FILES)
 	$(CC) $(CFLAGS) -o $(OUT_EXE) $(FILES)
 
 rebuild: clean
-		 make gerevendas
+	 make gerevendas
 
 exec1:
 	clear
