@@ -108,7 +108,7 @@ int main (int argc, char** argv) {
 	printf("\t\t\t\t\033[1m%d\033[0m clientes válidos\n",getTotalClientes(cli));
 	printf("\t\t\t\t\033[1m%d\033[0m vendas válidas\n",totalVendas);
 
-	/*Finalizacao do contador*/
+	/*Finalizacao do contador */
 	end = clock(); 
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
