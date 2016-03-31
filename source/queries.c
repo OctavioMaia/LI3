@@ -265,6 +265,7 @@ void query3(Faturacao F, int mes, PRODUTO s, int global){
     printf("Código de produto inválido!\n");
     printf("---------------------------------------------------------------------\n");
   }
+  free(info);
 }
 
 void query4(Faturacao F, Produtos prod, int decisao){
@@ -329,6 +330,7 @@ void query4(Faturacao F, Produtos prod, int decisao){
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
   }
   imprimirLista(lista,10,9);
+  free(info);
 }
 
 void query5(Clientes cli, CLIENTE cod_cliente){
@@ -386,6 +388,7 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
   }else{
     printf("Introduza um intervalo de meses correto!\n");
   }
+  free(temp);
 }
 
 void query7(Clientes cli){
@@ -416,6 +419,7 @@ void query7(Clientes cli){
     printf("Existem %d clientes que compraram em todas as filiais!\n",n);
     imprimirLista(lista,10,9);
   }
+  free(temporario);
 }
 
 void query8(VendasFilial vf, PRODUTO produto, int filial){
@@ -472,6 +476,8 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
   }else{
     printf("Introduza um código de produto válido!\n");
   }
+  free(lp);
+  free(h);
 }
 
 void query9(Clientes cli, CLIENTE cod_cliente, int m){
@@ -517,6 +523,7 @@ void query9(Clientes cli, CLIENTE cod_cliente, int m){
   }else{
     printf("Introduza um código de cliente válido!\n");
   }
+  free(temp);
 }
 
 void query10(Produtos prod, int n){
@@ -575,9 +582,9 @@ void query10(Produtos prod, int n){
       filial3[i]);
     total[i]=0;
   }
-
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
   printf("---------------------------------------------------------------------\n");
+  free(p);
 }
 
 void query11(Clientes c, CLIENTE cod_cliente){
@@ -630,6 +637,7 @@ void query11(Clientes c, CLIENTE cod_cliente){
   }else{
     printf("Introduza um código de cliente válido!\n");
   }
+  free(temp);
 }
 
 void query12(Clientes cli, Produtos prod){
@@ -662,11 +670,13 @@ void query12(Clientes cli, Produtos prod){
         }
       }
     }
+    end = clock(); /*end contador*/
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
+    printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
+    printf("Existem %d clientes que nunca compraram!\n",clientes);
+    printf("Existem %d produtos que nunca foram comprados!\n",produtos);
+    printf("---------------------------------------------------------------------\n");
   }
-  end = clock(); /*end contador*/
-  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
-  printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
-  printf("Existem %d clientes que nunca compraram!\n",clientes);
-  printf("Existem %d produtos que nunca foram comprados!\n",produtos);
-  printf("---------------------------------------------------------------------\n");
+  free(temporarioC);
+  free(temporarioP);
 }

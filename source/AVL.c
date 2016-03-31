@@ -162,6 +162,38 @@ AVL search (AVL a, void* s, int(*comp)(void*,void*)) {
 	return NULL; 
 }
 
+
+AVL freeAVL_Aux(AVL t, int level, int atual,void*(*node)(void*)){
+    if (!t){
+    	return NULL;
+    }
+    if(atual<level){
+        t->child[L]=freeAVL_Aux(t->child[L],level,atual+1,node);
+        t->child[L]=freeAVL_Aux(t->child[R],level,atual+1,node);
+        return t;
+    }
+    else{
+        t->child[L]=freeAVL_Aux(t->child[L],level,atual+1,node);
+        t->child[L]=freeAVL_Aux(t->child[R],level,atual+1,node);
+        t->data=getData(t);
+        free(t);
+        t=NULL;
+    }
+    return t;
+}
+
+
+AVL freeAVL(AVL t, int level,void*(*node)(void*)){
+    AVL aux=t;
+
+    return(freeAVL_Aux(aux,level,0,node));
+}
+
+AVL removerAVL(AVL t,void*(*node)(void*)){
+    return(freeAVL(t,0,node));
+}
+
+
 /* toStringAux
  * Esta função recebe uma AVL, uma lista de apontadores,
  * um apontador que serve como flag para saber onde inserir
