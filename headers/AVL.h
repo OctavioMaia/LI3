@@ -54,6 +54,7 @@ LISTA_STRING toString (AVL a, int n);
 AVL search (AVL a, void* s, int(*comp)(void*,void*));
 
 
-AVL freeAVL_Aux(AVL t, int level, int atual,void*(*node)(void*));
-AVL freeAVL(AVL t, int level,void*(*node)(void*));
-AVL removerAVL(AVL t,void*(*node)(void*));
+/* deleteAVL
+----documentar
+*/
+AVL deleteAVL(AVL t, void *data);

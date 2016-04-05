@@ -4,6 +4,7 @@ typedef struct node *ListaFaturacao;
 typedef struct informacao *Informacao;
 typedef struct faturacao *Faturacao;
 
+/*gets*/
 ListaFaturacao getFaturacaoLetra (Faturacao f, char ch);
 PRODUTO getCodigoProduto(Informacao i);
 int getQuantidadeNormal(Informacao i, int mes, int filial);
@@ -28,6 +29,6 @@ Faturacao insertInformacao(Faturacao f, PRODUTO s);
 Informacao searchInformacao(Faturacao f, PRODUTO s);
 
 /*funcoes de atualizacao*/
-void atualizaFaturacao(Faturacao f, Produtos p, Clientes c, Venda v);
+void atualizaFaturacao(Faturacao f, Produtos p, Venda v);
 int nuncaCompradoGlobal(Informacao i);
 int nuncaCompradoFilial(Informacao i, int filial);

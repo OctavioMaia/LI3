@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS=-Wall -pedantic -o2 -ansi
+CFLAGS=-Wall -pedantic -o2 -ansi -g
 FILES = main.o avl.o clientes.o produtos.o vendas.o faturacao.o vendasfilial.o queries.o
 OUT_EXE = gerevendas
 
@@ -43,7 +43,3 @@ rebuild: clean
 exec1:
 	clear
 	./gerevendas data/Vendas_1M.txt
-
-exec5:
-	clear
-	./gerevendas data/Vendas_5M.txt

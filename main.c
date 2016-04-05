@@ -26,18 +26,20 @@ Produtos readProdutos (FILE *fp, Faturacao f, VendasFilial vf) {
 	return p;
 }
 
-Clientes readClientes (FILE *fp) {
+Clientes readClientes (FILE *fp, Historial h) {
 	char buf[10], *s;
 	Clientes c=NULL;
 	while (fgets(buf,10,fp)) {
 		s=strtok(buf,"\r\n");
 		c=insertCliente(c,s);
 		addClientes(c,1);
+		h=insertHistorialCliente(h,s); 
+		addHistorial(h,1);
 	}
 	return c;
 }
 
-int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c) {
+int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c,Historial h) {
 	int i=0;
 	char buf[50], *s;
 	Venda venda=NULL;
@@ -45,8 +47,9 @@ int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c) 
 		s=strtok(buf,"\r\n");
 		venda=initVenda(s);
 		if (validaVenda(venda,p,c)==1) {
-			atualizaFaturacao(f,p,c,venda);
+			atualizaFaturacao(f,p,venda);
 			atualizaHistorico(vf,venda);
+			updateCliente(h,vf,venda);
 			i++;
 		}
 	}
@@ -64,6 +67,7 @@ int main (int argc, char** argv) {
 	Clientes cli=NULL;
 	Faturacao f=NULL;
 	VendasFilial vf=NULL;
+	Historial h=NULL;
 
 	/*Variaveis auxiliares*/
 	int totalVendas;		
@@ -94,9 +98,10 @@ int main (int argc, char** argv) {
 	/*Ler os ficheiros para as estruturas*/
 	f=initFaturacao();
 	vf=initVendasFilial();
+	h=initHistorial();
 	prod=readProdutos(fp,f,vf);
-	cli=readClientes(fc);
-	totalVendas=readVendas(fv,f,vf,prod,cli);
+	cli=readClientes(fc,h);
+	totalVendas=readVendas(fv,f,vf,prod,cli,h);
 
 	/*Fechar ficheiros*/
 	fclose(fp);
@@ -108,7 +113,7 @@ int main (int argc, char** argv) {
 	printf("\t\t\t\t\033[1m%d\033[0m clientes válidos\n",getTotalClientes(cli));
 	printf("\t\t\t\t\033[1m%d\033[0m vendas válidas\n",totalVendas);
 
-	/*Finalizacao do contador */
+	/*Finalizacao do contador*/
 	end = clock(); 
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
@@ -116,7 +121,13 @@ int main (int argc, char** argv) {
 	printf("\033[1m\x1b[31mTudo guardado e validado em %fs!\n\n\x1b[0m\033[0m",time_spent);
 
 	imprimirQueries();
-	exec(prod,cli,f,vf);
+	exec(prod,cli,f,vf,h);
+
+	/*Libertar memória
+	free(f);
+	free(vf);
+	free(prod);
+	free(cli);*/
 
 	return 0;
 }

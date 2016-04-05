@@ -6,8 +6,6 @@
 
 typedef struct produto{
 	char codigo[7];
-	int quantidade_clientes;
-	int quantidade_vendida[3];
 }produto;
 
 typedef struct produtos {
@@ -48,18 +46,6 @@ int getTotalProdutos (Produtos p) {
 	return p->total;
 }
 
-int getQuantidadeVendidaFilial(Produto p, int filial){
-	return p->quantidade_vendida[filial];
-}
-
-int getQuantidadeVendida(Produto p){
-	return p->quantidade_vendida[0]+p->quantidade_vendida[1]+p->quantidade_vendida[2];
-}
-
-int getQuantidadeClientes(Produto p){
-	return p->quantidade_clientes;
-}
-
 LISTA_STRING getListaProdutosLetra (Produtos p, char ch) {
 	LISTA_STRING s=NULL;
 	if (p!=NULL)
@@ -79,14 +65,6 @@ void addProdutos (Produtos p, int total) {
 	p->total+=total;
 }
 
-void setQuantidadeVendidaFilial(Produto p, int filial, int qt){
-	p->quantidade_vendida[filial]+=qt;
-}
-
-void setQuantidadeClientes(Produto p, int qt){
-	p->quantidade_clientes+=qt;
-}
-
 Produtos initProdutos(){
 	int i;
 	Produtos p = (Produtos)malloc(sizeof(struct produtos));
@@ -99,10 +77,6 @@ Produtos initProdutos(){
 
 Produto initProduto(){
 	Produto p = (Produto)malloc(sizeof(struct produto));
-	p->quantidade_vendida[0]=0;
-	p->quantidade_vendida[1]=0;
-	p->quantidade_vendida[2]=0;
-	p->quantidade_clientes=0;
 	return p;
 }
 
@@ -110,10 +84,6 @@ Produtos insertProduto(Produtos p, PRODUTO s) {
 	int i, pos=s[0]-'A';
 
 	Produto aux = initProduto();
-	setQuantidadeVendidaFilial(aux,0,0); /*nao sei se preciso disto*/
-	setQuantidadeVendidaFilial(aux,1,0);
-	setQuantidadeVendidaFilial(aux,2,0);
-
 	setCodigoProduto(aux,s);
 
 	if (p==NULL) {	/*Se não existir a estrutura Produtos, criá-la*/
@@ -138,16 +108,12 @@ Produto searchProduto(Produtos p, PRODUTO s) {
 	}
 }
 
-int removeProduto(Produtos p, PRODUTO s){
-	int flag=0;
+Produtos removeProduto(Produtos p, PRODUTO s){
 	Produto temp = searchProduto(p,s);
 
 	if(temp){/*Cliente existe, podemos remover*/
-		ListaProdutos l = (AVL) getListaProdutosLetra(p,s[0]);
+		ListaProdutos l = (ListaProdutos) getListaProdutosLetra(p,s[0]);
 		l = deleteAVL(l, s);
-		flag=1;
-	}else{
-		flag=0;
 	}
-	return flag;
+	return p;
 }

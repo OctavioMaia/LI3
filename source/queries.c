@@ -88,19 +88,8 @@ void imprimirQueries() {
   puts("");
 }
 
-void exitPrograma(Faturacao f, VendasFilial vf, Produtos prod, Clientes cli){
-  /*Libertar memória*/
-  free(f);
-  free(vf);
-  free(prod);
-  free(cli);
-  
-  printf("Memória libertada!\n");
-  exit(0);
-}
-
 /*QUERIES*/
-void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
+void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf,Historial h){
   int decisao,i; /*para o switch*/
   char ch;
   char codigo[6];
@@ -115,7 +104,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
     case -1:
       puts("Execução cancelada pelo utilizador!");
       puts("---------------------------------------------------------------------");
-      exitPrograma(f,vf,prod,cli);
+      exit(0);
       break;
     case 0:
       for(i=0;i<100;i++) puts("");
@@ -151,7 +140,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       puts("\033[1m-----------------------------------Query 5-----------------------------------\033[0m");
       printf("\033[1mIntroduza o código de cliente: \033[0m ");
       scanf(" %s", codigo);
-      query5(cli,codigo);
+      query5(h,codigo);
       break;
     case 6:
       puts("\033[1m-----------------------------------Query 6-----------------------------------\033[0m");
@@ -163,7 +152,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       break;
     case 7:
       puts("\033[1m-----------------------------------Query 7-----------------------------------\033[0m");
-      query7(cli);
+      query7(h);
       break;
     case 8:
       puts("\033[1m-----------------------------------Query 8-----------------------------------\033[0m");
@@ -179,29 +168,29 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf){
       scanf(" %s", codigo);
       printf("\033[1mIntroduza o mes de pesquisa: \033[0m ");
       scanf(" %d", &mes);
-      query9(cli,codigo,mes);
+      query9(h,codigo,mes);
       break;
     case 10:
       puts("\033[1m-----------------------------------Query 10----------------------------------\033[0m");
       printf("\033[1mIntroduza o número de produtos a listar: \033[0m ");
       scanf(" %d", &mes);
-      query10(prod,mes);
+      query10(vf,prod,mes);
       break;
     case 11:
       puts("\033[1m-----------------------------------Query 11----------------------------------\033[0m");
       printf("\033[1mIntroduza o código de cliente: \033[0m ");
       scanf(" %s", codigo);
-      query11(cli,codigo);
+      query11(h,codigo);
       break;
     case 12:
       puts("\033[1m-----------------------------------Query 12----------------------------------\033[0m");
-      query12(cli,prod);
+      query12(h,prod,vf);
       break;
     default: /* execute default action */
       puts("Query inválida!");
       break;
   }
-  exec(prod,cli,f,vf);
+  exec(prod,cli,f,vf,h);
 }
 
 /*Queries*/
@@ -265,12 +254,11 @@ void query3(Faturacao F, int mes, PRODUTO s, int global){
     printf("Código de produto inválido!\n");
     printf("---------------------------------------------------------------------\n");
   }
-
 }
 
 void query4(Faturacao F, Produtos prod, int decisao){
   Informacao info=NULL;
-  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(PRODUTO)*10000), s;
+  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(PRODUTO)*2000), s;
   char ch;
   int i,n=0,filial1=0,filial2=0,filial3=0;
   
@@ -284,10 +272,11 @@ void query4(Faturacao F, Produtos prod, int decisao){
         s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
         for(i=0; s[i]!=NULL;i++){
           info=searchInformacao(F,s[i]);
-          if(nuncaCompradoGlobal(info)==0){ /*passamos 0 pois 0 significa todas as filiais*/
-            lista[n]=malloc(sizeof(PRODUTO));
-            lista[n]=getCodigoProduto(info);
-            n++;
+          if(info){
+            if(nuncaCompradoGlobal(info)==0){ /*passamos 0 pois 0 significa todas as filiais*/
+              lista[n]=getCodigoProduto(info);
+              n++;
+            }
           }
         }
       }
@@ -330,12 +319,11 @@ void query4(Faturacao F, Produtos prod, int decisao){
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
   }
   imprimirLista(lista,10,9);
-  
 }
 
-void query5(Clientes cli, CLIENTE cod_cliente){
+void query5(Historial h, CLIENTE cod_cliente){
   int mes;
-  Cliente c = searchCliente(cli,cod_cliente);
+  HistorialCliente c = searchHistorialCliente(h,cod_cliente);
 
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
@@ -388,27 +376,26 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
   }else{
     printf("Introduza um intervalo de meses correto!\n");
   }
-  
 }
 
-void query7(Clientes cli){
+void query7(Historial h){
   int i,n=0;
   LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(CLIENTE)),s;
   char ch;
-  Cliente temporario=NULL;
+  HistorialCliente temporario=NULL;
 
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   begin = clock(); /*init contador*/
 
-  if (cli){
+  if (h){
     for(ch='A';ch<='Z';ch++){
-      s=toString(getClientesLetra(cli,ch),getTotalClientes(cli));
+      s=toString(getHistorialLetra(h,ch),getTotalHistorial(h));
       for(i=0; s[i]!=NULL;i++){
-        temporario=searchCliente(cli,s[i]);
+        temporario=searchHistorialCliente(h,s[i]);
         if(getComprouFilial(temporario,0)==1 && getComprouFilial(temporario,1)==1 && getComprouFilial(temporario,2)==1){ 
           lista[n]=malloc(sizeof(CLIENTE));
-          lista[n]=getCodigoCliente(temporario);
+          lista[n]=getCodigoHistorialCliente(temporario);
           n++;
         }
       }
@@ -419,7 +406,6 @@ void query7(Clientes cli){
     printf("Existem %d clientes que compraram em todas as filiais!\n",n);
     imprimirLista(lista,10,9);
   }
- 
 }
 
 void query8(VendasFilial vf, PRODUTO produto, int filial){
@@ -443,7 +429,6 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
         if(getClientesN(h)){
           tempN=getListaVendasFilialN(h,vf);
           for(qN=0;tempN[qN]!=NULL;qN++){
-            listaN[n]=malloc(sizeof(char*));
             listaN[n]=tempN[qN];
             n++;
           }
@@ -451,7 +436,6 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
         if(getClientesP(h)){
           tempP=getListaVendasFilialP(h,vf);
           for(qP=0;tempP[qP]!=NULL;qP++){
-            listaP[p]=malloc(sizeof(char*));
             listaP[p]=tempP[qP];
             p++;
           }
@@ -476,11 +460,10 @@ void query8(VendasFilial vf, PRODUTO produto, int filial){
   }else{
     printf("Introduza um código de produto válido!\n");
   }
-  
 }
 
-void query9(Clientes cli, CLIENTE cod_cliente, int m){
-  Cliente temp=NULL;
+void query9(Historial h, CLIENTE cod_cliente, int m){
+  HistorialCliente temp=NULL;
   LISTA_STRING lista_produtos,lista_mes;
   LISTA_INT quantidade,quantidade_mes, mes, copia;
   int i, j=0, max;
@@ -489,7 +472,7 @@ void query9(Clientes cli, CLIENTE cod_cliente, int m){
   clock_t begin, end; /*Contadores de tempo de execucao*/
   begin = clock(); /*init contador*/
 
-  temp = searchCliente(cli,cod_cliente);
+  temp = searchHistorialCliente(h,cod_cliente);
   if(temp && m>=1 && m<=12){
     lista_mes=(LISTA_STRING)malloc(sizeof(CLIENTE)*1000);
     quantidade_mes=(LISTA_INT)malloc(sizeof(int)*1000);
@@ -522,17 +505,16 @@ void query9(Clientes cli, CLIENTE cod_cliente, int m){
   }else{
     printf("Introduza um código de cliente válido!\n");
   }
-  
 }
 
-void query10(Produtos prod, int n){
+void query10(VendasFilial vf, Produtos prod, int n){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, max;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
   LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*100000);
   char ch;
-  Produto p=NULL;
+  ListaProduto p=NULL;
 
   qClientes=(LISTA_INT)malloc(sizeof(int)*n);
   filial1=(LISTA_INT)malloc(sizeof(int)*n);
@@ -542,12 +524,12 @@ void query10(Produtos prod, int n){
   
   begin = clock(); /*init contador*/
 
-  if (prod){
+  if (vf){
     for(ch='A';ch<='Z';ch++){
       s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
       for(i=0; s[i]!=NULL;i++){
         conta++;
-        p=searchProduto(prod,s[i]);
+        p=searchListaProduto(vf,s[i]);
         if(p){
           lista[posicao]=malloc(sizeof(PRODUTO)*1000);
           lista[posicao]=s[i];
@@ -585,7 +567,7 @@ void query10(Produtos prod, int n){
   printf("---------------------------------------------------------------------\n");
 }
 
-void query11(Clientes c, CLIENTE cod_cliente){
+void query11(Historial h, CLIENTE cod_cliente){
   int i,j,total=0,conta, pos[3];
   float faturado=0,max,valores[3];
   clock_t begin, end; /*Contadores de tempo de execucao*/
@@ -593,11 +575,11 @@ void query11(Clientes c, CLIENTE cod_cliente){
   LISTA_INT quantidades;
   LISTA_FLOAT faturacoes,copia;
   LISTA_STRING lista;
-  Cliente temp=NULL;
+  HistorialCliente temp=NULL;
 
   begin = clock(); /*init contador*/
 
-  temp = searchCliente(c,cod_cliente);
+  temp = searchHistorialCliente(h,cod_cliente);
   if(temp){
     lista = getProdutosCliente(temp);
     quantidades = getQuantidadeProdutos(temp);
@@ -635,25 +617,24 @@ void query11(Clientes c, CLIENTE cod_cliente){
   }else{
     printf("Introduza um código de cliente válido!\n");
   }
-  
 }
 
-void query12(Clientes cli, Produtos prod){
+void query12(Historial h, Produtos prod, VendasFilial vf){
   int i,clientes=0,produtos=0;
   LISTA_STRING s;
   char ch;
-  Cliente temporarioC=NULL;
-  Produto temporarioP=NULL;
+  HistorialCliente temporarioC=NULL;
+  ListaProduto temporarioP=NULL;
 
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   begin = clock(); /*init contador*/
 
-  if (cli && prod){
+  if (h && prod){
     for(ch='A';ch<='Z';ch++){
-      s=toString(getClientesLetra(cli,ch),getTotalClientes(cli));
+      s=toString(getHistorialLetra(h,ch),getTotalHistorial(h));
       for(i=0; s[i]!=NULL;i++){
-        temporarioC=searchCliente(cli,s[i]);
+        temporarioC=searchHistorialCliente(h,s[i]);
         if(getComprouFilial(temporarioC,0)==0 && getComprouFilial(temporarioC,1)==0 && getComprouFilial(temporarioC,2)==0){ /*nunca comprou */
           clientes++;
         }
@@ -662,7 +643,7 @@ void query12(Clientes cli, Produtos prod){
     for(ch='A';ch<='Z';ch++){
       s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
       for(i=0; s[i]!=NULL;i++){
-        temporarioP=searchProduto(prod,s[i]);
+        temporarioP=searchListaProduto(vf,s[i]);
         if(getQuantidadeVendida(temporarioP)==0){ /*nunca comprou */
           produtos++;
         }
