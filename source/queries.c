@@ -380,7 +380,7 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
 
 void query7(Historial h){
   int i,n=0;
-  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(CLIENTE)),s;
+  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(CLIENTE)*2000),s;
   char ch;
   HistorialCliente temporario=NULL;
 
@@ -466,7 +466,7 @@ void query9(Historial h, CLIENTE cod_cliente, int m){
   HistorialCliente temp=NULL;
   LISTA_STRING lista_produtos,lista_mes;
   LISTA_INT quantidade,quantidade_mes, mes, copia;
-  int i, j=0, max;
+  int i, j=0, k,max;
 
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
@@ -493,9 +493,9 @@ void query9(Historial h, CLIENTE cod_cliente, int m){
     printf("\033[1m Código    Mês\t   Total comprado\033[0m\n");
     for(i=0;i<j;i++){
       max=valor_max(j,copia);
-      for(i=0;quantidade_mes[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
-        printf(" %s     %d           %d\n", lista_mes[i],m,quantidade_mes[i]);
-      quantidade_mes[i]=0;
+      for(k=0;quantidade_mes[k]!=max;k++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
+        printf(" %s     %d           %d\n", lista_mes[k],m,quantidade_mes[k]);
+      quantidade_mes[k]=0;
     }
 
     end = clock(); /*end contador*/
@@ -512,15 +512,15 @@ void query10(VendasFilial vf, Produtos prod, int n){
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, max;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
-  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*100000);
+  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*1000);
   char ch;
   ListaProduto p=NULL;
 
-  qClientes=(LISTA_INT)malloc(sizeof(int)*n);
-  filial1=(LISTA_INT)malloc(sizeof(int)*n);
-  filial2=(LISTA_INT)malloc(sizeof(int)*n);
-  filial3=(LISTA_INT)malloc(sizeof(int)*n);
-  total=(LISTA_INT)malloc(sizeof(int)*n);
+  qClientes=(LISTA_INT)malloc(sizeof(int)*1000);
+  filial1=(LISTA_INT)malloc(sizeof(int)*1000);
+  filial2=(LISTA_INT)malloc(sizeof(int)*1000);
+  filial3=(LISTA_INT)malloc(sizeof(int)*1000);
+  total=(LISTA_INT)malloc(sizeof(int)*1000);
   
   begin = clock(); /*init contador*/
 
@@ -531,7 +531,7 @@ void query10(VendasFilial vf, Produtos prod, int n){
         conta++;
         p=searchListaProduto(vf,s[i]);
         if(p){
-          lista[posicao]=malloc(sizeof(PRODUTO)*1000);
+          lista[posicao]=malloc(sizeof(PRODUTO));
           lista[posicao]=s[i];
           qClientes[posicao]=getQuantidadeClientes(p);
           filial1[posicao]=getQuantidadeVendidaFilial(p,0);

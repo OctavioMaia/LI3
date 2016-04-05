@@ -4,7 +4,6 @@
 #include "../headers/AVL.h"
 #include "../headers/clientes.h"
 
-
 typedef struct cliente{
 	char codigo[6];
 }cliente;
