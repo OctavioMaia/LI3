@@ -369,7 +369,7 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
     }
     end = clock(); /*end contador*/
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec */
-    printf("Total de vendas registadas: %d\n",qTotal); 
+    printf("Total de produtos vendidos: %d\n",qTotal); 
     printf("Total faturado: %f\n",fTotal);
     printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
     printf("---------------------------------------------------------------------\n");
