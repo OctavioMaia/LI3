@@ -88,6 +88,15 @@ void imprimirQueries() {
   puts("");
 }
 
+int lerInt(){
+  int num;
+  char term;
+  if(scanf("%d%c", &num, &term) != 2 || term != '\n')
+      return -1;
+  else
+      return num;
+}
+
 /*QUERIES*/
 void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf,Historial h){
   int decisao,i; /*para o switch*/
@@ -98,7 +107,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf,Historial h)
   int filial;
   
   printf("\033[1mQuery a executar (0 para apresentar a lista de queries | -1 para sair ): \033[0m");
-  scanf(" %d", &decisao);
+  decisao=lerInt();
   puts("");
   switch (decisao){
     case -1:
