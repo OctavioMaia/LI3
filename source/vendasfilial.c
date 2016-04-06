@@ -40,8 +40,8 @@ typedef struct historico{
 typedef struct listaproduto{
 	char produto[7];
 	int quantidade_clientes;
-	int quantidade_vendida[3];
-	Historico h[12][3];
+	int quantidade_vendida;
+	Historico h[12];
 }listaproduto;
 
 typedef struct vendasfilial {
@@ -60,8 +60,8 @@ int getTotalVendasFilial (VendasFilial vf) {
 	return vf->total;
 }
 
-Historico getHistorico(ListaProduto lp, int mes, int filial){
-	return lp->h[mes][filial];
+Historico getHistorico(ListaProduto lp, int mes){
+	return lp->h[mes];
 }
 
 STRING getCodigoListaProduto (ListaProduto p){
@@ -99,12 +99,12 @@ LISTA_STRING getListaVendasFilialP (Historico h, VendasFilial vf) {
 }
 
 /*cenas produtos.c*/
-int getQuantidadeVendidaFilial(ListaProduto p, int filial){
-	return p->quantidade_vendida[filial];
+int getQuantidadeVendidaFilial(ListaProduto p){
+	return p->quantidade_vendida;
 }
 
 int getQuantidadeVendida(ListaProduto p){
-	return p->quantidade_vendida[0]+p->quantidade_vendida[1]+p->quantidade_vendida[2];
+	return p->quantidade_vendida;
 }
 
 int getQuantidadeClientes(ListaProduto p){
@@ -179,8 +179,8 @@ void setAvlP(Historico h, ListaClientes a){
 }
 
 /*produtos.c*/
-void setQuantidadeVendidaFilial(ListaProduto p, int filial, int qt){
-	p->quantidade_vendida[filial]+=qt;
+void setQuantidadeVendidaFilial(ListaProduto p, int qt){
+	p->quantidade_vendida+=qt;
 }
 
 void setQuantidadeClientes(ListaProduto p, int qt){
@@ -241,18 +241,16 @@ VendasFilial initVendasFilial(){
 }
 
 ListaProduto initListaProduto(){
-	int i,j;
+	int i;
 	ListaProduto lp = (ListaProduto)malloc(sizeof(struct listaproduto));
 
 	for(i=0;i<12;i++){
-		for(j=0;j<3;j++){
-			lp->h[i][j]=(Historico)malloc(sizeof(struct historico));
-			lp->h[i][j]->clientesN=NULL;
-			lp->h[i][j]->clientesP=NULL;
-		}
+		lp->h[i]=(Historico)malloc(sizeof(struct historico));
+		lp->h[i]->clientesN=NULL;
+		lp->h[i]->clientesP=NULL;
 	}
 
-	lp->quantidade_vendida[0]=lp->quantidade_vendida[1]=lp->quantidade_vendida[2]=0;
+	lp->quantidade_vendida=0;
 	lp->quantidade_clientes=0;
 	return lp;
 }
@@ -358,13 +356,12 @@ HistorialCliente searchHistorialCliente(Historial f, STRING s) {
 void atualizaHistorico(VendasFilial vf, Venda v){
 	int i;
 	int mes = getMes(v);
-	int filial = getFilial(v);
 	int quantidade = getQuantidade(v);
 	STRING cliente = getCliente(v);
 	char tipo = getPromo(v);
 
 	ListaProduto lp = searchListaProduto(vf,getProduto(v));
-	Historico h = getHistorico(lp,mes-1,filial-1);
+	Historico h = getHistorico(lp,mes-1);
 	ListaClientes t=NULL;
 	Mes_Filial mf=NULL;
 
@@ -406,14 +403,14 @@ void updateCliente(Historial h,VendasFilial vf, Venda v){
 	int pos, encontrado=0;
 	CLIENTE cod_cliente = getCliente(v);
 	PRODUTO cod_produto = getProduto(v);
-	int filial = getFilial(v);
 	int quantidade = getQuantidade(v);
 	int mes = getMes(v);
+	int filial = getFilial(v);
 	float preco = getPreco(v);
 	
 	ListaProduto prod = searchListaProduto(vf,cod_produto);
 
-	setQuantidadeVendidaFilial(prod, filial-1,quantidade);
+	setQuantidadeVendidaFilial(prod,quantidade);
 	setQuantidadeClientes(prod,1);
 
 	cliente = searchHistorialCliente(h,cod_cliente);

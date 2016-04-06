@@ -11,17 +11,21 @@
 #include "headers/vendasfilial.h"
 #include "headers/queries.h"
 
-Produtos readProdutos (FILE *fp, Faturacao f, VendasFilial vf) {
+Produtos readProdutos (FILE *fp, Faturacao f, VendasFilial vf[]) {
 	char buf[10], *s;
 	Produtos p=NULL;
 	while (fgets(buf,10,fp)) {
 		s=strtok(buf,"\r\n");
 		p=insertProduto(p,s);
 		f=insertInformacao(f,s);
-		vf=insertListaProduto(vf,s);
 		addProdutos(p,1);
 		addFaturacao(f,1);
-		addVendasFilial(vf,1);
+		vf[0]=insertListaProduto(vf[0],s);
+		vf[1]=insertListaProduto(vf[1],s);
+		vf[2]=insertListaProduto(vf[2],s);
+		addVendasFilial(vf[0],1);
+		addVendasFilial(vf[1],1);
+		addVendasFilial(vf[2],1);
 	}
 	return p;
 }
@@ -39,7 +43,7 @@ Clientes readClientes (FILE *fp, Historial h) {
 	return c;
 }
 
-int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c,Historial h) {
+int readVendas (FILE *fp, Faturacao f, VendasFilial vf[], Produtos p, Clientes c,Historial h) {
 	int i=0;
 	char buf[50], *s;
 	Venda venda=NULL;
@@ -47,9 +51,10 @@ int readVendas (FILE *fp, Faturacao f, VendasFilial vf, Produtos p, Clientes c,H
 		s=strtok(buf,"\r\n");
 		venda=initVenda(s);
 		if (validaVenda(venda,p,c)==1) {
+			int filial = getFilial(venda);
 			atualizaFaturacao(f,p,venda);
-			atualizaHistorico(vf,venda);
-			updateCliente(h,vf,venda);
+			atualizaHistorico(vf[filial-1],venda);
+			updateCliente(h,vf[filial-1],venda);
 			i++;
 		}
 	}
@@ -66,7 +71,7 @@ int main (int argc, char** argv) {
 	Produtos prod=NULL;
 	Clientes cli=NULL;
 	Faturacao f=NULL;
-	VendasFilial vf=NULL;
+	VendasFilial vf[3];
 	Historial h=NULL;
 
 	/*Variaveis auxiliares*/
@@ -97,7 +102,9 @@ int main (int argc, char** argv) {
 
 	/*Ler os ficheiros para as estruturas*/
 	f=initFaturacao();
-	vf=initVendasFilial();
+	vf[0]=initVendasFilial();
+	vf[1]=initVendasFilial();
+	vf[2]=initVendasFilial();
 	h=initHistorial();
 	prod=readProdutos(fp,f,vf);
 	cli=readClientes(fc,h);
