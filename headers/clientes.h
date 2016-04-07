@@ -1,3 +1,6 @@
+#ifndef CLIENTES_H /* corresponde ao ficheiro clientes.h */
+#define CLIENTES_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 typedef struct node *ListaClientes;
 
@@ -32,3 +35,5 @@ Clientes initClientes();
 Clientes insertCliente (Clientes c, CLIENTE s);
 Cliente searchCliente (Clientes c, CLIENTE s);
 Clientes removeCliente(Clientes c, CLIENTE s);
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef FATURACAO_H /* corresponde ao ficheiro faturacao.h */
+#define FATURACAO_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 typedef struct node *ListaFaturacao;
 
@@ -32,3 +35,5 @@ Informacao searchInformacao(Faturacao f, PRODUTO s);
 void atualizaFaturacao(Faturacao f, Produtos p, Venda v);
 int nuncaCompradoGlobal(Informacao i);
 int nuncaCompradoFilial(Informacao i, int filial);
+
+#endif

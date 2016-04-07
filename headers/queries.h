@@ -1,3 +1,6 @@
+#ifndef QUERIES_H /* corresponde ao ficheiro queries.h */
+#define QUERIES_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 
 void imprimirLista(STRING *s,int c,int l);
@@ -17,3 +20,5 @@ void query9(Historial h, CLIENTE cod_cliente, int m);
 void query10(VendasFilial vf[], Produtos prod, int n);
 void query11(Historial h, CLIENTE cod_cliente);
 void query12(Historial h, Produtos prod, VendasFilial vf[]);
+
+#endif

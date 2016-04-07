@@ -1,3 +1,6 @@
+#ifndef FILIAL_H /* corresponde ao ficheiro vendasfilial.h */
+#define FILIAL_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 typedef struct node *ListaVFilial;
 
@@ -67,3 +70,5 @@ HistorialCliente searchHistorialCliente(Historial f, STRING s);
 
 /*funcoes auxiliares*/
 void atualizaHistorico(VendasFilial vf, Venda v);
+
+#endif

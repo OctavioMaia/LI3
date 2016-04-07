@@ -1,3 +1,6 @@
+#ifndef VENDAS_H /* corresponde ao ficheiro vendas.h */
+#define VENDAS_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 
 typedef struct venda *Venda;
@@ -16,3 +19,5 @@ int getQuantidade (Venda c);
 
 Venda initVenda (STRING s);
 int validaVenda (Venda c, Produtos prod, Clientes cli);
+
+#endif

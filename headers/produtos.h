@@ -1,3 +1,6 @@
+#ifndef PRODUTO_H /* corresponde ao ficheiro produtos.h */
+#define PRODUTO_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 typedef struct node *ListaProdutos;
 
@@ -36,3 +39,5 @@ Produtos initProdutos();
 Produtos insertProduto (Produtos p, PRODUTO s);
 Produto searchProduto(Produtos p, PRODUTO s);
 Produtos removeProduto(Produtos p, PRODUTO s);
+
+#endif
