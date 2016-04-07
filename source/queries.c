@@ -519,11 +519,11 @@ void query9(Historial h, CLIENTE cod_cliente, int m){
 void query10(VendasFilial vf[], Produtos prod, int n){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
-  int i,f,j, conta=0,posicao=0, max;
+  int i,j, conta=0,posicao=0, max;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
   LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*10000);
   char ch;
-  ListaProduto p=NULL;
+  ListaProduto p[3];
 
   qClientes=(LISTA_INT)malloc(sizeof(int)*10000);
   filial1=(LISTA_INT)malloc(sizeof(int)*10000);
@@ -538,18 +538,18 @@ void query10(VendasFilial vf[], Produtos prod, int n){
       s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
       for(i=0; s[i]!=NULL;i++){
         conta++;
-        for(f=0;f<3;f++){
-          p=searchListaProduto(vf[f],s[i]);
-          if(p){
-            lista[posicao]=malloc(sizeof(PRODUTO));
-            lista[posicao]=s[i];
-            qClientes[posicao]=getQuantidadeClientes(p);
-            if(f==0) filial1[posicao]=getQuantidadeVendidaFilial(p);
-            if(f==1) filial2[posicao]=getQuantidadeVendidaFilial(p);
-            if(f==2) filial3[posicao]=getQuantidadeVendidaFilial(p);
-            total[posicao]=filial1[posicao]+filial2[posicao]+filial3[posicao];
-            posicao++;
-          }
+        p[0]=searchListaProduto(vf[0],s[i]);
+        p[1]=searchListaProduto(vf[1],s[i]);
+        p[2]=searchListaProduto(vf[2],s[i]);
+        if(p[0] || p[1] || p[3]){
+          lista[posicao]=malloc(sizeof(PRODUTO));
+          lista[posicao]=s[i];
+          qClientes[posicao]=getQuantidadeClientes(p[0])+getQuantidadeClientes(p[1])+getQuantidadeClientes(p[2]);
+          filial1[posicao]=getQuantidadeVendidaFilial(p[0]);
+          filial2[posicao]=getQuantidadeVendidaFilial(p[1]);
+          filial3[posicao]=getQuantidadeVendidaFilial(p[2]);
+          total[posicao]=filial1[posicao]+filial2[posicao]+filial3[posicao];
+          posicao++;
         }
       }
     }
