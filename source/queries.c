@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include "../headers/tipos.h"
 #include "../headers/AVL.h"
@@ -15,11 +16,22 @@ void imprimirLista(LISTA_STRING s,int c,int l, int opcao) {
   int i = 0;
   int numpags;
 
-  while (s[i]!='\0'){ /*calcula o numero de elems em s*/
-    i++;
-  } 
+  if(opcao==0){
+    while (s[i]!='\0'){ /*calcula o numero de elems em s*/
+      i++;
+    } 
 
-  numpags=i/(c*l) + 1;
+    if(i%(c*l)==0)
+      numpags=i/(c*l);
+    else
+      numpags=i/(c*l) + 1;
+  }else{
+    if(opcao < 10){
+      numpags = 1;
+    }else{
+      numpags = opcao/10 + opcao%10 ;
+    }
+  }
 
   imprimirAux(s,c,l,numpags,0,opcao);
 }
@@ -28,6 +40,7 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa, int opcao) {
   int j,p;/*j vai ate ao numero de colunas*/ /*scanf da pagina a ler*/
   int i=0;
   int y=0;
+  int total=0;
   LISTA_STRING aux = s;
   char buf[30];
 
@@ -35,8 +48,12 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa, int opcao) {
     printf("\033[1m----------------------------------Página %d----------------------------------\033[0m \n",pa+1);
     for (i=0;i<l && aux[y+1];i++){   
         for (j=0;j<c && aux[y];j++,y++){
-          if(opcao==0) printf("%s\t", aux[y]);
-          else printf("%s\n", aux[y]);
+          if(opcao==0) 
+            printf("%s\t", aux[y]);
+          else if(total<opcao)
+            printf("%s\n", aux[y]);
+
+          total++;
         }
       putchar('\n');
     }
@@ -45,10 +62,10 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa, int opcao) {
     printf("\033[1mExistem %d páginas. \nPágina a verificar? (+ pag. seguinte | - pag. anterior | 0 sair) \033[0m",t);  
     scanf(" %s",buf);
 
-    p=atoi(buf);
+    p=atoi(buf); 
     if (buf[0]=='+') imprimirAux(s+(pa+1)*l*c-(pa*c*l),c,l,t,pa+1,opcao); 
     else if (buf[0]=='-') imprimirAux(s+(pa-1)*l*c-(pa*c*l),c,l,t,pa-1,opcao);
-    else if (p==-1 || p > t || p<=0) printf("Exit!\n");
+    else if (p==-1 || p > t+1 || p<=0) printf("Exit!\n");
     else imprimirAux (s+(p-1)*l*c-(pa*c*l),c,l,t,p-1,opcao);   
   }else{
     printf("Exit!\n");
@@ -567,18 +584,13 @@ void query10(Filial vf[], Produtos prod, int n){
     for(i=0;total[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
     /*printf(" %s     %d           %d     %d             %d             %d\n", */
       imprimir[pos]=(STRING)malloc(sizeof(char)*100);
-      sprintf(imprimir[pos],"Código:%s Clientes:%d Total:%d Filial 1:%d Filial 2:%d Filial 3:%d", 
-      lista[i],
-      qClientes[i],
-      total[i],
-      filial1[i],
-      filial2[i],
-      filial3[i]);
+      sprintf(imprimir[pos],"Código:%s Clientes:%d Total:%d Filial 1:%d Filial 2:%d Filial 3:%d", lista[i],qClientes[i],total[i],filial1[i],filial2[i],filial3[i]);
+      imprimir[pos]=strcat(imprimir[pos],"\0");
       pos++;
     total[i]=0;
   }
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
-  imprimirLista(imprimir,5,1,1);
+  imprimirLista(imprimir,10,1,n);
   printf("---------------------------------------------------------------------\n");
 }
 
