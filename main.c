@@ -8,10 +8,10 @@
 #include "headers/clientes.h"
 #include "headers/vendas.h"
 #include "headers/faturacao.h"
-#include "headers/vendasfilial.h"
+#include "headers/filial.h"
 #include "headers/queries.h"
 
-Produtos readProdutos (FILE *fp, Faturacao f, VendasFilial vf[]) {
+Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
 	char buf[10], *s;
 	Produtos p=NULL;
 	while (fgets(buf,10,fp)) {
@@ -43,7 +43,7 @@ Clientes readClientes (FILE *fp, Historial h) {
 	return c;
 }
 
-int readVendas (FILE *fp, Faturacao f, VendasFilial vf[], Produtos p, Clientes c,Historial h) {
+int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Historial h) {
 	int i=0;
 	char buf[50], *s;
 	Venda venda=NULL;
@@ -71,7 +71,7 @@ int main (int argc, char** argv) {
 	Produtos prod=NULL;
 	Clientes cli=NULL;
 	Faturacao f=NULL;
-	VendasFilial vf[3];
+	Filial vf[3];
 	Historial h=NULL;
 
 	/*Variaveis auxiliares*/

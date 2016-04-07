@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS=-Wall -pedantic -o2 -ansi
-FILES = main.o avl.o clientes.o produtos.o vendas.o faturacao.o vendasfilial.o queries.o
+FILES = main.o avl.o clientes.o produtos.o vendas.o faturacao.o filial.o queries.o
 OUT_EXE = gerevendas
 
 clear:
@@ -25,8 +25,8 @@ vendas.o: source/vendas.c headers/vendas.h
 faturacao.o: source/faturacao.c headers/faturacao.h
 	$(CC) $(CFLAGS) -c source/faturacao.c -o faturacao.o
 
-vendasfilial.o: source/vendasfilial.c headers/vendasfilial.h
-	$(CC) $(CFLAGS) -c source/vendasfilial.c -o vendasfilial.o
+filial.o: source/filial.c headers/filial.h
+	$(CC) $(CFLAGS) -c source/filial.c -o filial.o
 
 queries.o: source/queries.c headers/queries.h
 	$(CC) $(CFLAGS) -c source/queries.c -o queries.o

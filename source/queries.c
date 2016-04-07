@@ -7,7 +7,7 @@
 #include "../headers/clientes.h"
 #include "../headers/vendas.h"
 #include "../headers/faturacao.h"
-#include "../headers/vendasfilial.h"
+#include "../headers/filial.h"
 #include "../headers/queries.h"
 
 /* Lista google*/
@@ -98,7 +98,7 @@ int lerInt(){
 }
 
 /*QUERIES*/
-void exec(Produtos prod, Clientes cli, Faturacao f, VendasFilial vf[] ,Historial h){
+void exec(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h){
   int decisao,i; /*para o switch*/
   char ch;
   char codigo[6];
@@ -417,7 +417,7 @@ void query7(Historial h){
   }
 }
 
-void query8(VendasFilial vf, PRODUTO produto){
+void query8(Filial vf, PRODUTO produto){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   
@@ -516,7 +516,7 @@ void query9(Historial h, CLIENTE cod_cliente, int m){
   }
 }
 
-void query10(VendasFilial vf[], Produtos prod, int n){
+void query10(Filial vf[], Produtos prod, int n){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, max;
@@ -561,11 +561,12 @@ void query10(VendasFilial vf[], Produtos prod, int n){
   end = clock(); /*end contador*/
   time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
   
-  printf("\033[1m Código\tClientes\tTotal\tFilial 1\tFilial 2\tFilial 3\033[0m\n");
+  printf("\033[1m Código\t     Clientes\tTotal\tFilial 1\tFilial 2\tFilial 3\033[0m\n");
   for(j=0;j<n;j++){
     max=valor_max(conta,copia);
     for(i=0;total[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
-    printf(" %s     %d           %d     %d             %d             %d\n", 
+    /*printf(" %s     %d           %d     %d             %d             %d\n", */
+      printf(" %s\t\t%d\t%d\t%d\t\t%d\t\t%d\n", 
       lista[i],
       qClientes[i],
       total[i],
@@ -630,7 +631,7 @@ void query11(Historial h, CLIENTE cod_cliente){
   }
 }
 
-void query12(Historial h, Produtos prod, VendasFilial vf[]){
+void query12(Historial h, Produtos prod, Filial vf[]){
   int i,clientes=0,produtos=0;
   LISTA_STRING s;
   char ch;
