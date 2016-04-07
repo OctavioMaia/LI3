@@ -545,9 +545,9 @@ void query10(Filial vf[], Produtos prod, int n){
           lista[posicao]=malloc(sizeof(PRODUTO));
           lista[posicao]=s[i];
           qClientes[posicao]=getQuantidadeClientes(p[0])+getQuantidadeClientes(p[1])+getQuantidadeClientes(p[2]);
-          filial1[posicao]=getQuantidadeVendidaFilial(p[0]);
-          filial2[posicao]=getQuantidadeVendidaFilial(p[1]);
-          filial3[posicao]=getQuantidadeVendidaFilial(p[2]);
+          filial1[posicao]=getQuantidadeVendida(p[0]);
+          filial2[posicao]=getQuantidadeVendida(p[1]);
+          filial3[posicao]=getQuantidadeVendida(p[2]);
           total[posicao]=filial1[posicao]+filial2[posicao]+filial3[posicao];
           posicao++;
         }

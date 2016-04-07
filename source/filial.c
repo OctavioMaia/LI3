@@ -64,7 +64,7 @@ Historico getHistorico(ListaProduto lp, int mes){
 	return lp->h[mes];
 }
 
-STRING getCodigoListaProduto (ListaProduto p){
+PRODUTO getCodigoListaProduto (ListaProduto p){
 	return p->produto;
 }
 
@@ -76,7 +76,7 @@ ListaClientes getClientesP(Historico h){
 	return h->clientesP;
 }
 
-STRING getCodigoMesFilial(Mes_Filial mf){
+CLIENTE getCodigoMesFilial(Mes_Filial mf){
 	return mf->codigo;
 }
 
@@ -99,10 +99,6 @@ LISTA_STRING getListaVendasFilialP (Historico h, Filial vf) {
 }
 
 /*cenas produtos.c*/
-int getQuantidadeVendidaFilial(ListaProduto p){
-	return p->quantidade_vendida;
-}
-
 int getQuantidadeVendida(ListaProduto p){
 	return p->quantidade_vendida;
 }
@@ -179,7 +175,7 @@ void setAvlP(Historico h, ListaClientes a){
 }
 
 /*produtos.c*/
-void setQuantidadeVendidaFilial(ListaProduto p, int qt){
+void setQuantidadeVendida(ListaProduto p, int qt){
 	p->quantidade_vendida+=qt;
 }
 
@@ -410,7 +406,7 @@ void updateCliente(Historial h,Filial vf, Venda v){
 	
 	ListaProduto prod = searchListaProduto(vf,cod_produto);
 
-	setQuantidadeVendidaFilial(prod,quantidade);
+	setQuantidadeVendida(prod,quantidade);
 	setQuantidadeClientes(prod,1);
 
 	cliente = searchHistorialCliente(h,cod_cliente);

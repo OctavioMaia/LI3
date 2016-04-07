@@ -11,49 +11,34 @@ typedef struct listaproduto *ListaProduto;
 typedef struct historialcliente *HistorialCliente;
 typedef struct historial *Historial;
 
-/*GETS*/
+/*---*/
 ListaVFilial getVendasFilialLetra (Filial vf, char ch);
-int getTotalVendasFilial (Filial vf);
 Historico getHistorico(ListaProduto lp, int mes);
-STRING getCodigoListaProduto (ListaProduto p);
+
+/*ints*/
+int getTotalVendasFilial (Filial vf);
+int getQuantidadeVendida(ListaProduto p);
+int getQuantidadeClientes(ListaProduto p);
+int getTotalHistorial(Historial h);
+int getComprouFilial (HistorialCliente c, int filial);
+int getValorTabela(HistorialCliente c, int mes, int filial);
+
+/*listas*/
 ListaClientes getClientesN(Historico h);
 ListaClientes getClientesP(Historico h);
-STRING getCodigoMesFilial(Mes_Filial mf);
-int getQuantidadeMesFilial(Mes_Filial h);
+ListaClientes getHistorialLetra (Historial h, char ch);
+
+CLIENTE getCodigoHistorialCliente (HistorialCliente hc);
+CLIENTE getCodigoMesFilial(Mes_Filial mf);
+
+LISTA_STRING  getProdutosCliente(HistorialCliente c);
 LISTA_STRING getListaVendasFilialN (Historico h, Filial vf);
 LISTA_STRING getListaVendasFilialP (Historico h, Filial vf);
 
-/*produtos.c*/
-int getQuantidadeVendidaFilial(ListaProduto p);
-int getQuantidadeVendida(ListaProduto p);
-int getQuantidadeClientes(ListaProduto p);
 
-/*clientes.c*/
-ListaClientes getHistorialLetra (Historial h, char ch);
-int getTotalHistorial(Historial h);
-int getComprouFilial (HistorialCliente c, int filial);
-CLIENTE getCodigoHistorialCliente (HistorialCliente hc);
-LISTA_STRING  getProdutosCliente(HistorialCliente c);
 LISTA_INT getQuantidadeProdutos(HistorialCliente c);
 LISTA_INT getMesVenda(HistorialCliente c);
 LISTA_FLOAT getFaturacaoProdutos(HistorialCliente c);
-int getValorTabela(HistorialCliente c, int mes, int filial);
-void addHistorial (Historial h, int total);
-
-
-/*SETS*/
-void setCodigoListaProduto (ListaProduto p, PRODUTO s);
-void addVendasFilial (Filial vf, int total);
-
-/*produtos.c*/
-void setQuantidadeVendidaFilial(ListaProduto p, int qt);
-void setQuantidadeClientes(ListaProduto p, int qt);
-
-/*clientes.c*/
-void setComprouFilial (HistorialCliente c, int filial);
-void setFaturacaoProdutos(HistorialCliente c, LISTA_FLOAT faturacao);
-
-void updateCliente(Historial h,Filial vf, Venda v);
 
 /*funcoes*/
 Filial initVendasFilial();
@@ -68,7 +53,11 @@ Historial insertHistorialCliente(Historial f, STRING s);
 HistorialCliente initHistorialCliente();
 HistorialCliente searchHistorialCliente(Historial f, STRING s);
 
-/*funcoes auxiliares*/
+/*funcoes void*/
+void addHistorial (Historial h, int total);
 void atualizaHistorico(Filial vf, Venda v);
+void addVendasFilial (Filial vf, int total);
+void setFaturacaoProdutos(HistorialCliente c, LISTA_FLOAT faturacao);
+void updateCliente(Historial h,Filial vf, Venda v);
 
 #endif
