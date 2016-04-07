@@ -424,7 +424,7 @@ void updateCliente(Historial h,VendasFilial vf, Venda v){
 			if(lista_produtos[pos]==cod_produto && lista_mes[pos]==mes){ /*ja foi comprado pelo cliente nesse mes, 
 																				logo apenas atualizamos a quantidade comprada e o dinheiro gasto*/
 				cliente->quantidade[pos]+=quantidade;	
-				cliente->faturacao[pos]+=preco;
+				cliente->faturacao[pos]+=(preco*quantidade);
 				cliente->tabela[mes-1][filial-1]+=quantidade;
 				encontrado=1;
 			}
@@ -433,7 +433,7 @@ void updateCliente(Historial h,VendasFilial vf, Venda v){
 			cliente->produtos[pos]=cod_produto;
 			cliente->quantidade[pos]=quantidade;
 			cliente->mes[pos]=mes;
-			cliente->faturacao[pos]=preco;
+			cliente->faturacao[pos]=(preco*quantidade);
 			cliente->tabela[mes-1][filial-1]+=quantidade;
 		}
 
