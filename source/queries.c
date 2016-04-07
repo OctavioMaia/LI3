@@ -11,7 +11,7 @@
 #include "../headers/queries.h"
 
 /* Lista google*/
-void imprimirLista(LISTA_STRING s,int c,int l) {
+void imprimirLista(LISTA_STRING s,int c,int l, int opcao) {
   int i = 0;
   int numpags;
 
@@ -19,12 +19,12 @@ void imprimirLista(LISTA_STRING s,int c,int l) {
     i++;
   } 
 
-  numpags= i/(c*l) + 1;  /*calcula o numero de paginas*/
+  numpags=i/(c*l) + 1;
 
-  imprimirAux(s,c,l,numpags,0);
+  imprimirAux(s,c,l,numpags,0,opcao);
 }
 
-void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa) {
+void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa, int opcao) {
   int j,p;/*j vai ate ao numero de colunas*/ /*scanf da pagina a ler*/
   int i=0;
   int y=0;
@@ -35,7 +35,8 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa) {
     printf("\033[1m----------------------------------Página %d----------------------------------\033[0m \n",pa+1);
     for (i=0;i<l && aux[y+1];i++){   
         for (j=0;j<c && aux[y];j++,y++){
-          printf("%s\t", aux[y]);
+          if(opcao==0) printf("%s\t", aux[y]);
+          else printf("%s\n", aux[y]);
         }
       putchar('\n');
     }
@@ -45,10 +46,10 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa) {
     scanf(" %s",buf);
 
     p=atoi(buf);
-    if (buf[0]=='+') imprimirAux(s+(pa+1)*l*c-(pa*c*l),c,l,t,pa+1); 
-    else if (buf[0]=='-') imprimirAux(s+(pa-1)*l*c-(pa*c*l),c,l,t,pa-1);
-    else if (p==-1 || p > t+1 || p<=0) printf("Exit!\n");
-    else imprimirAux (s+(p-1)*l*c-(pa*c*l),c,l,t,p-1);   
+    if (buf[0]=='+') imprimirAux(s+(pa+1)*l*c-(pa*c*l),c,l,t,pa+1,opcao); 
+    else if (buf[0]=='-') imprimirAux(s+(pa-1)*l*c-(pa*c*l),c,l,t,pa-1,opcao);
+    else if (p==-1 || p > t || p<=0) printf("Exit!\n");
+    else imprimirAux (s+(p-1)*l*c-(pa*c*l),c,l,t,p-1,opcao);   
   }else{
     printf("Exit!\n");
   }
@@ -219,7 +220,7 @@ void query2(Produtos p, char ch){
 
     for(i=0;lista[i]!=NULL;i++);
     printf("\nExistem \033[1m%d\033[0m produtos começados pela letra %c!\n",i,ch );
-    imprimirLista(lista,10,9);
+    imprimirLista(lista,10,9,0);
   }else{
     printf("Introduza uma letra maiúscula!\n");
   }
@@ -327,7 +328,7 @@ void query4(Faturacao F, Produtos prod, int decisao){
     printf("Existem %d códigos de produtos que ninguém comprou na filial 2!\n",filial2);
     printf("Existem %d códigos de produtos que ninguém comprou na filial 3!\n",filial3);
   }
-  imprimirLista(lista,10,9);
+  imprimirLista(lista,10,9,0);
 }
 
 void query5(Historial h, CLIENTE cod_cliente){
@@ -413,7 +414,7 @@ void query7(Historial h){
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
     printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
     printf("Existem %d clientes que compraram em todas as filiais!\n",n);
-    imprimirLista(lista,10,9);
+    imprimirLista(lista,10,9,0);
   }
 }
 
@@ -519,9 +520,9 @@ void query9(Historial h, CLIENTE cod_cliente, int m){
 void query10(Filial vf[], Produtos prod, int n){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
-  int i,j, conta=0,posicao=0, max;
+  int i,j, conta=0,posicao=0, max,pos=0;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
-  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*10000);
+  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*10000),imprimir=(LISTA_STRING)malloc(sizeof(PRODUTO)*n);
   char ch;
   ListaProduto p[3];
 
@@ -561,21 +562,23 @@ void query10(Filial vf[], Produtos prod, int n){
   end = clock(); /*end contador*/
   time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
   
-  printf("\033[1m Código\t     Clientes\tTotal\tFilial 1\tFilial 2\tFilial 3\033[0m\n");
   for(j=0;j<n;j++){
     max=valor_max(conta,copia);
     for(i=0;total[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
     /*printf(" %s     %d           %d     %d             %d             %d\n", */
-      printf(" %s\t\t%d\t%d\t%d\t\t%d\t\t%d\n", 
+      imprimir[pos]=(STRING)malloc(sizeof(char)*100);
+      sprintf(imprimir[pos],"Código:%s Clientes:%d Total:%d Filial 1:%d Filial 2:%d Filial 3:%d", 
       lista[i],
       qClientes[i],
       total[i],
       filial1[i],
       filial2[i],
       filial3[i]);
+      pos++;
     total[i]=0;
   }
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
+  imprimirLista(imprimir,5,1,1);
   printf("---------------------------------------------------------------------\n");
 }
 
