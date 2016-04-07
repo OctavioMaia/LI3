@@ -1,3 +1,6 @@
+#ifndef AVL_H /* corresponde ao ficheiro AVL.h */
+#define AVL_H
+
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
 
 #define L 0	/*Esquerda*/
@@ -58,3 +61,5 @@ AVL search (AVL a, void* s, int(*comp)(void*,void*));
 ----documentar
 */
 AVL deleteAVL(AVL t, void *data);
+
+#endif
