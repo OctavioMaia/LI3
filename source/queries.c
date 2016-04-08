@@ -63,9 +63,9 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa, int opcao) {
     scanf(" %s",buf);
 
     p=atoi(buf); 
-    if (buf[0]=='+') imprimirAux(s+(pa+1)*l*c-(pa*c*l),c,l,t,pa+1,opcao); 
+    if (buf[0]=='+' && pa+1<t) imprimirAux(s+(pa+1)*l*c-(pa*c*l),c,l,t,pa+1,opcao); 
     else if (buf[0]=='-') imprimirAux(s+(pa-1)*l*c-(pa*c*l),c,l,t,pa-1,opcao);
-    else if (p==-1 || p > t+1 || p<=0) printf("Exit!\n");
+    else if (p==-1 || p > t || p<=0) printf("Exit!\n");
     else imprimirAux (s+(p-1)*l*c-(pa*c*l),c,l,t,p-1,opcao);   
   }else{
     printf("Exit!\n");
@@ -583,8 +583,8 @@ void query10(Filial vf[], Produtos prod, int n){
     max=valor_max(conta,copia);
     for(i=0;total[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
     /*printf(" %s     %d           %d     %d             %d             %d\n", */
-      imprimir[pos]=(STRING)malloc(sizeof(char)*100);
-      sprintf(imprimir[pos],"Código:%s Clientes:%d Total:%d Filial 1:%d Filial 2:%d Filial 3:%d", lista[i],qClientes[i],total[i],filial1[i],filial2[i],filial3[i]);
+      imprimir[pos]=(STRING)malloc(sizeof(char)*1000);
+      sprintf(imprimir[pos],"\033[1mCódigo:\033[0m%s \033[1mClientes:\033[0m%d \033[1mTotal:\033[0m%d \033[1mF1:\033[0m%d \033[1mF2:\033[0m%d \033[1mF3:\033[0m%d", lista[i],qClientes[i],total[i],filial1[i],filial2[i],filial3[i]);
       imprimir[pos]=strcat(imprimir[pos],"\0");
       pos++;
     total[i]=0;

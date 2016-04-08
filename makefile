@@ -3,9 +3,6 @@ CFLAGS=-Wall -pedantic -o2 -ansi
 FILES = main.o avl.o clientes.o produtos.o vendas.o faturacao.o filial.o queries.o
 OUT_EXE = gerevendas
 
-clear:
-	clear
-
 clean: 
 	rm *.o
 	if [ -f "gerevendas" ]; then rm gerevendas; fi;	
@@ -37,8 +34,9 @@ main.o: main.c
 gerevendas: $(FILES)
 	$(CC) $(CFLAGS) -o $(OUT_EXE) $(FILES)
 
-rebuild: clean
-	 make gerevendas
+rebuild: 
+	clean
+	make gerevendas
 
 exec1:
 	clear
