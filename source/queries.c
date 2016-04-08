@@ -28,8 +28,10 @@ void imprimirLista(LISTA_STRING s,int c,int l, int opcao) {
   }else{
     if(opcao < 10){
       numpags = 1;
+    }else if(opcao%10 == 0){
+      numpags = opcao/10 ;
     }else{
-      numpags = opcao/10 + opcao%10 ;
+      numpags = opcao/10 + 1;
     }
   }
 
