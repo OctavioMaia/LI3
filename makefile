@@ -3,6 +3,11 @@ CFLAGS=-Wall -pedantic -o2 -ansi -g
 FILES = main.o avl.o clientes.o produtos.o vendas.o faturacao.o filial.o queries.o
 OUT_EXE = gerevendas
 
+all:
+	make clean
+	make gerevendas
+	make exec1
+
 clean: 
 	rm *.o
 	if [ -f "gerevendas" ]; then rm gerevendas; fi;	

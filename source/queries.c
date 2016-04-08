@@ -49,13 +49,11 @@ void imprimirAux(LISTA_STRING s, int c , int l,int t, int pa, int opcao) {
   if(pa>=0){
     printf("\033[1m----------------------------------Página %d----------------------------------\033[0m \n",pa+1);
     for (i=0;i<l && aux[y+1];i++){   
-        for (j=0;j<c && aux[y];j++,y++){
+        for (j=0;j<c && aux[y];j++,y++,total++){
           if(opcao==0) 
             printf("%s\t", aux[y]);
-          else if(total<opcao)
+          if(total<opcao)
             printf("%s\n", aux[y]);
-
-          total++;
         }
       putchar('\n');
     }
@@ -195,7 +193,7 @@ void exec(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h){
       puts("\033[1m-----------------------------------Query 9-----------------------------------\033[0m");
       printf("\033[1mIntroduza o código de cliente: \033[0m ");
       scanf(" %s", codigo);
-      printf("\033[1mIntroduza o mes de pesquisa: \033[0m ");
+      printf("\033[1mIntroduza o mês de pesquisa: \033[0m ");
       scanf(" %d", &mes);
       query9(h,codigo,mes);
       break;
@@ -519,7 +517,7 @@ void query9(Historial h, CLIENTE cod_cliente, int m){
 
     copia=quantidade_mes;
   
-    printf("\033[1m Código    Mês\t   Total comprado\033[0m\n");
+    printf("\033[1m Produto    Mês\t   Total comprado\033[0m\n");
     for(i=0;i<j;i++){
       max=valor_max(j,copia);
       for(k=0;quantidade_mes[k]!=max;k++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
@@ -541,7 +539,7 @@ void query10(Filial vf[], Produtos prod, int n){
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, max,pos=0;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
-  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*10000),imprimir=(LISTA_STRING)malloc(sizeof(PRODUTO)*n);
+  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*10000),imprimir=(LISTA_STRING)malloc(sizeof(PRODUTO)*10000);
   char ch;
   ListaProduto p[3];
 
@@ -587,10 +585,10 @@ void query10(Filial vf[], Produtos prod, int n){
     /*printf(" %s     %d           %d     %d             %d             %d\n", */
       imprimir[pos]=(STRING)malloc(sizeof(char)*1000);
       sprintf(imprimir[pos],"\033[1mCódigo:\033[0m%s \033[1mClientes:\033[0m%d \033[1mTotal:\033[0m%d \033[1mF1:\033[0m%d \033[1mF2:\033[0m%d \033[1mF3:\033[0m%d", lista[i],qClientes[i],total[i],filial1[i],filial2[i],filial3[i]);
-      imprimir[pos]=strcat(imprimir[pos],"\0");
       pos++;
     total[i]=0;
   }
+  imprimir[pos]='\0';
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
   imprimirLista(imprimir,10,1,n);
   printf("---------------------------------------------------------------------\n");
