@@ -9,6 +9,7 @@
 
 typedef struct informacao{
 	char produto[7];
+	int vendas[12];
 	int quantidadeN[12][3];
 	int quantidadeP[12][3];
 	float faturadoN[12][3];
@@ -27,6 +28,10 @@ ListaFaturacao getFaturacaoLetra (Faturacao f, char ch) {
 
 PRODUTO getCodigoProduto(Informacao i){
 	return i->produto;
+}
+
+int getNumeroVendas(Informacao i, int mes){
+	return i->vendas[mes];
 }
 
 int getQuantidadeNormal(Informacao i, int mes, int filial){
@@ -59,6 +64,10 @@ LISTA_STRING getListaFaturacaoLetra (Faturacao f, char ch) {
 /*SETS*/
 void setCodigoProdutoFaturacao (Informacao i, PRODUTO s) {
 	strcpy(i->produto,s);
+}
+
+void addQuantidadeVendasMes(Informacao i, int mes, int quantidade){
+	i->vendas[mes]+=quantidade;
 }
 
 void addQuantidadeNormal(Informacao i, int mes, int filial, int quantidade){
@@ -106,6 +115,7 @@ Informacao initInformacao(){
 	Informacao info = (Informacao)malloc(sizeof(struct informacao));
 
 	for(i=0;i<12;i++){
+		info->vendas[i]=0;
 		for(j=0;j<3;j++){
 			info->quantidadeN[i][j]=0;
 			info->quantidadeP[i][j]=0;
@@ -152,6 +162,8 @@ void atualizaFaturacao(Faturacao f, Produtos p, Venda v){
 	float preco = getPreco(v);
 	int mes = getMes(v);
 	int filial = getFilial(v);
+
+	addQuantidadeVendasMes(i,mes-1,1);
 
 	if(getPromo(v)=='N'){
 		addQuantidadeNormal(i,mes-1,filial-1,quantidade);

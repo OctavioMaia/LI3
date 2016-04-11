@@ -387,8 +387,8 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
       for(i=0; s[i]!=NULL;i++){
         temp = searchInformacao(f,s[i]);
         for(mes=m1-1;mes<=m2-1;mes++){
+          qTotal+=getNumeroVendas(temp,mes);
           for(filial=0;filial<3;filial++){
-            qTotal+=getQuantidadeNormal(temp,mes,filial)+getQuantidadePromocao(temp,mes,filial);
             fTotal+=getFaturadoNormal(temp,mes,filial)+getFaturadoPromocao(temp,mes,filial);
           }
         }

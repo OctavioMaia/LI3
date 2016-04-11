@@ -10,6 +10,7 @@ typedef struct faturacao *Faturacao;
 /*gets*/
 ListaFaturacao getFaturacaoLetra (Faturacao f, char ch);
 PRODUTO getCodigoProduto(Informacao i);
+int getNumeroVendas(Informacao i, int mes);
 int getQuantidadeNormal(Informacao i, int mes, int filial);
 int getQuantidadePromocao(Informacao i, int mes, int filial);
 float getFaturadoNormal(Informacao i, int mes, int filial);
