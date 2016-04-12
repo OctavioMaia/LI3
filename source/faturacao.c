@@ -78,11 +78,11 @@ void addQuantidadePromocao(Informacao i, int mes, int filial, int quantidade){
 	i->quantidadeP[mes][filial]+=quantidade;
 }
 
-void addFaturadoNormal(Informacao i, int mes, int filial, int faturado){
+void addFaturadoNormal(Informacao i, int mes, int filial, float faturado){
 	i->faturadoN[mes][filial]+=faturado;
 }
 
-void addFaturadoPromocao(Informacao i, int mes, int filial, int faturado){
+void addFaturadoPromocao(Informacao i, int mes, int filial, float faturado){
 	i->faturadoP[mes][filial]+=faturado;
 }
 

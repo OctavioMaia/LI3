@@ -22,8 +22,8 @@ LISTA_STRING  getListaFaturacaoLetra (Faturacao f, char ch);
 void setCodigoProdutoFaturacao (Informacao i, PRODUTO s);
 void addQuantidadeNormal(Informacao i, int mes, int filial, int quantidade);
 void addQuantidadePromocao(Informacao i, int mes, int filial, int quantidade);
-void addFaturadoNormal(Informacao i, int mes, int filial, int faturado);
-void addFaturadoPromocao(Informacao i, int mes, int filial, int faturado);
+void addFaturadoNormal(Informacao i, int mes, int filial, float faturado);
+void addFaturadoPromocao(Informacao i, int mes, int filial, float faturado);
 void addFaturacao (Faturacao f, int total);
 
 /*funcoes*/
