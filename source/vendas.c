@@ -58,7 +58,7 @@ Venda initVenda (STRING s) {
 	return v;
 }
 
-int validaVenda (Venda v, Produtos prod, Clientes cli) {
+BOOLEAN validaVenda (Venda v, Produtos prod, Clientes cli) {
 	if (v->preco<0 || v->quant<0) return 0;
 	if (v->mes<1 || v->mes>12) return 0;
 	if (v->filial != 1 && v->filial != 2 && v->filial != 3) return 0;

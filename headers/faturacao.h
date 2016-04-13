@@ -34,7 +34,7 @@ Informacao searchInformacao(Faturacao f, PRODUTO s);
 
 /*funcoes de atualizacao*/
 void atualizaFaturacao(Faturacao f, Produtos p, Venda v);
-int nuncaCompradoGlobal(Informacao i);
-int nuncaCompradoFilial(Informacao i, int filial);
+BOOLEAN nuncaCompradoGlobal(Informacao i);
+BOOLEAN nuncaCompradoFilial(Informacao i, int filial);
 
 #endif
