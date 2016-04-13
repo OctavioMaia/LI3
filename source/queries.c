@@ -539,15 +539,15 @@ void query10(Filial vf[], Produtos prod, int n){
   clock_t begin, end; /*Contadores de tempo de execucao*/
   int i,j, conta=0,posicao=0, max,pos=0;
   LISTA_INT qClientes,filial1,filial2,filial3,total,copia;
-  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*10000),imprimir=(LISTA_STRING)malloc(sizeof(PRODUTO)*10000);
+  LISTA_STRING s=NULL,lista = (LISTA_STRING)malloc(sizeof(PRODUTO)*180000),imprimir=(LISTA_STRING)malloc(sizeof(PRODUTO)*180000);
   char ch;
   ListaProduto p[3];
 
-  qClientes=(LISTA_INT)malloc(sizeof(int)*10000);
-  filial1=(LISTA_INT)malloc(sizeof(int)*10000);
-  filial2=(LISTA_INT)malloc(sizeof(int)*10000);
-  filial3=(LISTA_INT)malloc(sizeof(int)*10000);
-  total=(LISTA_INT)malloc(sizeof(int)*10000);
+  qClientes=(LISTA_INT)malloc(sizeof(int)*180000);
+  filial1=(LISTA_INT)malloc(sizeof(int)*180000);
+  filial2=(LISTA_INT)malloc(sizeof(int)*180000);
+  filial3=(LISTA_INT)malloc(sizeof(int)*180000);
+  total=(LISTA_INT)malloc(sizeof(int)*180000);
   
   begin = clock(); /*init contador*/
 
