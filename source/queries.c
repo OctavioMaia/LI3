@@ -574,21 +574,18 @@ void query10(Filial vf[], Produtos prod, int n){
   }
 
   copia=total;
-  
-  /*for(i=0;lista[i];i++) printf("cod %s qC %d f1 %d f2 %d f3 %d\n",lista[i],qClientes[i],filial1[i],filial2[i],filial3[i]);*/
-  end = clock(); /*end contador*/
-  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
-  
+
   for(j=0;j<n;j++){
     max=valor_max(conta,copia);
     for(i=0;total[i]!=max;i++); /*percorre o array ate encontrar o valor, ou seja, descobre a posicao do mesmo*/  
-    /*printf(" %s     %d           %d     %d             %d             %d\n", */
       imprimir[pos]=(STRING)malloc(sizeof(char)*1000);
       sprintf(imprimir[pos],"\033[1mCódigo:\033[0m%s \033[1mClientes:\033[0m%d \033[1mTotal:\033[0m%d \033[1mF1:\033[0m%d \033[1mF2:\033[0m%d \033[1mF3:\033[0m%d", lista[i],qClientes[i],total[i],filial1[i],filial2[i],filial3[i]);
       pos++;
     total[i]=0;
   }
   imprimir[pos]='\0';
+  end = clock(); /*end contador*/
+  time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec*/
   printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
   imprimirLista(imprimir,10,1,n);
   printf("---------------------------------------------------------------------\n");
