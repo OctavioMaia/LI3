@@ -12,8 +12,8 @@
 
 typedef struct historialcliente{
 	char cliente[6];
-	int comprou_filial[3];
-	int tabela[12][3];
+	int tabela[12];
+	BOOLEAN comprou_filial;
 	LISTA_STRING produtos;
 	LISTA_INT quantidade;
 	LISTA_INT mes;
@@ -120,8 +120,8 @@ CLIENTE getCodigoHistorialCliente (HistorialCliente hc){
 	return hc->cliente;
 }
 
-int getComprouFilial (HistorialCliente c, int filial) {
-	return c->comprou_filial[filial];
+BOOLEAN getComprouFilial (HistorialCliente c) {
+	return c->comprou_filial;
 }
 
 LISTA_STRING getProdutosCliente(HistorialCliente c){
@@ -140,8 +140,8 @@ LISTA_FLOAT getFaturacaoProdutos(HistorialCliente c){
 	return c->faturacao;
 }
 
-int getValorTabela(HistorialCliente c, int mes, int filial){
-	return c->tabela[mes][filial];
+int getValorTabela(HistorialCliente c, int mes){
+	return c->tabela[mes];
 }
 
 
@@ -193,7 +193,7 @@ void setCodigoHistorialCliente(HistorialCliente h, CLIENTE s){
 }
 
 void setComprouFilial (HistorialCliente c, int filial) {
-	c->comprou_filial[filial]=1;
+	c->comprou_filial=1;
 }
 
 void setFaturacaoProdutos(HistorialCliente c, LISTA_FLOAT faturacao){
@@ -302,7 +302,7 @@ Historial initHistorial(){
 }
 
 HistorialCliente initHistorialCliente(){
-	int i,j;
+	int i;
 	HistorialCliente hc = (HistorialCliente)malloc(sizeof(historialcliente));
 	
 	hc->produtos=(LISTA_STRING)malloc(sizeof(STRING)*1000); 
@@ -311,9 +311,7 @@ HistorialCliente initHistorialCliente(){
 	hc->mes=(LISTA_INT)malloc(sizeof(int)*1000); 
 	
 	for(i=0;i<12;i++){
-		for(j=0;j<3;j++){
-			hc->tabela[i][j]=0;
-		}
+		hc->tabela[i]=0;
 	}
 
 	return hc;
@@ -421,7 +419,7 @@ void updateCliente(Historial h,Filial vf, Venda v){
 																				logo apenas atualizamos a quantidade comprada e o dinheiro gasto*/
 				cliente->quantidade[pos]+=quantidade;	
 				cliente->faturacao[pos]+=(preco*quantidade);
-				cliente->tabela[mes-1][filial-1]+=quantidade;
+				cliente->tabela[mes-1]+=quantidade;
 				encontrado=1;
 			}
 		}
@@ -430,7 +428,7 @@ void updateCliente(Historial h,Filial vf, Venda v){
 			cliente->quantidade[pos]=quantidade;
 			cliente->mes[pos]=mes;
 			cliente->faturacao[pos]=(preco*quantidade);
-			cliente->tabela[mes-1][filial-1]+=quantidade;
+			cliente->tabela[mes-1]+=quantidade;
 		}
 
 	}

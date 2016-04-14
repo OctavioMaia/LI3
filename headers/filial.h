@@ -20,8 +20,8 @@ int getTotalVendasFilial (Filial vf);
 int getQuantidadeVendida(ListaProduto p);
 int getQuantidadeClientes(ListaProduto p);
 int getTotalHistorial(Historial h);
-int getComprouFilial (HistorialCliente c, int filial);
-int getValorTabela(HistorialCliente c, int mes, int filial);
+int getComprouFilial (HistorialCliente c);
+BOOLEAN getValorTabela(HistorialCliente c, int mes);
 
 /*listas*/
 ListaClientes getClientesN(Historico h);

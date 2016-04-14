@@ -30,20 +30,23 @@ Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
 	return p;
 }
 
-Clientes readClientes (FILE *fp, Historial h) {
+Clientes readClientes (FILE *fp, Historial h[]) {
+	int i;
 	char buf[10], *s;
 	Clientes c=NULL;
 	while (fgets(buf,10,fp)) {
 		s=strtok(buf,"\r\n");
 		c=insertCliente(c,s);
 		addClientes(c,1);
-		h=insertHistorialCliente(h,s); 
-		addHistorial(h,1);
+		for(i=0;i<3;i++){
+			h[i]=insertHistorialCliente(h[i],s); 
+			addHistorial(h[i],1);
+		}
 	}
 	return c;
 }
 
-int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Historial h) {
+int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Historial h[]) {
 	int i=0;
 	char buf[50], *s;
 	Venda venda=NULL;
@@ -54,7 +57,7 @@ int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Histo
 			int filial = getFilial(venda);
 			atualizaFaturacao(f,p,venda);
 			atualizaHistorico(vf[filial-1],venda);
-			updateCliente(h,vf[filial-1],venda);
+			updateCliente(h[filial-1],vf[filial-1],venda);
 			i++;
 		}
 	}
@@ -72,10 +75,10 @@ int main (int argc, char** argv) {
 	Clientes cli=NULL;
 	Faturacao f=NULL;
 	Filial vf[3];
-	Historial h=NULL;
+	Historial h[3];
 
 	/*Variaveis auxiliares*/
-	int totalVendas;		
+	int totalVendas,v;		
 
 	/*Abertura dos ficheiros*/
 	FILE *fp = fopen("data/Produtos.txt","r");
@@ -102,10 +105,10 @@ int main (int argc, char** argv) {
 
 	/*Ler os ficheiros para as estruturas*/
 	f=initFaturacao();
-	vf[0]=initVendasFilial();
-	vf[1]=initVendasFilial();
-	vf[2]=initVendasFilial();
-	h=initHistorial();
+	for(v=0;v<3;v++){
+		vf[v]=initVendasFilial();
+		h[v]=initHistorial();
+	}
 	prod=readProdutos(fp,f,vf);
 	cli=readClientes(fc,h);
 	totalVendas=readVendas(fv,f,vf,prod,cli,h);
