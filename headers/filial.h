@@ -2,7 +2,7 @@
 #define FILIAL_H
 
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
-typedef struct node *ListaVFilial;
+typedef struct nodo *ListaVFilial;
 
 typedef struct mes_filial *Mes_Filial;
 typedef struct historico *Historico;

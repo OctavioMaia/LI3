@@ -265,13 +265,13 @@ Filial insertListaProduto(Filial f, STRING s) {
 		f->total=0;
 	}
 	i=0;	/*A variável i, passa a servir como flag para a próxima função*/
-	f->avl[pos]=insertAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))vfcmp);
+	f->avl[pos]=inserirAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))vfcmp);
 	return f;
 }
 
 ListaProduto searchListaProduto(Filial f, STRING s) {
 	ListaProduto p1=NULL;
-	ListaVFilial aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))vfcmpstr);
+	ListaVFilial aux=procurarAVL(f->avl[s[0]-'A'],s,(int (*)(void*,void*))vfcmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);
 		return p1;
@@ -333,13 +333,13 @@ Historial insertHistorialCliente(Historial f, STRING s) {
 		f->total=0;
 	}
 	i=0;	/*A variável i, passa a servir como flag para a próxima função*/
-	f->avl[pos]=insertAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))hccmp);
+	f->avl[pos]=inserirAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))hccmp);
 	return f;
 }
 
 HistorialCliente searchHistorialCliente(Historial f, STRING s) {
 	HistorialCliente p1=NULL;
-	ListaClientes aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))hccmpstr);
+	ListaClientes aux=procurarAVL(f->avl[s[0]-'A'],s,(int (*)(void*,void*))hccmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);
 		return p1;
@@ -369,8 +369,8 @@ void atualizaHistorico(Filial vf, Venda v){
 				setCodigoClienteMesFilial(mf,cliente);
 				setQuantidade(mf,quantidade);
 				i=0;
-				setAvlN(h,insertAVL(t,mf,&i,(int (*)(void*,void*))mfcmp));
-				/*x=getData(search(t,cliente,(int (*)(void*,void*))mfcmpstr));
+				setAvlN(h,inserirAVL(t,mf,&i,(int (*)(void*,void*))mfcmp));
+				/*x=getData(procurarAVL(t,cliente,(int (*)(void*,void*))mfcmpstr));
 				printf("NORMAL %s QUANTIDADE %d\n",getCodigoMesFilial(x),getQuantidadeMesFilial(x) );*/
 			}
 		}else{
@@ -380,8 +380,8 @@ void atualizaHistorico(Filial vf, Venda v){
 				setCodigoClienteMesFilial(mf,cliente);
 				setQuantidade(mf,quantidade);
 				i=0;
-				setAvlP(h,insertAVL(t,mf,&i,(int (*)(void*,void*))mfcmp));
-				/*x=getData(search(t,cliente,(int (*)(void*,void*))mfcmpstr));
+				setAvlP(h,inserirAVL(t,mf,&i,(int (*)(void*,void*))mfcmp));
+				/*x=getData(procurarAVL(t,cliente,(int (*)(void*,void*))mfcmpstr));
 				printf("PROMOCAO %s QUANTIDADE %d\n",getCodigoMesFilial(x),getQuantidadeMesFilial(x));*/
 			}
 		}

@@ -2,7 +2,7 @@
 #define FATURACAO_H
 
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
-typedef struct node *ListaFaturacao;
+typedef struct nodo *ListaFaturacao;
 
 typedef struct informacao *Informacao;
 typedef struct faturacao *Faturacao;

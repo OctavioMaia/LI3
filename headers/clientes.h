@@ -2,7 +2,7 @@
 #define CLIENTES_H
 
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
-typedef struct node *ListaClientes;
+typedef struct nodo *ListaClientes;
 
 typedef struct cliente *Cliente;
 typedef struct clientes *Clientes;

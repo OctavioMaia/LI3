@@ -139,13 +139,13 @@ Faturacao insertInformacao(Faturacao f, PRODUTO s) {
 		f->total=0;
 	}
 	i=0;	/*A variável i, passa a servir como flag para a próxima função*/
-	f->avl[pos]=insertAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))infcmp);
+	f->avl[pos]=inserirAVL(f->avl[pos],aux,&i,(int (*)(void*,void*))infcmp);
 	return f;
 }
 
 Informacao searchInformacao(Faturacao f, PRODUTO s) {
 	Informacao p1=NULL;
-	ListaFaturacao aux=search(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
+	ListaFaturacao aux=procurarAVL(f->avl[s[0]-'A'],s,(int (*)(void*,void*))infcmpstr);
 	if (aux!=NULL) {
 		/*printf("encontrei %s\n",s);*/
 		p1=getData(aux);

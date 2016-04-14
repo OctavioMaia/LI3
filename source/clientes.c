@@ -88,13 +88,13 @@ Clientes insertCliente (Clientes c, CLIENTE s) {
 		c->total=0;
 	}
 	i=0;	/*A variável i, passa a servir como flag para a próxima função*/
-	c->avl[pos]=insertAVL(c->avl[pos],aux,&i,(int (*)(void*,void*))clicmp);
+	c->avl[pos]=inserirAVL(c->avl[pos],aux,&i,(int (*)(void*,void*))clicmp);
 	return c;
 }
 
 Cliente searchCliente (Clientes c, CLIENTE s) {
 	Cliente c1=NULL;
-	ListaClientes aux=search(c->avl[s[0]-'A'],s,(int (*)(void*,void*))clicmpstr);
+	ListaClientes aux=procurarAVL(c->avl[s[0]-'A'],s,(int (*)(void*,void*))clicmpstr);
 	if (aux!=NULL) {
 		c1=getData(aux);
 		return c1;
@@ -108,7 +108,7 @@ Clientes removeCliente(Clientes c, CLIENTE s){
 
 	if(temp){/*Cliente existe, podemos remover*/
 		ListaClientes l = (ListaClientes) getListaClientesLetra(c,s[0]);
-		l = deleteAVL(l, s);
+		l = removerAVL(l, s);
 	}
 	return c;
 }

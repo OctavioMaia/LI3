@@ -4,19 +4,19 @@
 #include "../headers/tipos.h"
 #include "../headers/AVL.h"
 
-typedef struct node {
-	void *data;		/*Apontador para informação do nó*/
-	int bf;			/*Factor de balanceamento do nó*/
-	struct node *child[2];	/*Apontadores para os filhos do nó*/
-}node;
+typedef struct nodo {
+	void *data;					/*Apontador para informação do nó*/
+	int factor_balanceamento;	/*Factor de balanceamento do nó*/
+	struct nodo *filho[2];		/*Apontadores para os filhos do nó*/
+}nodo;
 
 
 void * getData (AVL a) {
 	return a->data;
 }
 
-AVL getChild (AVL a, int dir) {
-	return a->child[dir];
+AVL getFilho (AVL a, int dir) {
+	return a->filho[dir];
 }
 
 void setData (AVL a, void *v) {
@@ -24,130 +24,130 @@ void setData (AVL a, void *v) {
 }
 
 /*
- * rotate
+ * rodar
  * Esta função recebe uma AVL e a direção para onde
  * a vai rodar.
  */
-AVL rotate(AVL t, int dir) {
+AVL rodar(AVL t, int dir) {
 	AVL aux;
-	if((!t) || (!t->child[!dir])) return NULL;
+	if((!t) || (!t->filho[!dir])) return NULL;
 	else{
-		aux = t->child[!dir];
-		t->child[!dir]=aux->child[dir];
-		aux->child[dir]=t;
+		aux = t->filho[!dir];
+		t->filho[!dir]=aux->filho[dir];
+		aux->filho[dir]=t;
 		t=aux;
 	}
 	return t;
 }
 
 
-/* balance
+/* balancear
  * Esta função recebe uma AVL e a direção para onde
  * a vai rodar e balanceia os nós da àrvore.
  */
-AVL balance(AVL t, int dir) {
-	if (t->child[dir]->bf==dir) {
-		/* Rotacao simples a child[!dir]uerda*/
-		t = rotate(t,!dir);
-		t->bf = EH;
-		t->child[!dir]->bf = EH;
+AVL balancear(AVL t, int dir) {
+	if (t->filho[dir]->factor_balanceamento==dir) {
+		/* Rotacao simples a filho[!dir]uerda*/
+		t = rodar(t,!dir);
+		t->factor_balanceamento = EQUAL;
+		t->filho[!dir]->factor_balanceamento = EQUAL;
 	}else{
 		/*Dupla rotacao*/
-		t->child[dir] = rotate(t->child[dir],dir);
-		t = rotate(t,!dir);
-		if (t->bf==EH)
-			t->child[dir]->bf=t->child[!dir]->bf=EH;
-		else if (t->bf==!dir) {
-			t->child[!dir]->bf = EH;
-			t->child[dir]->bf = dir;			
+		t->filho[dir] = rodar(t->filho[dir],dir);
+		t = rodar(t,!dir);
+		if (t->factor_balanceamento==EQUAL)
+			t->filho[dir]->factor_balanceamento=t->filho[!dir]->factor_balanceamento=EQUAL;
+		else if (t->factor_balanceamento==!dir) {
+			t->filho[!dir]->factor_balanceamento = EQUAL;
+			t->filho[dir]->factor_balanceamento = dir;			
 		}
-		else if (t->bf==dir) {
-			t->child[!dir]->bf = !dir;
-			t->child[dir]->bf = EH;			
+		else if (t->factor_balanceamento==dir) {
+			t->filho[!dir]->factor_balanceamento = !dir;
+			t->filho[dir]->factor_balanceamento = EQUAL;			
 		}
-		t->bf = EH; 
+		t->factor_balanceamento = EQUAL; 
 	}
 	return t;
 }
 
 
-/* insert
+/* inserir
  * Esta função recebe uma AVL, a direção para onde a AVL vai rodar,
  * a informação que se deseja inserir, um apontador que serve com flag
  * para balanciamento, e uma função de comparação. Insere a informação
  * num dos nodos e balanceia a árvore de modo a manter a diferença de
  * altura entre estes menor ou igual a 1.
  */
-AVL insert(AVL t, int dir, void *data, int* cresceu,int(*comp)(void*,void*)) {
-	t->child[dir] = insertAVL(t->child[dir],data,cresceu,comp);
+AVL inserir(AVL t, int dir, void *data, int* cresceu,int(*comp)(void*,void*)) {
+	t->filho[dir] = inserirAVL(t->filho[dir],data,cresceu,comp);
 	if (*cresceu) {
-		if (t->bf==!dir) {
-			t->bf=EH;
+		if (t->factor_balanceamento==!dir) {
+			t->factor_balanceamento=EQUAL;
 			*cresceu=0;
 		}
-		else if (t->bf==EH) {
-			t->bf=dir;
+		else if (t->factor_balanceamento==EQUAL) {
+			t->factor_balanceamento=dir;
 			*cresceu=1;
 		}
-		else if (t->bf==dir) {
-			t=balance(t,dir);
+		else if (t->factor_balanceamento==dir) {
+			t=balancear(t,dir);
 			*cresceu=0;
 		}
 	}
 	return t;
 }
 
-AVL insertAVL(AVL t, void* data, int* cresceu, int(*comp)(void*,void*)){
+AVL inserirAVL(AVL t, void* data, int* cresceu, int(*comp)(void*,void*)){
 	if (t==NULL) {
-		t = (AVL)malloc(sizeof(struct node));
+		t = (AVL)malloc(sizeof(struct nodo));
 		t->data = data;
-		t->child[L] = t->child[R] = NULL;
-		t->bf = EH;
+		t->filho[ESQ] = t->filho[DIR] = NULL;
+		t->factor_balanceamento = EQUAL;
 		*cresceu = 1;
 	}
     else if (comp(data,t->data)>0)
-        t = insert(t,R,data,cresceu,comp);
+        t = inserir(t,DIR,data,cresceu,comp);
     else
-        t = insert(t,L,data,cresceu,comp);
+        t = inserir(t,ESQ,data,cresceu,comp);
   return t;
 }
 
 AVL min(AVL nodo){
     AVL atual = nodo;
-    while (atual->child[L] != NULL){
-        atual = atual->child[L];
+    while (atual->filho[ESQ] != NULL){
+        atual = atual->filho[ESQ];
     } 
     return atual;
 }
 
-AVL deleteAVL(AVL t, void *data){
+AVL removerAVL(AVL t, void *data){
     if (data == NULL) return t;
     if (strcmp(data,t->data)<0){
-        t->child[L] = deleteAVL(t->child[L], data);
+        t->filho[ESQ] = removerAVL(t->filho[ESQ], data);
     }else if (strcmp(data,t->data)>0){
-            t->child[R] = deleteAVL(t->child[R], data);
+            t->filho[DIR] = removerAVL(t->filho[DIR], data);
     }
     else{
         AVL temp;
-        if (t->child[L] == NULL){
-            AVL temp2 = t->child[R];
+        if (t->filho[ESQ] == NULL){
+            AVL temp2 = t->filho[DIR];
             free(t);
             return temp2;
         }else{
-            if (t->child[R] == NULL){
-                AVL temp2 = t->child[L];
+            if (t->filho[DIR] == NULL){
+                AVL temp2 = t->filho[ESQ];
                 free(t);
                 return temp2;
             }
         }
-        temp = min(t->child[R]);
+        temp = min(t->filho[DIR]);
         strcpy(t->data,temp->data);
-        t->child[R] = deleteAVL(t->child[R], temp->data);
+        t->filho[DIR] = removerAVL(t->filho[DIR], temp->data);
     }
     return t;
 }
 
-AVL search (AVL a, void* s, int(*comp)(void*,void*)) {
+AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*)) {
 	int c;
 	if (!a) return NULL;
 	c=comp(s,a->data);
@@ -155,9 +155,9 @@ AVL search (AVL a, void* s, int(*comp)(void*,void*)) {
 	if (c==0)
 		return a;
 	else if (c<0) 
-		return search(a->child[L],s,comp); 
+		return procurarAVL(a->filho[ESQ],s,comp); 
 	else 
-		return search(a->child[R],s,comp);
+		return procurarAVL(a->filho[DIR],s,comp);
 	
 	return NULL; 
 }
@@ -169,12 +169,12 @@ AVL search (AVL a, void* s, int(*comp)(void*,void*)) {
  * É depois chamada recursivamente para a esquerda e
  * direita da AVL.
  */
-LISTA_STRING toStringAux (AVL a, LISTA_STRING s, int* i) {
+LISTA_STRING stringAux (AVL a, LISTA_STRING s, int* i) {
 	if (a!=NULL) {		
-		s=toStringAux(a->child[L],s,i);
+		s=stringAux(a->filho[ESQ],s,i);
 		s[(*i)]=a->data;
 		(*i)++;
-		s=toStringAux(a->child[R],s,i);
+		s=stringAux(a->filho[DIR],s,i);
 	}
 	return s;
 }
@@ -185,7 +185,7 @@ LISTA_STRING toString (AVL a, int n) {
 	LISTA_STRING s = malloc(sizeof(STRING)*n);
 
 	if (a!=NULL) {
-		s=toStringAux(a,s,&i);
+		s=stringAux(a,s,&i);
 		return s;
 	}else{
 		return NULL;

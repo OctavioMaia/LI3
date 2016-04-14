@@ -2,7 +2,7 @@
 #define PRODUTO_H
 
 /*@authors Alfredo Gomes, Cecília Marciel, Octávio Maia*/
-typedef struct node *ListaProdutos;
+typedef struct nodo *ListaProdutos;
 
 typedef struct produtos *Produtos;
 typedef struct produto *Produto;

@@ -93,13 +93,13 @@ Produtos insertProduto(Produtos p, PRODUTO s) {
 		p->total=0;
 	}
 	i=0;	/*A variável i, passa a servir como flag para a próxima função*/
-	p->avl[pos]=insertAVL(p->avl[pos],aux,&i,(int (*)(void*,void*))prodcmp);
+	p->avl[pos]=inserirAVL(p->avl[pos],aux,&i,(int (*)(void*,void*))prodcmp);
 	return p;
 }
 
 Produto searchProduto(Produtos p, PRODUTO s) {
 	Produto p1=NULL;
-	ListaProdutos aux=search(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
+	ListaProdutos aux=procurarAVL(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
 	if (aux!=NULL) {
 		p1=getData(aux);
 		return p1;
@@ -113,7 +113,7 @@ Produtos removeProduto(Produtos p, PRODUTO s){
 
 	if(temp){/*Cliente existe, podemos remover*/
 		ListaProdutos l = (ListaProdutos) getListaProdutosLetra(p,s[0]);
-		l = deleteAVL(l, s);
+		l = removerAVL(l, s);
 	}
 	return p;
 }
