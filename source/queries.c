@@ -617,9 +617,9 @@ void query11(Historial h[], CLIENTE cod_cliente){
   float faturado=0,max, valores[3];
   clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
-  LISTA_INT quantidades=(LISTA_INT)malloc(sizeof(int)*18000000),quantidades_backup;
-  LISTA_FLOAT faturacoes=(LISTA_FLOAT)malloc(sizeof(float)*18000000),copia=(LISTA_FLOAT)malloc(sizeof(float)*18000000),faturacoes_backup;
-  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(STRING)*18000000),lista_backup;
+  LISTA_INT quantidades=(LISTA_INT)malloc(sizeof(int)*180000),quantidades_backup;
+  LISTA_FLOAT faturacoes=(LISTA_FLOAT)malloc(sizeof(float)*180000),copia=(LISTA_FLOAT)malloc(sizeof(float)*180000),faturacoes_backup;
+  LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(STRING)*180000),lista_backup;
   HistorialCliente temp[3];
 
   begin = clock(); /*init contador*/
@@ -628,13 +628,12 @@ void query11(Historial h[], CLIENTE cod_cliente){
   temp[1]= searchHistorialCliente(h[1],cod_cliente);
   temp[2]= searchHistorialCliente(h[2],cod_cliente);
 
-  printf("start\n");
   if(temp[0] || temp[1] || temp[2] ){
     for(x=0;x<3;x++){
       lista_backup = getProdutosCliente(temp[x]);
       quantidades_backup = getQuantidadeProdutos(temp[x]);
       faturacoes_backup = getFaturacaoProdutos(temp[x]);
-      
+
       for(i=0;lista_backup[i]!=NULL;i++){
         lista[flag]=malloc(sizeof(char)*7);
         strcpy(lista[flag],lista_backup[i]);
@@ -644,8 +643,6 @@ void query11(Historial h[], CLIENTE cod_cliente){
       }
       copia=faturacoes;
     }
-
-    printf("end\n");
 
     for(i=0;lista[i]!=NULL;i++){ /*soma as quantidades compradas, bem como o € gasto*/
       total+=quantidades[i];
