@@ -373,8 +373,8 @@ void query5(Historial h[], CLIENTE cod_cliente){
 }
 
 void query6(Faturacao f, Produtos prod, int m1, int m2){
-  int i,mes,filial,qTotal=0;
-  float fTotal=0;
+  int i,mes,filial,vTotal=0,qTotal=0;
+  double fTotal=0;
   LISTA_STRING s;
   char ch;
   Informacao temp=NULL;
@@ -389,8 +389,9 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
       for(i=0; s[i]!=NULL;i++){
         temp = searchInformacao(f,s[i]);
         for(mes=m1-1;mes<=m2-1;mes++){
-          qTotal+=getNumeroVendas(temp,mes);
+          vTotal+=getNumeroVendas(temp,mes);
           for(filial=0;filial<3;filial++){
+            qTotal+=getQuantidadeNormal(temp,mes,filial)+getQuantidadePromocao(temp,mes,filial);
             fTotal+=getFaturadoNormal(temp,mes,filial)+getFaturadoPromocao(temp,mes,filial);
           }
         }
@@ -398,7 +399,8 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
     }
     end = clock(); /*end contador*/
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC; /*tempo de exec */
-    printf("Total de produtos vendidos: %d\n",qTotal); 
+    printf("Total de produtos vendidos: %d\n",vTotal); 
+    printf("Total de unidades vendidas: %d\n",qTotal); 
     printf("Total faturado: %f\n",fTotal);
     printf("\033[1m\x1b[31mSucesso, demoramos %fs!\x1b[0m\033[0m \n",time_spent);
     printf("---------------------------------------------------------------------\n");
