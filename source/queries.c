@@ -318,17 +318,17 @@ void query4(Faturacao F, Produtos prod, int decisao){
         s=toString(getProdutosLetra(prod,ch),getTotalProdutos(prod));
         for(i=0; s[i]!=NULL;i++){
           info=searchInformacao(F,s[i]);
-          if(nuncaCompradoFilial(info,1)==0 && nuncaCompradoFilial(info,2)!=0 && nuncaCompradoFilial(info,3)!=0){ /*passamos 1 para procurar na filial 1*/
+          if(nuncaCompradoFilial(info,1)==0){ /*passamos 1 para procurar na filial 1*/
             lista[n]=malloc(sizeof(PRODUTO));
             lista[n]=getCodigoProduto(info);
             n++;
             filial1++;
-          }if(nuncaCompradoFilial(info,2)==0 && nuncaCompradoFilial(info,1)!=0 && nuncaCompradoFilial(info,3)!=0){ /*passamos 2 para procurar na filial 2*/
+          }if(nuncaCompradoFilial(info,2)==0){ /*passamos 2 para procurar na filial 2*/
             lista[n]=malloc(sizeof(PRODUTO));
             lista[n]=getCodigoProduto(info);
             n++;
             filial2++;
-          }if(nuncaCompradoFilial(info,3)==0 && nuncaCompradoFilial(info,1)!=0 && nuncaCompradoFilial(info,2)!=0){ /*passamos 3 para procurar na filial 3*/
+          }if(nuncaCompradoFilial(info,3)==0){ /*passamos 3 para procurar na filial 3*/
             lista[n]=malloc(sizeof(PRODUTO));
             lista[n]=getCodigoProduto(info);
             n++;

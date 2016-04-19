@@ -12,6 +12,7 @@
 #include "headers/queries.h"
 
 Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
+	int i;
 	char buf[10], *s;
 	Produtos p=NULL;
 	while (fgets(buf,10,fp)) {
@@ -20,12 +21,10 @@ Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
 		f=insertInformacao(f,s);
 		addProdutos(p,1);
 		addFaturacao(f,1);
-		vf[0]=insertListaProduto(vf[0],s);
-		vf[1]=insertListaProduto(vf[1],s);
-		vf[2]=insertListaProduto(vf[2],s);
-		addVendasFilial(vf[0],1);
-		addVendasFilial(vf[1],1);
-		addVendasFilial(vf[2],1);
+		for(i=0;i<3;i++){
+			vf[i]=insertListaProduto(vf[i],s);
+			addVendasFilial(vf[i],1);
+		}
 	}
 	return p;
 }
@@ -133,11 +132,10 @@ int main (int argc, char** argv) {
 	imprimirQueries();
 	exec(prod,cli,f,vf,h);
 
-	/*Libertar memória
+	/*Libertar memória*/
 	free(f);
-	free(vf);
 	free(prod);
-	free(cli);*/
+	free(cli);
 
 	return 0;
 }
