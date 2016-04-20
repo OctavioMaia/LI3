@@ -195,3 +195,11 @@ BOOLEAN nuncaCompradoFilial(Informacao i, int filial){
 	}
 	return quantidadeN+quantidadeP;
 }
+
+void freeFaturacao(Faturacao f){
+	int i;
+
+	for(i=0;i<26;i++){
+		freeAVL(f->avl[i]);
+	}
+}

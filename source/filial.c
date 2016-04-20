@@ -433,3 +433,13 @@ void updateCliente(Historial h,Filial vf, Venda v){
 
 	}
 }
+
+
+void freeFilial(Filial f, Historial h){
+	int i;
+
+	for(i=0;i<26;i++){
+		freeAVL(f->avl[i]);
+		freeAVL(h->avl[i]);
+	}
+}

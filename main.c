@@ -10,6 +10,7 @@
 #include "headers/faturacao.h"
 #include "headers/filial.h"
 #include "headers/queries.h"
+#include "main.h"
 
 Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
 	int i;
@@ -63,8 +64,26 @@ int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Histo
 	return i;
 }
 
+int verificaFicheiros(FILE *fp, FILE *fc, FILE *fv){
+	/*Verificação da integridade dos ficheiros*/
+	if (!fp) {
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Produtos.txt\"!\033[0m\n");
+		return -1;
+	}else if(!fc){
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Clientes.txt\"!\033[0m\n");
+		return -1;
+	}else if(!fv){
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Vendas_M.txt\"!\033[0m\n");
+		return -1;
+	}else{
+		puts("\t\t\033[1mLeitura efetuada com sucesso!\033[0m");
+		puts("\t\t\033[1mComeçando leitura dos ficheiros para memória...\033[0m");
+	}
+	return 1;
+}
+
 /* Main */
-int main (int argc, char** argv) {
+int main () {
 	/*Contadores de tempo de execucao*/
 	clock_t begin, end;
 	double time_spent;
@@ -77,27 +96,12 @@ int main (int argc, char** argv) {
 	Historial h[3];
 
 	/*Variaveis auxiliares*/
-	int totalVendas,v;		
+	int totalVendas,v,decisao;		
 
 	/*Abertura dos ficheiros*/
-	FILE *fp = fopen("data/Produtos.txt","r");
-	FILE *fc = fopen("data/Clientes.txt","r");
-	FILE *fv = fopen(argv[1],"r");
-
-	/*Verificação da integridade dos ficheiros*/
-	if (!fp) {
-		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Produtos.txt\"!\033[0m\n");
-		return -1;
-	}else if(!fc){
-		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Clientes.txt\"!\033[0m\n");
-		return -1;
-	}else if(!fv){
-		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro %s!\033[0m\n",argv[1]);
-		return -1;
-	}else{
-		puts("\t\t\033[1mLeitura efetuada com sucesso!\033[0m");
-		puts("\t\t\033[1mComeçando leitura dos ficheiros para memória...\033[0m");
-	}
+	FILE *fp;
+	FILE *fc;
+	FILE *fv;
 
 	/*Inicializacao do contador*/
 	begin = clock(); 
@@ -108,6 +112,46 @@ int main (int argc, char** argv) {
 		vf[v]=initVendasFilial();
 		h[v]=initHistorial();
 	}
+
+	imprimirInit();
+	scanf(" %d", &decisao);
+
+	if(decisao==1){
+		fp = fopen("data/Produtos.txt","r");
+		fc = fopen("data/Clientes.txt","r");
+		fv = fopen("data/Vendas_1M.txt","r");
+		verificaFicheiros(fp,fc,fv);
+	}else if(decisao==2){
+		fp = fopen("data/Produtos.txt","r");
+		fc = fopen("data/Clientes.txt","r");
+		fv = fopen("data/Vendas_3M.txt","r");
+		verificaFicheiros(fp,fc,fv);
+	}else if(decisao==3){
+		fp = fopen("data/Produtos.txt","r");
+		fc = fopen("data/Clientes.txt","r");
+		fv = fopen("data/Vendas_5M.txt","r");
+		verificaFicheiros(fp,fc,fv);
+	}else if(decisao==4){
+		char produtos[50], clientes[50], vendas[50];
+		puts("");
+		printf("\033[1mLocalização do ficheiro Produtos: \033[0m ");
+		scanf("%s",produtos);
+		fp = fopen(produtos,"r");
+
+		printf("\033[1mLocalização do ficheiro Clientes: \033[0m ");
+		scanf("%s",clientes);
+		fc = fopen(clientes,"r");
+		
+		printf("\033[1mLocalização do ficheiro Vendas: \033[0m ");
+		scanf("%s",vendas);
+		fv = fopen(vendas,"r");
+		
+	}else{
+		printf("\t\t\033[31m\033[1m Introduza uma opção válida!\033[0m\n");
+		exit(0);
+	}
+
+	puts("");
 	prod=readProdutos(fp,f,vf);
 	cli=readClientes(fc,h);
 	totalVendas=readVendas(fv,f,vf,prod,cli,h);
@@ -132,10 +176,6 @@ int main (int argc, char** argv) {
 	imprimirQueries();
 	exec(prod,cli,f,vf,h);
 
-	/*Libertar memória*/
-	free(f);
-	free(prod);
-	free(cli);
-
+	freeAll(prod,cli,f,vf,h);
 	return 0;
 }

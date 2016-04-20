@@ -112,3 +112,11 @@ Clientes removeCliente(Clientes c, CLIENTE s){
 	}
 	return c;
 }
+
+void freeClientes(Clientes c){
+	int i;
+
+	for(i=0;i<26;i++){
+		freeAVL(c->avl[i]);
+	}
+}

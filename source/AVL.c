@@ -162,6 +162,16 @@ AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*)) {
 	return NULL; 
 }
 
+/*freeAVL*/
+void freeAVL(AVL a){
+	if(a){
+		free(a->data);
+		freeAVL(getFilho(a,ESQ));
+		freeAVL(getFilho(a,DIR));
+		free(a);
+	}
+}
+
 /* toStringAux
  * Esta função recebe uma AVL, uma lista de apontadores,
  * um apontador que serve como flag para saber onde inserir

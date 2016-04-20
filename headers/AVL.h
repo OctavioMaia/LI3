@@ -56,6 +56,8 @@ LISTA_STRING toString (AVL a, int n);
  */
 AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*));
 
+/*free avl*/
+void freeAVL(AVL a);
 
 /* removerAVL
 ----documentar

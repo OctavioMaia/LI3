@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "../main.h"
 #include "../headers/tipos.h"
 #include "../headers/AVL.h"
 #include "../headers/produtos.h"
@@ -90,6 +91,16 @@ float valor_max_float(int n, float valores[]) {
   return max;
 }
 
+void imprimirInit() {
+  puts("\t\t\t\t\033[1mEscolha de execução\033[0m");
+  puts("\033[1mOpção 1\033[0m - Ler ficheiros Produtos.txt, Clientes.txt e Vendas_1M.txt");
+  puts("\033[1mOpção 2\033[0m - Ler ficheiros Produtos.txt, Clientes.txt e Vendas_3M.txt");
+  puts("\033[1mOpção 3\033[0m - Ler ficheiros Produtos.txt, Clientes.txt e Vendas_5M.txt");
+  puts("\033[1mOpção 4\033[0m - Ler ficheiros não standarts");
+  printf("\033[1mOpção escolhida: \033[0m ");
+}
+
+
 void imprimirQueries() {
   puts("\t\t\t\t\033[1mLista de Queries\033[0m");
   puts("\033[1mQuery 2\033[0m - Imprimir lista de produtos cujo código se inicia por uma dada letra.");
@@ -103,6 +114,8 @@ void imprimirQueries() {
   puts("\033[1mQuery 10\033[0m - Imprimir uma lista dos N produtos mais vendidos em todo o ano.");
   puts("\033[1mQuery 11\033[0m - Dado um código de cliente, determinar quais os 3 produtos que mais gastou dinheiro durante o ano.");
   puts("\033[1mQuery 12\033[0m - Determinar o número de clientes que não realizaram compras, bem como os produtos que ninguém comprou.");
+  puts("\033[1mQuery 13\033[0m - Libertar todos os dados em memória.");
+  puts("\033[1mQuery 14\033[0m - Carregar dados em memória.");
   puts("");
 }
 
@@ -113,6 +126,15 @@ int lerInt(){
       return -1;
   else
       return num;
+}
+
+void freeAll(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]){
+  freeClientes(cli);
+  freeProdutos(prod);
+  freeFaturacao(f);
+  freeFilial(vf[0],h[0]);
+  freeFilial(vf[1],h[1]);
+  freeFilial(vf[2],h[2]);
 }
 
 /*QUERIES*/
@@ -213,6 +235,10 @@ void exec(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]){
       puts("\033[1m-----------------------------------Query 12----------------------------------\033[0m");
       query12(h,prod,vf);
       break;
+    case 13:
+      freeAll(prod,cli,f,vf,h);
+    case 14:
+      main();
     default: /* execute default action */
       puts("Query inválida!");
       break;
@@ -616,11 +642,11 @@ void query10(Filial vf[], Produtos prod, int n){
 
 void query11(Historial h[], CLIENTE cod_cliente){
   int i,j,x,flag=0,total=0,conta, pos[3];
-  float faturado=0,max, valores[3];
+  double faturado=0,max, valores[3];
   clock_t begin, end; /*Contadores de tempo de execucao*/
   double time_spent;
   LISTA_INT quantidades=(LISTA_INT)malloc(sizeof(int)*180000),quantidades_backup;
-  LISTA_FLOAT faturacoes=(LISTA_FLOAT)malloc(sizeof(float)*180000),copia=(LISTA_FLOAT)malloc(sizeof(float)*180000),faturacoes_backup;
+  LISTA_FLOAT faturacoes=(LISTA_FLOAT)malloc(sizeof(double)*180000),copia=(LISTA_FLOAT)malloc(sizeof(double)*180000),faturacoes_backup;
   LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(STRING)*180000),lista_backup;
   HistorialCliente temp[3];
 

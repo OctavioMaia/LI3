@@ -36,4 +36,5 @@ Clientes insertCliente (Clientes c, CLIENTE s);
 Cliente searchCliente (Clientes c, CLIENTE s);
 Clientes removeCliente(Clientes c, CLIENTE s);
 
+void freeClientes(Clientes c);
 #endif

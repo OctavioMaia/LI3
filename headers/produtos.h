@@ -40,4 +40,5 @@ Produtos insertProduto (Produtos p, PRODUTO s);
 Produto searchProduto(Produtos p, PRODUTO s);
 Produtos removeProduto(Produtos p, PRODUTO s);
 
+void freeProdutos(Produtos p);
 #endif

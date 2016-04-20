@@ -60,4 +60,6 @@ void addVendasFilial (Filial vf, int total);
 void setFaturacaoProdutos(HistorialCliente c, LISTA_FLOAT faturacao);
 void updateCliente(Historial h,Filial vf, Venda v);
 
+
+void freeFilial(Filial f, Historial h);
 #endif

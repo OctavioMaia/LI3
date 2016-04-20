@@ -37,4 +37,5 @@ void atualizaFaturacao(Faturacao f, Produtos p, Venda v);
 BOOLEAN nuncaCompradoGlobal(Informacao i);
 BOOLEAN nuncaCompradoFilial(Informacao i, int filial);
 
+void freeFaturacao(Faturacao f);
 #endif

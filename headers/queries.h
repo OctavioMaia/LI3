@@ -5,8 +5,10 @@
 
 void imprimirLista(STRING *s,int c,int l, int opcao);
 void imprimirAux(STRING *s, int c , int l,int t, int pa, int opcao);
+void imprimirInit();
 void imprimirQueries();
-int valor_max(int n, int valores[]);
+void freeAll(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]);
+
 
 void exec(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]);
 void query2(Produtos p, char ch);

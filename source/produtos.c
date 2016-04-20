@@ -117,3 +117,11 @@ Produtos removeProduto(Produtos p, PRODUTO s){
 	}
 	return p;
 }
+
+void freeProdutos(Produtos p){
+	int i;
+
+	for(i=0;i<26;i++){
+		freeAVL(p->avl[i]);
+	}
+}
