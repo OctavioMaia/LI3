@@ -73,7 +73,7 @@ int verificaFicheiros(FILE *fp, FILE *fc, FILE *fv){
 		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Clientes.txt\"!\033[0m\n");
 		return -1;
 	}else if(!fv){
-		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Vendas_M.txt\"!\033[0m\n");
+		printf("\t\t\033[31m\033[1mErro ao ler o ficheiro \"data/Vendas.txt\"!\033[0m\n");
 		return -1;
 	}else{
 		puts("\t\t\033[1mLeitura efetuada com sucesso!\033[0m");
@@ -102,9 +102,6 @@ int main () {
 	FILE *fp;
 	FILE *fc;
 	FILE *fv;
-
-	/*Inicializacao do contador*/
-	begin = clock(); 
 
 	/*Ler os ficheiros para as estruturas*/
 	f=initFaturacao();
@@ -150,6 +147,9 @@ int main () {
 		printf("\t\t\033[31m\033[1m Introduza uma opção válida!\033[0m\n");
 		exit(0);
 	}
+
+	/*Inicializacao do contador*/
+	begin = clock(); 
 
 	puts("");
 	prod=readProdutos(fp,f,vf);

@@ -164,12 +164,13 @@ AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*)) {
 
 /*freeAVL*/
 void freeAVL(AVL a){
-	if(a){
-		free(a->data);
-		freeAVL(getFilho(a,ESQ));
-		freeAVL(getFilho(a,DIR));
-		free(a);
-	}
+	if(!a)
+		return;
+
+	freeAVL(getFilho(a,ESQ));
+	freeAVL(getFilho(a,DIR));
+	free(a->data);
+	free(a);
 }
 
 /* toStringAux

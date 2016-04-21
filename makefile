@@ -35,7 +35,7 @@ gerevendas: $(FILES)
 	$(CC) $(CFLAGS) -o $(OUT_EXE) $(FILES)
 
 rebuild: 
-	clean
+	make clean
 	make gerevendas
 
 exec:
