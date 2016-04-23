@@ -4,21 +4,41 @@
 #include "../headers/tipos.h"
 #include "../headers/AVL.h"
 
+/* nodo
+ * Esta estrutura contem:
+ * - O apontador para informação do nó, representado pelo void* data.
+ * - O factor de balanceamento do nó, representado pelo factor_balanceamento.
+ * - Os apontadores para os filhos do nó, representado pelo *filho[2].
+ */
 typedef struct nodo {
 	void *data;					/*Apontador para informação do nó*/
 	int factor_balanceamento;	/*Factor de balanceamento do nó*/
 	struct nodo *filho[2];		/*Apontadores para os filhos do nó*/
 }nodo;
 
-
+/*
+ * getData
+ * Esta funcao retorna os dados que um nodo
+ * de uma AVL possui.
+ */
 void * getData (AVL a) {
 	return a->data;
 }
 
+/*
+ * getFilho
+ * Esta funcao retorna o apontador para o nodo
+ * filho especificado pelo int dir.
+ */
 AVL getFilho (AVL a, int dir) {
 	return a->filho[dir];
 }
 
+/*
+ * setData
+ * Esta funcao atribui um valao ao data
+ * de um nodo de AVL.
+ */
 void setData (AVL a, void *v) {
 	a->data=v;
 }
@@ -97,6 +117,13 @@ AVL inserir(AVL t, int dir, void *data, int* cresceu,int(*comp)(void*,void*)) {
 	return t;
 }
 
+/*
+ * inserirAVL
+ * Esta funcao verifica se estamos no nodo correto
+ * da AVL a inserir. Se estivermos no nodo correto
+ * chama a funcao auxiliar inserir.
+*/
+
 AVL inserirAVL(AVL t, void* data, int* cresceu, int(*comp)(void*,void*)){
 	if (t==NULL) {
 		t = (AVL)malloc(sizeof(struct nodo));
@@ -112,6 +139,11 @@ AVL inserirAVL(AVL t, void* data, int* cresceu, int(*comp)(void*,void*)){
   return t;
 }
 
+/*
+ * min
+ * Esta funcao calcula o nodo minimo de uma AVL
+ * e retorna esse nodo.
+ */
 AVL min(AVL nodo){
     AVL atual = nodo;
     while (atual->filho[ESQ] != NULL){
@@ -120,6 +152,12 @@ AVL min(AVL nodo){
     return atual;
 }
 
+/*
+ * removerAVL
+ * Esta funcao tem como objetivo remover dados da AVL.
+ * Para isso recebe a AVL em questão e itera até
+ * encontrar o nodo a remover.
+ */
 AVL removerAVL(AVL t, void *data){
     if (data == NULL) return t;
     if (strcmp(data,t->data)<0){
@@ -147,6 +185,14 @@ AVL removerAVL(AVL t, void *data){
     return t;
 }
 
+
+/*
+ * procurarAVL
+ * Esta funcao tem como objetivo encontrar o nodo de uma AVL
+ * que contem a informacao "s" que lhe damos como parametro.
+ * Como a AVL é do tipo genérico temos que lhe passar uma 
+ * função de comparacão.
+ */
 AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*)) {
 	int c;
 	if (!a) return NULL;
@@ -162,7 +208,11 @@ AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*)) {
 	return NULL; 
 }
 
-/*freeAVL*/
+/*
+ * freeAVL
+ * Esta função tem como objetivo libertar a memória ocupada
+ * por uma AVL, recorrendo à funcao free.
+ */
 void freeAVL(AVL a){
 	if(!a)
 		return;
@@ -190,7 +240,11 @@ LISTA_STRING stringAux (AVL a, LISTA_STRING s, int* i) {
 	return s;
 }
 
-
+/*
+ * toString
+ * Esta funcao transforma uma AVL numa lista de strings,
+ * de modo a ser possivel ler de forma facil.
+ */
 LISTA_STRING toString (AVL a, int n) {
 	int i=0;
 	LISTA_STRING s = malloc(sizeof(STRING)*n);

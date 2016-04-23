@@ -11,57 +11,77 @@ typedef struct nodo *AVL;
 
 
 /* getData
-   Devolve a informação contida num nó de uma AVL
+ * Esta função retorna a informação contida num nó de uma AVL.
+ * @parametros  Apontador para nó de AVL - AVL a.
  */
 void * getData (AVL a);
 
 /* getFilho
-   Devolve um apontador para um filho da AVL, na direção dir
+ * Esta função devolve um apontador para o filho da direita.
+ * @parametros - Apontador para nó de AVL - AVL a
+ 				 Inteiro para indicar que o apontador 
+				 dos filhos do nó deve ser o direito - int dir 
+ * @return - Apontador para filho da direita do nó.
  */
 AVL getFilho (AVL a, int dir);
 
 /* inserirAVL
- * Esta função recebe uma AVL, um apontador para a informação que se
- * deseja adicionar, um apontador que servirá como flag para balanciamento
- * e uma função que compara dois apontadores.
- * Se a AVL estiver a NULL, reserva espaço na memória, copia a informação,
- * coloca a filho left e right a NULL e coloca a flag a 1.
- * Se a AVL contém elementos, usa a função de comparação para decidir se
- * insere a informação à esquerda ou à direita.
+ * Esta função insere um nó numa AVL grantido que ela fique balanceada
+ * @parametros - Apontador para nó de AVL - AVL t
+ *               Informação que se deseja inserir no nó - void *data
+ *               Apontador que serve com flag para balanciamento - int *cresceu
+ *               Função de comparação - int(*comp)(void*,void*))
+ * @return - Apontador para AVL 
  */
 AVL inserirAVL (AVL t, void* data, int* cresceu, int(*comp)(void*,void*));
 
 
 /* removerAVL
- * Esta função recebe uma AVL, bem como o objeto a remover,
- * seja ele um código de produto, cliente, venda, etc.
- * Esta função itera a AVL e irá remover esse objeto, balanceando
- * de seguida a AVL.
- */
+ * Esta função remove da AVL um nó caso a informação contida no
+ * nó seja igual à informação passada como parâmetro.
+ * @parametros - Apontador para AVL - AVL t
+                  Informação que se vai comparar à informação 
+ * presente nos nós da AVL - void *data.
+ * @return - Apontador para AVL                
+ */ 
 AVL removerAVL(AVL t, void *data);
 
 /* toString
  * Esta função reserva espaço na memoria para a informação
- * devolvida pela função toStringAux.
+ * devolvida pela função toStringAux. A função toStringAux 
+ * é uma função recursiva coloca numa lista a informação presente nos 
+ * nós de uma AVL.
+ * @parametros - Apontador para nó AVL a
+ *             - Número de nós da AVL - int n
+ * @return - Lista com informação presente nos nós da AVL.
  */
 LISTA_STRING toString (AVL a, int n);
 
 
 /* procurarAVL
- * Esta função recebe uma AVL, um código de produtos ou clientes e
- * uma função de comparação. Percorre a AVL à procura do código dado,
- * se um elemento for igual ao código, devolve um apontador para a 
- * sua posição, se for menor é invocada novamente para a esquerda,
- * se for maior é invocada para a direita.
- */
+ * Esta função procura se na AVL contém um nó cuja informação 
+ * seja igual à informação passada como parâmetro.
+ * @parametros - Apontador para AVL - AVL t
+                  Informação que se vai comparar à informação 
+ * presente nos nós da AVL - void *data.
+ * @return - Apontador para AVL                
+ */ 
 AVL procurarAVL (AVL a, void* s, int(*comp)(void*,void*));
 
-/*free avl*/
+/* freeAVL
+ * Esta função liberta a memória ocupada por uma AVL.
+ * @parametros - Apontador para nó da AVL - AVL a
+ */
 void freeAVL(AVL a);
 
 /* removerAVL
-----documentar
-*/
+ * Esta função remove da AVL um nó caso a informação contida no
+ * nó seja igual à informação passada como parâmetro.
+ * @parametros - Apontador para AVL - AVL t
+                  Informação que se vai comparar à informação 
+ * presente nos nós da AVL - void *data.
+ * @return - Apontador para AVL                
+ */ 
 AVL removerAVL(AVL t, void *data);
 
 #endif

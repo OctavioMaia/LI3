@@ -4,48 +4,61 @@
 #include "../headers/AVL.h"
 #include "../headers/produtos.h"
 
+/*
+ * produto
+ * Esta estrutura contem a informação relativa
+ * a um produto, neste caso, apenas o seu codigo.
+ */
 typedef struct produto{
 	char codigo[7];
 }produto;
 
-typedef struct produtos {
-	ListaProdutos avl[26];		/*Divisao dos produtos em 26 avl's*/
-	int total;					/*Nº produtos total (nas 3 filiais)*/
-}produtos;
-
-/*  ========================================
-     Funções relativas à estrutura Produtos
-    ========================================
+/*
+ * produtos
+ * Esta estrutura contem 26 ListaProdutos 
+ * Ou seja, uma ListaProduto para cada letra
+ * do abecedário.
  */
-
-int prodcmp (Produto a, Produto b) {
-	return strcmp(a->codigo,b->codigo);
-}
-
-int prodcmpstr (PRODUTO a, Produto b) {
-	return strcmp(a,b->codigo);
-}
-
-void setCodigoProduto (Produto p, PRODUTO s) {
-	strcpy(p->codigo,s);
-}
+typedef struct produtos {
+	ListaProdutos avl[26];		
+	int total;					
+}produtos;
 
 /* -------------------
    Funções de consulta
    -------------------
 */
+
+
+/*
+ * getProdutosLetra
+ * retorna a ListaClientes de uma dada letra.
+ */
 ListaProdutos getProdutosLetra (Produtos p, char ch) {
 	return p->avl[ch-'A'];
 }
 
+/*
+ * getCodProduto
+ * retorna o codigo de um Produto p.
+ */
 PRODUTO getCodProduto(Produto p){
 	return p->codigo;
 }
 
+/* 
+ * getTotalProdutos
+ * retorna o total de produtos
+ */ 
 int getTotalProdutos (Produtos p) {
 	return p->total;
 }
 
+
+/*
+ * getListaProdutosLetra
+ * retirna uma lista de produtos, começadas por uma dada letra.
+ */
 LISTA_STRING getListaProdutosLetra (Produtos p, char ch) {
 	LISTA_STRING s=NULL;
 	if (p!=NULL)
@@ -57,14 +70,59 @@ LISTA_STRING getListaProdutosLetra (Produtos p, char ch) {
    Funções de modificação
    ----------------------
 */
-void setProdutos (Produtos p, int total) {
-	p->total=total;
-}
 
+/* 
+ * addProdutos
+ * adiciona total produtos ao total do sistema
+ */
 void addProdutos (Produtos p, int total) {
 	p->total+=total;
 }
 
+/*
+ * setCodigoProduto
+ * copia o codigo de produto s para um produto p
+ */
+void setCodigoProduto (Produto p, PRODUTO s) {
+	strcpy(p->codigo,s);
+}
+
+/* 
+ * setProdutos
+ * altera o número total de produtos do sistema para total
+ */
+void setProdutos (Produtos p, int total) {
+	p->total=total;
+}
+
+
+
+/* -----------------------------------
+   Funções de manipulação dos Produtos
+   -----------------------------------
+*/
+
+/*
+ * prodcmp
+ * funcao de comparacao de dois Produto
+ */
+int prodcmp (Produto a, Produto b) {
+	return strcmp(a->codigo,b->codigo);
+}
+
+/*
+ * prodcmpstr
+ * funcao de comparacao de um produto e de um código
+ * de produto
+ */
+int prodcmpstr (PRODUTO a, Produto b) {
+	return strcmp(a,b->codigo);
+}
+
+/* 
+ * initProdutos
+ * função de inicialização da estrutura Produtos
+ */ 
 Produtos initProdutos(){
 	int i;
 	Produtos p = (Produtos)malloc(sizeof(struct produtos));
@@ -75,11 +133,19 @@ Produtos initProdutos(){
 	return p;
 }
 
+/* 
+ * initProduto
+ * função inicialização de um Produto.
+ */
 Produto initProduto(){
 	Produto p = (Produto)malloc(sizeof(struct produto));
 	return p;
 }
 
+/* 
+ * insertProduto
+ * função de inserção de um produto na estrutura Produtos
+ */
 Produtos insertProduto(Produtos p, PRODUTO s) {
 	int i, pos=s[0]-'A';
 
@@ -97,6 +163,11 @@ Produtos insertProduto(Produtos p, PRODUTO s) {
 	return p;
 }
 
+/* 
+ * searchProduto
+ * função de procura de um dado produto, através
+ * do seu código s
+ */
 Produto searchProduto(Produtos p, PRODUTO s) {
 	Produto p1=NULL;
 	ListaProdutos aux=procurarAVL(p->avl[s[0]-'A'],s,(int (*)(void*,void*))prodcmpstr);
@@ -108,6 +179,10 @@ Produto searchProduto(Produtos p, PRODUTO s) {
 	}
 }
 
+/* 
+ * removeProduto
+ * função de remoção de um produto
+ */
 Produtos removeProduto(Produtos p, PRODUTO s){
 	Produto temp = searchProduto(p,s);
 
@@ -118,6 +193,10 @@ Produtos removeProduto(Produtos p, PRODUTO s){
 	return p;
 }
 
+/* 
+ * freeClientes
+ * função de libertar memória da estrutura Produtos
+ */
 void freeProdutos(Produtos p){
 	int i;
 
@@ -125,3 +204,17 @@ void freeProdutos(Produtos p){
 		freeAVL(p->avl[i]);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

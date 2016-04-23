@@ -12,7 +12,10 @@
 #include "../headers/filial.h"
 #include "../headers/queries.h"
 
-/* Lista google*/
+/*
+ * função que permite ao utilizador navegar pelas diferentes páginas 
+ */
+
 void imprimirLista(LISTA_STRING s,int c,int l, int opcao) {
   int i = 0;
   int numpags;
@@ -91,6 +94,9 @@ float valor_max_float(int n, float valores[]) {
   return max;
 }
 
+/* 
+ * menu inicial
+ */
 void imprimirInit() {
   puts("\t\t\t\t\033[1mEscolha de execução\033[0m");
   puts("\033[1mOpção 1\033[0m - Ler ficheiros Produtos.txt, Clientes.txt e Vendas_1M.txt");
@@ -100,7 +106,9 @@ void imprimirInit() {
   printf("\033[1mOpção escolhida: \033[0m ");
 }
 
-
+/*
+ * menu imprimir menu
+ */
 void imprimirQueries() {
   puts("\t\t\t\t\033[1mLista de Queries\033[0m");
   puts("\033[1mQuery 2\033[0m - Imprimir lista de produtos cujo código se inicia por uma dada letra.");
@@ -119,6 +127,9 @@ void imprimirQueries() {
   puts("");
 }
 
+/* 
+ * função que lê do teclado um inteiro
+ */
 int lerInt(){
   int num;
   char term;
@@ -128,6 +139,9 @@ int lerInt(){
       return num;
 }
 
+/* 
+ * função que liberta memória das estruturas utilizadas pelo programa
+ */
 void freeAll(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]){
   freeClientes(cli);
   freeProdutos(prod);
@@ -138,6 +152,8 @@ void freeAll(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[
 }
 
 /*QUERIES*/
+
+
 void exec(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]){
   int decisao,i; /*para o switch*/
   char ch;
@@ -247,6 +263,11 @@ void exec(Produtos prod, Clientes cli, Faturacao f, Filial vf[] ,Historial h[]){
 }
 
 /*Queries*/
+
+/* 
+ * método de execução da query2
+ */
+
 void query2(Produtos p, char ch){
   clock_t begin, end; /*Contadores de tempo de execucao */
   double time_spent;
@@ -270,6 +291,9 @@ void query2(Produtos p, char ch){
   printf("---------------------------------------------------------------------\n");
 }
 
+/* 
+ * método de execução da query3
+ */
 void query3(Faturacao F, int mes, PRODUTO s, int global){
   Informacao info=NULL;
   clock_t begin, end; /*Contadores de tempo de execucao*/
@@ -309,6 +333,10 @@ void query3(Faturacao F, int mes, PRODUTO s, int global){
   }
 }
 
+
+/* 
+ * método de execução da query4
+ */
 void query4(Faturacao F, Produtos prod, int decisao){
   Informacao info=NULL;
   LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(PRODUTO)*2000), s;
@@ -374,6 +402,10 @@ void query4(Faturacao F, Produtos prod, int decisao){
   imprimirLista(lista,10,9,0);
 }
 
+
+/* 
+ * método de execução da query5
+ */
 void query5(Historial h[], CLIENTE cod_cliente){
   int mes;
   HistorialCliente c1 = searchHistorialCliente(h[0],cod_cliente);
@@ -398,6 +430,10 @@ void query5(Historial h[], CLIENTE cod_cliente){
   printf("---------------------------------------------------------------------\n");
 }
 
+
+/* 
+ * método de execução da query6
+ */
 void query6(Faturacao f, Produtos prod, int m1, int m2){
   int i,mes,filial,vTotal=0,qTotal=0;
   double fTotal=0;
@@ -435,6 +471,9 @@ void query6(Faturacao f, Produtos prod, int m1, int m2){
   }
 }
 
+/* 
+ * método de execução da query7
+ */
 void query7(Historial h[]){
   int i,n=0;
   LISTA_STRING lista=(LISTA_STRING)malloc(sizeof(CLIENTE)*2000),s;
@@ -469,6 +508,9 @@ void query7(Historial h[]){
   }
 }
 
+/* 
+ * método de execução da query8
+ */
 void query8(Filial vf, PRODUTO produto){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
@@ -523,6 +565,9 @@ void query8(Filial vf, PRODUTO produto){
   }
 }
 
+/* 
+ * método de execução da query9
+ */
 void query9(Historial h[], CLIENTE cod_cliente, int m){
   HistorialCliente temp1,temp2,temp3;
   LISTA_STRING lista_produtos[3],lista_mes;
@@ -583,6 +628,9 @@ void query9(Historial h[], CLIENTE cod_cliente, int m){
   }
 }
 
+/* 
+ * método de execução da query10
+ */
 void query10(Filial vf[], Produtos prod, int n){
   double time_spent;
   clock_t begin, end; /*Contadores de tempo de execucao*/
@@ -640,6 +688,10 @@ void query10(Filial vf[], Produtos prod, int n){
   printf("---------------------------------------------------------------------\n");
 }
 
+
+/* 
+ * método de execução da query11
+ */
 void query11(Historial h[], CLIENTE cod_cliente){
   int i,j,x,flag=0,total=0,conta, pos[3];
   double faturado=0,max, valores[3];
@@ -706,6 +758,10 @@ void query11(Historial h[], CLIENTE cod_cliente){
   }
 }
 
+
+/* 
+ * método de execução da query12
+ */
 void query12(Historial h[], Produtos prod, Filial vf[]){
   int i,clientes=0,produtos=0;
   LISTA_STRING s;

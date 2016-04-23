@@ -12,6 +12,10 @@
 #include "headers/queries.h"
 #include "main.h"
 
+/*
+ * readProdutos
+ * funcao de leitura do Produtos.txt
+ */
 Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
 	int i;
 	char buf[10], *s;
@@ -30,6 +34,10 @@ Produtos readProdutos (FILE *fp, Faturacao f, Filial vf[]) {
 	return p;
 }
 
+/*
+ * readClientes
+ * funcao de leitura do Clientes.txt
+ */
 Clientes readClientes (FILE *fp, Historial h[]) {
 	int i;
 	char buf[10], *s;
@@ -46,6 +54,11 @@ Clientes readClientes (FILE *fp, Historial h[]) {
 	return c;
 }
 
+
+/*
+ * readVendas
+ * funcao de leitura do Vendas.txt
+ */
 int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Historial h[]) {
 	int i=0;
 	char buf[50], *s;
@@ -64,6 +77,12 @@ int readVendas (FILE *fp, Faturacao f, Filial vf[], Produtos p, Clientes c,Histo
 	return i;
 }
 
+
+/*
+ * verificarFicheiros
+ * funcao de verificacao dos ficheiros
+ * caso um ficheiro nao exista dá erro
+ */
 int verificaFicheiros(FILE *fp, FILE *fc, FILE *fv){
 	/*Verificação da integridade dos ficheiros*/
 	if (!fp) {
@@ -82,7 +101,12 @@ int verificaFicheiros(FILE *fp, FILE *fc, FILE *fv){
 	return 1;
 }
 
-/* Main */
+
+/*
+ * main
+ * funcao principal do programa, que chama as 
+ * funcoes previamente declaradas
+ */
 int main () {
 	/*Contadores de tempo de execucao*/
 	clock_t begin, end;
@@ -143,6 +167,7 @@ int main () {
 		scanf("%s",vendas);
 		fv = fopen(vendas,"r");
 		
+		verificaFicheiros(fp,fc,fv);
 	}else{
 		printf("\t\t\033[31m\033[1m Introduza uma opção válida!\033[0m\n");
 		exit(0);
