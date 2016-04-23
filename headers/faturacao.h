@@ -7,8 +7,6 @@ typedef struct nodo *ListaFaturacao;
 typedef struct informacao *Informacao;
 typedef struct faturacao *Faturacao;
 
-/*gets*/
-
 /* getFaturacaoLetra
  * Devolve o catalogo de faturacao dos produtos que cujo codigo
  * comeca por uma determinada letra.
@@ -60,8 +58,6 @@ int getTotalFaturacoes (Faturacao f);
  * produtos se iniciem por uma determinada letra. 
  */
 LISTA_STRING  getListaFaturacaoLetra (Faturacao f, char ch);
-
-/*Sets*/
 
 /* setCodigoProdutoFaturacao
  * Esta funcao altera o codigo de um produto de uma faturacao.

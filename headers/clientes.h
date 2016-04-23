@@ -9,16 +9,6 @@ typedef struct clientes *Clientes;
 
 typedef char* CLIENTE;
 
-/*            ======================================
-              Funções relativas à estrutura Clientes
-              ======================================
- */
-
-/* -------------------
-   Funções de consulta
-   -------------------
-*/
-
 /* getClientesLetra
  * Esta função procura a AVL cujos códigos dos clientes
  * comecem por uma determinada letra.

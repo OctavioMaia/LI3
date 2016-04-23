@@ -9,16 +9,6 @@ typedef struct produto *Produto;
 
 typedef char* PRODUTO;
 
-/*            ======================================
-              Funções relativas à estrutura Produtos
-              ======================================
- */
-
-/* -------------------
-   Funções de consulta
-   -------------------
-*/
-
 /* getProdutosLetra
  * Devolve uma AVL cujos nós contém código dos produtos que 
  * começam por uma determinada letra.
@@ -58,10 +48,6 @@ LISTA_STRING  getListaProdutosLetra (Produtos p, char ch);
  * @return - Lista com código dos produtos.
  */
 LISTA_STRING  getListaTodosProdutos (Produtos p);
-/* ----------------------
-   Funções de modificação
-   ----------------------
-*/
 
 /* setProdutos
  * Altera o número de produtos existentes no catálogo.
@@ -77,10 +63,6 @@ void setProdutos (Produtos p, int n);
  */
 void addProdutos (Produtos p, int n);
 
-/* -----------------------------------
-   Funções de manipulação dos Produtos
-   -----------------------------------
-*/
 
 /* initProdutos()
  * Inicia a estrutura Produtos inicializando as 26 posicoes do array

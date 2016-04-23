@@ -11,8 +11,6 @@ typedef struct listaproduto *ListaProduto;
 typedef struct historialcliente *HistorialCliente;
 typedef struct historial *Historial;
 
-/*---*/
-
 /* getVendasFilialLetra
  * Devolve um apontador para o nó cujo códido dos produtos
  * começa por uma determinada letra.
@@ -31,8 +29,6 @@ ListaVFilial getVendasFilialLetra (Filial vf, char ch);
  *           que compraram o produto do tipo P e N.
  */
 Historico getHistorico(ListaProduto lp, int mes);
-
-/*ints*/
 
 /* getTotalVendasFilial 
  * Devolve o total de nós presentes no módulo vendas por filial.
@@ -81,8 +77,6 @@ int getComprouFilial (HistorialCliente c);
  * @return - BOOLEAN correspondente a se comprou ou não.
  */
 BOOLEAN getValorTabela(HistorialCliente c, int mes);
-
-/*listas*/
 
 /* getClientesN
  * Devolve a lista de clientes que compraram um determinado produto

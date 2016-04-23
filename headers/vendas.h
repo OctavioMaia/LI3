@@ -5,10 +5,11 @@
 
 typedef struct venda *Venda;
 
-/* -------------------
-   Funções de consulta
-   -------------------
-*/
+/* getCliente
+ * Devolve o CLIENTE relativo à informação de uma venda
+ * @parametros - Apontador para venda - Venda v
+ * @return - Código de CLIENTE
+ */
 CLIENTE getCliente(Venda v);
 
 /* getProduto
