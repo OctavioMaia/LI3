@@ -23,13 +23,39 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+		int count, invalidas;
 		Crono.start();
 		
 		ArrayList<String> teste = new ArrayList<>();
 		teste = readLinesWithBuff("src/data/Vendas_3M.txt");
 		
+		count = 0;
+        invalidas = 0;
+     
+        for (int i = 0; i < teste.size(); i++) {
+            String linha = teste.get(i);
+            String[] campos = linha.split(" ");
+            String produto = campos[0];
+            double preco = Double.parseDouble(campos[1]);
+            int quantidade = Integer.parseInt(campos[2]);
+            char tipo = campos[3].charAt(0);
+            String cliente = campos[4];
+            int mes = Integer.parseInt(campos[5]);
+            int filial = Integer.parseInt(campos[6]);
+            
+            Venda v = new Venda(produto,preco,quantidade,tipo,cliente,mes,filial);
+            
+            if(v.isValida(v)){
+            	count++;
+            }else{
+            	invalidas++;
+            }
+            
+        }
+		
 		Crono.stop();
-		out.println(Crono.print());
+		out.println("Demorei: "+Crono.print());
+		out.print("validas "+count );
 	}
 
 }

@@ -3,8 +3,8 @@ package source;
 import java.io.Serializable;
 
 /**
- * Representa uma venda. É formada pelos códigos de produto e
- * cliente, preço, quantidade, tipo (normal/promoção), mês e filial.
+ * Representa uma venda. ï¿½ formada pelos cï¿½digos de produto e
+ * cliente, preï¿½o, quantidade, tipo (normal/promoï¿½ï¿½o), mï¿½s e filial.
  */
 public class Venda implements Serializable{
     private String produto;
@@ -60,7 +60,7 @@ public class Venda implements Serializable{
         sb.append("\nPreco: "+String.format("%.2f",this.preco));
         sb.append("\nQuantidade: "+this.quantidade);
         sb.append("\nTipo: "+this.tipo);
-        sb.append("\nMês: "+this.mes);
+        sb.append("\nMÃªs: "+this.mes);
         sb.append("\nFilial: "+this.filial);
         return sb.toString();
     }
@@ -76,6 +76,10 @@ public class Venda implements Serializable{
                this.tipo == v.getTipo()            &&
                this.mes == v.getMes()			   &&
                this.filial == v.getFilial();
+    }
+    
+    public boolean isValida(Venda v){
+    	return true;
     }
     
     public Venda clone(){
