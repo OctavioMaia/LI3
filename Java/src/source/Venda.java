@@ -61,7 +61,7 @@ public class Venda implements Serializable{
         sb.append("\nQuantidade: "+this.quantidade);
         sb.append("\nTipo: "+this.tipo);
         sb.append("\nMês: "+this.mes);
-        sb.append("\nFilial: "+this.filial);
+        sb.append("\nFilial: "+this.filial + "\n");
         return sb.toString();
     }
     
@@ -76,10 +76,6 @@ public class Venda implements Serializable{
                this.tipo == v.getTipo()            &&
                this.mes == v.getMes()			   &&
                this.filial == v.getFilial();
-    }
-    
-    public boolean isValida(Venda v){
-    	return true;
     }
     
     public Venda clone(){

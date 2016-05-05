@@ -25,32 +25,39 @@ public class Main {
 	public static void main(String[] args) {
 		int count, invalidas;
 		Crono.start();
-		
+		ArrayList<String> produtos = new ArrayList<>();
+		ArrayList<String> clientes = new ArrayList<>();
 		ArrayList<String> teste = new ArrayList<>();
+		
+		produtos = readLinesWithBuff("src/data/Produtos.txt");
+		clientes = readLinesWithBuff("src/data/Clientes.txt");
 		teste = readLinesWithBuff("src/data/Vendas_3M.txt");
 		
 		count = 0;
         invalidas = 0;
-     
-        for (int i = 0; i < teste.size(); i++) {
-            String linha = teste.get(i);
-            String[] campos = linha.split(" ");
-            String produto = campos[0];
-            double preco = Double.parseDouble(campos[1]);
-            int quantidade = Integer.parseInt(campos[2]);
-            char tipo = campos[3].charAt(0);
-            String cliente = campos[4];
-            int mes = Integer.parseInt(campos[5]);
-            int filial = Integer.parseInt(campos[6]);
-            
-            Venda v = new Venda(produto,preco,quantidade,tipo,cliente,mes,filial);
-            
-            if(v.isValida(v)){
-            	count++;
-            }else{
-            	invalidas++;
-            }
-            
+        
+        Catalogo CatalogoProdutos = new Catalogo(produtos);
+        Catalogo CatalogoClientes = new Catalogo(clientes);
+        
+        try{
+	        for (int i = 0; i < teste.size(); i++) {
+	            String linha = teste.get(i);
+	            String[] campos = linha.split(" ");
+	            String produto = campos[0];
+	            double preco = Double.parseDouble(campos[1]);
+	            int quantidade = Integer.parseInt(campos[2]);
+	            char tipo = campos[3].charAt(0);
+	            String cliente = campos[4];
+	            int mes = Integer.parseInt(campos[5]);
+	            int filial = Integer.parseInt(campos[6]);
+	            
+	            Venda v = new Venda(produto,preco,quantidade,tipo,cliente,mes,filial);
+	            
+	        }
+        }catch(NullPointerException e){
+        	out.println(e.getMessage());
+        }catch(NumberFormatException e){
+        	out.println(e.getMessage());
         }
 		
 		Crono.stop();
