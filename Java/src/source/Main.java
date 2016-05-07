@@ -22,47 +22,71 @@ public class Main {
 		return linhas;
 	}
 
-	public static void main(String[] args) {
-		int count, invalidas;
+	public static Catalogo readProdutos(Faturacao f, String path){
 		Crono.start();
-		ArrayList<String> produtos = new ArrayList<>();
-		ArrayList<String> clientes = new ArrayList<>();
-		ArrayList<String> teste = new ArrayList<>();
-		
-		produtos = readLinesWithBuff("src/data/Produtos.txt");
-		clientes = readLinesWithBuff("src/data/Clientes.txt");
-		teste = readLinesWithBuff("src/data/Vendas_3M.txt");
-		
-		count = 0;
-        invalidas = 0;
-        
+		ArrayList<String> produtos = readLinesWithBuff(path);
         Catalogo CatalogoProdutos = new Catalogo(produtos);
-        Catalogo CatalogoClientes = new Catalogo(clientes);
+        f.addProdutos(produtos);
+        Crono.stop();
         
-        try{
-	        for (int i = 0; i < teste.size(); i++) {
-	            String linha = teste.get(i);
-	            String[] campos = linha.split(" ");
-	            String produto = campos[0];
-	            double preco = Double.parseDouble(campos[1]);
-	            int quantidade = Integer.parseInt(campos[2]);
-	            char tipo = campos[3].charAt(0);
-	            String cliente = campos[4];
-	            int mes = Integer.parseInt(campos[5]);
-	            int filial = Integer.parseInt(campos[6]);
-	            
-	            Venda v = new Venda(produto,preco,quantidade,tipo,cliente,mes,filial);
-	            
-	        }
-        }catch(NullPointerException e){
-        	out.println(e.getMessage());
-        }catch(NumberFormatException e){
-        	out.println(e.getMessage());
-        }
-		
+        out.println("Inseri "+ produtos.size() +" produtos em " + Crono.print() );
+        return CatalogoProdutos;
+	}
+	
+	public static Catalogo readClientes(String path){
+		Crono.start();
+		ArrayList<String> clientes = readLinesWithBuff(path);
+        Catalogo CatalogoClientes = new Catalogo(clientes);
+        Crono.stop();
+        
+        out.println("Inseri "+ clientes.size() +" clientes em " + Crono.print() );
+        return CatalogoClientes;
+	}
+	
+	public static void readCompras(Faturacao f, Catalogo produtos, Catalogo clientes, String path){
+		Crono.start();
+		ArrayList<String> teste = readLinesWithBuff(path);
+		int validos=0, invalidos=0;
+		try {
+			for (int i = 0; i < teste.size(); i++) {
+				String linha = teste.get(i);
+				String[] campos = linha.split(" ");
+				String produto = campos[0];
+				double preco = Double.parseDouble(campos[1]);
+				int quantidade = Integer.parseInt(campos[2]);
+				char tipo = campos[3].charAt(0);
+				String cliente = campos[4];
+				int mes = Integer.parseInt(campos[5]);
+				int filial = Integer.parseInt(campos[6]);
+
+				if(produtos.contains(produto) && clientes.contains(cliente) && preco>=0 && quantidade>0 && (tipo=='P' || tipo=='N') && (mes>=1 && mes<=12) && (filial>=1 && filial<=3)){
+					Venda v = new Venda(produto, preco, quantidade, tipo, cliente, mes, filial);
+					f.addVenda(v);
+					validos++;
+				}else{
+					invalidos++;
+				}
+			}
+		} catch (NullPointerException e) {
+			out.println(e.getMessage());
+		} catch (NumberFormatException e) {
+			out.println(e.getMessage());
+		}
 		Crono.stop();
-		out.println("Demorei: "+Crono.print());
-		out.print("validas "+count );
+		out.println("Inseri "+ validos +" vendas válidas em " + Crono.print() );
 	}
 
+	public static void main(String[] args) {
+		Faturacao f = new Faturacao();
+    
+        Catalogo CatalogoProdutos = readProdutos(f,"src/data/Produtos.txt");
+        Catalogo CatalogoClientes = readClientes("src/data/Clientes.txt");
+
+        readCompras(f, CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
+        
+        out.println(f.getQuantidadeProdutoMesN(6,"AF1184"));
+        out.println(f.getQuantidadeProdutoMesP(6,"AF1184"));
+        out.println(f.getFaturadoNMes(6,"AF1184"));
+        out.println(f.getFaturadoPMes(6,"AF1184"));
+	}
 }

@@ -56,12 +56,12 @@ public class Venda implements Serializable{
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Produto: "+this.produto);
-        sb.append("\nCliente: "+this.cliente);
-        sb.append("\nPreco: "+String.format("%.2f",this.preco));
-        sb.append("\nQuantidade: "+this.quantidade);
-        sb.append("\nTipo: "+this.tipo);
-        sb.append("\nMês: "+this.mes);
-        sb.append("\nFilial: "+this.filial + "\n");
+        sb.append(" Cliente: "+this.cliente);
+        sb.append(" Preco: "+String.format("%.2f",this.preco));
+        sb.append(" Quantidade: "+this.quantidade);
+        sb.append(" Tipo: "+this.tipo);
+        sb.append(" Mês: "+this.mes);
+        sb.append(" Filial: "+this.filial + "\n");
         return sb.toString();
     }
     
