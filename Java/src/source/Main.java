@@ -82,7 +82,9 @@ public class Main {
         Catalogo CatalogoProdutos = readProdutos(f,"src/data/Produtos.txt");
         Catalogo CatalogoClientes = readClientes("src/data/Clientes.txt");
 
-        readCompras(f, CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
+        //readCompras(f, CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
+        
+        Queries.query2(CatalogoProdutos);
         
         out.println(f.getQuantidadeProdutoMesN(6,"AF1184"));
         out.println(f.getQuantidadeProdutoMesP(6,"AF1184"));

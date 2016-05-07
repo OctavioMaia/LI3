@@ -26,6 +26,16 @@ public class Catalogo implements Serializable{
         TreeSet<String> cat = new TreeSet<String>();
         for (String s : this.catalogo)
         	cat.add(s);
+        
+        return cat;
+    }
+    
+    public ArrayList<String> getCodigosLetra(char ch) {
+    	ArrayList<String> cat = new ArrayList<String>();
+        for (String s : this.catalogo)
+        	if(s.charAt(0)==ch)
+        		cat.add(s);
+        
         return cat;
     }
     
