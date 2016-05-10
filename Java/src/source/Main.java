@@ -73,6 +73,7 @@ public class Main {
 			out.println(e.getMessage());
 		}
 		Crono.stop();
+		out.println("Existem "+ invalidos +" vendas inválidas.");
 		out.println("Inseri "+ validos +" vendas válidas em " + Crono.print() );
 	}
 
@@ -82,13 +83,14 @@ public class Main {
         Catalogo CatalogoProdutos = readProdutos(f,"src/data/Produtos.txt");
         Catalogo CatalogoClientes = readClientes("src/data/Clientes.txt");
 
-        //readCompras(f, CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
+        readCompras(f,CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
         
-        Queries.query2(CatalogoProdutos);
+        /*Queries.query2(CatalogoProdutos);
         
         out.println(f.getQuantidadeProdutoMesN(6,"AF1184"));
         out.println(f.getQuantidadeProdutoMesP(6,"AF1184"));
         out.println(f.getFaturadoNMes(6,"AF1184"));
         out.println(f.getFaturadoPMes(6,"AF1184"));
-	}
+        */
+        }
 }
