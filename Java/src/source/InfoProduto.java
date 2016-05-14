@@ -56,8 +56,13 @@ public class InfoProduto implements Serializable {
 		}else{
 			this.clientes.add(codigo);
 			pos=this.clientes.indexOf(codigo);
-			this.quantidade.set(pos, quantidade);
-			this.faturado.set(pos, faturado);
+			if(pos!=0){ // crashava qd n existia nada no array
+				this.quantidade.set(pos, quantidade);
+				this.faturado.set(pos, faturado);
+			}else{
+				this.quantidade.add(quantidade);
+				this.faturado.add(faturado);
+			}
 		}
 	}
 

@@ -42,7 +42,7 @@ public class Main {
         return CatalogoClientes;
 	}
 	
-	public static void readCompras(Faturacao f, Catalogo produtos, Catalogo clientes, String path){
+	public static void readCompras(Filial[] filial, Faturacao f, Catalogo produtos, Catalogo clientes, String path){
 		Crono.start();
 		ArrayList<String> teste = readLinesWithBuff(path);
 		int validos=0, invalidos=0;
@@ -56,11 +56,14 @@ public class Main {
 				char tipo = campos[3].charAt(0);
 				String cliente = campos[4];
 				int mes = Integer.parseInt(campos[5]);
-				int filial = Integer.parseInt(campos[6]);
+				int fil = Integer.parseInt(campos[6]);
 
-				if(produtos.contains(produto) && clientes.contains(cliente) && preco>=0 && quantidade>0 && (tipo=='P' || tipo=='N') && (mes>=1 && mes<=12) && (filial>=1 && filial<=3)){
-					Venda v = new Venda(produto, preco, quantidade, tipo, cliente, mes, filial);
+				if(produtos.contains(produto) && clientes.contains(cliente) && preco>=0 && quantidade>0 && (tipo=='P' || tipo=='N') && (mes>=1 && mes<=12) && (fil>=1 && fil<=3)){
+					Venda v = new Venda(produto, preco, quantidade, tipo, cliente, mes, fil);
 					f.addVenda(v);
+					//out.println("filial "+(fil-1));
+					filial[fil-1].update(v);
+					//out.print("depois update");
 					validos++;
 				}else{
 					invalidos++;
@@ -77,12 +80,20 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		Faturacao f = new Faturacao();
-    
-        Catalogo CatalogoProdutos = readProdutos(f,"src/data/Produtos.txt");
+		Filial[] filial = new Filial[3];
+		filial[0] = new Filial();
+		filial[1] = new Filial();
+		filial[2] = new Filial();
+		Faturacao faturacao = new Faturacao();
+		
+        Catalogo CatalogoProdutos = readProdutos(faturacao,"src/data/Produtos.txt");
         Catalogo CatalogoClientes = readClientes("src/data/Clientes.txt");
 
-        readCompras(f,CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
+        readCompras(filial,faturacao,CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
+        
+        out.print(filial[0].toString());
+        out.print(filial[1].toString());
+        out.print(filial[2].toString());
         
         /*Queries.query2(CatalogoProdutos);
         

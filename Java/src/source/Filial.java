@@ -21,8 +21,34 @@ public class Filial implements Serializable{
 		int mes = v.getMes();
 		double preco = v.getPreco();
 		
-		this.informacaoClientes.get(cliente).update(produto, quantidade, tipo, mes, preco); // falta fazer
-		this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes, preco); // falta fazer
+		//System.out.println("depois de invocar");
+	//	System.out.print("venda:" +v.toString());
+		
+		if(this.informacaoClientes.containsKey(cliente)){
+			this.informacaoClientes.get(cliente).update(produto, quantidade, tipo, mes, preco);
+		//	System.out.println("nao existe cliente");
+		}else{
+			this.informacaoClientes.put(cliente, new DetalhesCliente());
+			this.informacaoClientes.get(cliente).update(produto, quantidade, tipo, mes, preco);
+			//System.out.println("nao existe cliente");
+		}
+		
+		if(this.informacaoProduto.containsKey(produto)){
+			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes, preco); 
+			//System.out.println("nao existe produto");
+		}else{
+			this.informacaoProduto.put(produto, new DetalhesProduto());
+			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes, preco);
+			//System.out.println("existe produto");
+		}
+	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("cli" + informacaoClientes.size() + "prod" + informacaoProduto.size() +"\n");
+		
+		return sb.toString();
 	}
 	
 }
