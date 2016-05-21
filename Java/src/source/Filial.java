@@ -22,7 +22,7 @@ public class Filial implements Serializable{
 		double preco = v.getPreco();
 		
 		//System.out.println("depois de invocar");
-	//	System.out.print("venda:" +v.toString());
+		//System.out.print("venda:" +v.toString());
 		
 		if(this.informacaoClientes.containsKey(cliente)){
 			this.informacaoClientes.get(cliente).update(produto, quantidade, tipo, mes, preco);
