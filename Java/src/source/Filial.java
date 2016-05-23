@@ -1,12 +1,12 @@
 package source;
 
 import java.io.Serializable;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Filial implements Serializable{
 
-	private TreeMap<String, DetalhesCliente> informacaoClientes;
-	private TreeMap<String, DetalhesProduto> informacaoProduto;
+	private Map<String, DetalhesCliente> informacaoClientes;
+	private Map<String, DetalhesProduto> informacaoProduto;
 	
 	public Filial(){
 		this.informacaoClientes = new TreeMap<>();
@@ -34,12 +34,12 @@ public class Filial implements Serializable{
 		}
 		
 		if(this.informacaoProduto.containsKey(produto)){
-			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes, preco); 
-			//System.out.println("nao existe produto");
+			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes); 
+			System.out.println("nao existe produto");
 		}else{
 			this.informacaoProduto.put(produto, new DetalhesProduto());
-			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes, preco);
-			//System.out.println("existe produto");
+			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes);
+			System.out.println("existe produto");
 		}
 	}
 	
