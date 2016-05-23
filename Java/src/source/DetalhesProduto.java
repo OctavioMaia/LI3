@@ -1,11 +1,11 @@
 package source;
 
-import java.util.TreeMap;
+import java.io.Serializable;
+import java.util.*;
 
-public class DetalhesProduto {
+public class DetalhesProduto implements Serializable{
 
 	private TreeMap<Integer, ProdutosMes> produtos; /*Para um dado mes, tem os detalhes do produto*/
-	
 	
 	public DetalhesProduto(){
 		this.produtos=new TreeMap<>();

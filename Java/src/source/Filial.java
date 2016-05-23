@@ -35,11 +35,11 @@ public class Filial implements Serializable{
 		
 		if(this.informacaoProduto.containsKey(produto)){
 			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes); 
-			System.out.println("nao existe produto");
+			//System.out.println("nao existe produto");
 		}else{
 			this.informacaoProduto.put(produto, new DetalhesProduto());
 			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes);
-			System.out.println("existe produto");
+			//System.out.println("existe produto");
 		}
 	}
 	

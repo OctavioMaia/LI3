@@ -56,7 +56,7 @@ public class ProdutosMes implements Serializable{
 	
 	public void add(String codigo, Integer quantidade, char tipo) {
 		int qt=0;
-		
+		//System.out.println("entrei");
 		if(tipo == 'N'){
 			if(this.containsN(codigo)){
 				qt=this.clientesN.get(codigo);
