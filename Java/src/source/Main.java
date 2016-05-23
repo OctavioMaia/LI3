@@ -44,12 +44,12 @@ public class Main {
 	
 	public static void readCompras(Filial[] filial, Faturacao f, Catalogo produtos, Catalogo clientes, String path){
 		Crono.start();
+		Venda v = new Venda();
 		ArrayList<String> teste = readLinesWithBuff(path);
-		int validos=0, invalidos=0;
+		int validos=0, invalidos=0,contador=0;
 		try {
 			for (int i = 0; i < teste.size(); i++) {
-				String linha = teste.get(i);
-				String[] campos = linha.split(" ");
+				String[] campos = teste.get(i).split(" ");
 				String produto = campos[0];
 				double preco = Double.parseDouble(campos[1]);
 				int quantidade = Integer.parseInt(campos[2]);
@@ -58,8 +58,10 @@ public class Main {
 				int mes = Integer.parseInt(campos[5]);
 				int fil = Integer.parseInt(campos[6]);
 
+				contador++;
+				
 				if(produtos.contains(produto) && clientes.contains(cliente) && preco>=0 && quantidade>0 && (tipo=='P' || tipo=='N') && (mes>=1 && mes<=12) && (fil>=1 && fil<=3)){
-					Venda v = new Venda(produto, preco, quantidade, tipo, cliente, mes, fil);
+					v = new Venda(produto, preco, quantidade, tipo, cliente, mes, fil);
 					f.addVenda(v);
 					//out.println("filial "+(fil-1));
 					filial[fil-1].update(v);
@@ -73,10 +75,13 @@ public class Main {
 			out.println(e.getMessage());
 		} catch (NumberFormatException e) {
 			out.println(e.getMessage());
+		} catch (OutOfMemoryError e){
+			out.print("crashei "+contador + "\n");
 		}
 		Crono.stop();
 		out.println("Existem "+ invalidos +" vendas inválidas.");
-		out.println("Inseri "+ validos +" vendas válidas em " + Crono.print() );
+		out.println("Existem "+ validos +" vendas válidas.");
+		out.println("Todas as vendas processadas e inseridas em"  + Crono.print() );
 	}
 
 	public static void main(String[] args) {
