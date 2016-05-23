@@ -96,11 +96,12 @@ public class Main {
 
         readCompras(filial,faturacao,CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
         
+        /*
         out.print(filial[0].toString());
         out.print(filial[1].toString());
         out.print(filial[2].toString());
         
-        /*Queries.query2(CatalogoProdutos);
+        Queries.query2(CatalogoProdutos);
         
         out.println(f.getQuantidadeProdutoMesN(6,"AF1184"));
         out.println(f.getQuantidadeProdutoMesP(6,"AF1184"));
