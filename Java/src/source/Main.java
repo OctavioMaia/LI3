@@ -78,10 +78,9 @@ public class Main {
 		} catch (OutOfMemoryError e){
 			out.print("crashei "+contador + "\n");
 		}
-		Crono.stop();
+		out.println("Todas as vendas processadas e inseridas em "  + Crono.print() );
 		out.println("Existem "+ invalidos +" vendas inválidas.");
 		out.println("Existem "+ validos +" vendas válidas.");
-		out.println("Todas as vendas processadas e inseridas em"  + Crono.print() );
 	}
 
 	public static void main(String[] args) {
@@ -108,5 +107,9 @@ public class Main {
         out.println(f.getFaturadoNMes(6,"AF1184"));
         out.println(f.getFaturadoPMes(6,"AF1184"));
         */
-        }
+        
+        //Queries.query1(faturacao);
+        Queries.query2(filial);
+        
+	}
 }

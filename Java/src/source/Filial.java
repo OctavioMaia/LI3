@@ -13,6 +13,20 @@ public class Filial implements Serializable{
 		this.informacaoProduto = new TreeMap<>();
 	}
 	
+	public TreeMap<String, DetalhesCliente> getInformacaoClientes(){
+		TreeMap<String,DetalhesCliente> copia = new TreeMap<>();
+		copia.putAll(this.informacaoClientes);
+		
+		return copia;
+	}
+	
+	public TreeMap<String, DetalhesProduto> getInformacaoProdutos(){
+		TreeMap<String,DetalhesProduto> copia = new TreeMap<>();
+		copia.putAll(this.informacaoProduto);
+		
+		return copia;
+	}
+	
 	public void update(Venda v){
 		String cliente = v.getCliente();
 		String produto = v.getProduto();

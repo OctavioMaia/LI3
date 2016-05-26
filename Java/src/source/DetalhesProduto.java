@@ -20,4 +20,40 @@ public class DetalhesProduto implements Serializable{
 		}
 	}
 	
+	public TreeMap<Integer, ProdutosMes> getProdutos(){
+		TreeMap<Integer,ProdutosMes> copia = new TreeMap<>();
+		copia.putAll(this.produtos);
+		
+		return copia;
+	}
+	
+	public Map<String, Integer> getClientesMesN(Integer mes){
+		return this.produtos.get(mes).getClientesN();
+	}
+	
+	public Map<String, Integer> getClientesMesP(Integer mes){
+		return this.produtos.get(mes).getClientesP();
+	}
+	
+	public int getQuantidadeClientesMes(Integer mes){
+		return this.produtos.get(mes).getQuantidadeClientes();
+	}
+	
+	public int getQuantidadeVendidaMes(Integer mes){
+		return this.produtos.get(mes).getQuantidadeVendida();
+	}	
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Set<Integer> c = produtos.keySet();
+		Iterator<Integer> i = c.iterator();
+		
+		while(i.hasNext()){
+			sb.append("Mes: "+ i.next() +"\n");
+		}
+		
+
+		return sb.toString();
+	}
+	
 }

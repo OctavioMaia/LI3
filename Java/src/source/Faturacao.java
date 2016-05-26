@@ -59,7 +59,7 @@ public class Faturacao implements Serializable{
         this.faturacao.get(produto).addVenda(v);
     }
     
-    public void removeCompra(Venda v){
+    public void removeVenda(Venda v){
         String produto = v.getProduto();
         if(this.faturacao.containsKey(produto))
             this.faturacao.get(produto).removeVenda(v);
@@ -69,7 +69,7 @@ public class Faturacao implements Serializable{
         this.faturacao.remove(produto);
     }
     
-    public int getTotProdutosComCompras(){
+    public int getTotProdutosComVendas(){
         int total = 0;
         for(FaturacaoProduto f: this.faturacao.values())
         	if(!f.semVendas())
@@ -78,7 +78,7 @@ public class Faturacao implements Serializable{
         return total;
     }
     
-    public int getTotProdutosSemCompras(){
+    public int getTotProdutosSemVendas(){
         int total = 0;
         for(FaturacaoProduto f: this.faturacao.values())
         	if(f.semVendas()) 

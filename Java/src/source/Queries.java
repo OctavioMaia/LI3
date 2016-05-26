@@ -6,80 +6,79 @@ import static java.lang.System.out;
 
 public class Queries {
 
-	   public static void query2(Catalogo produtos){
-	       Scanner sc = new Scanner(System.in);
-	       Crono.start();
-	       ArrayList<String> cat = produtos.getCodigosLetra('A');
-	       
-	       imprimirAux(cat,10,9,cat.size()/90,0);
-	   }
+	public static void query1(Faturacao f) {
+		Crono.start();
+		ArrayList<String> l = f.getProdutosSemVendas();
+		int total = f.getTotProdutosSemVendas();
 
-	   /*private static void apresentarPaginas(ArrayList<String> lista, int linhas, int colunas){
-	       Scanner sc = new Scanner(System.in);
-	       int size = lista.size();
-	       int paginaAtual = 1;
-	       int paginas = size/(linhas*colunas);
-	       if(size%(linhas*colunas) != 0) paginas++;
-	       System.out.println("");
-	       for(int i=0; i<colunas && i<size; i++){
-	    	   for(int j=0; j<linhas && j<size; j++)
-	    		   System.out.print(lista.get(i) + "\t");
-	       	   System.out.println("");
-	       }
-	       System.out.printf("Página %d de %d (%d resultados  - %.2f segundos)\n", paginaAtual, paginas, size, Crono.stop());
-	       while(true){
-	           System.out.println("Introduza número de página (0 para sair)");
-	           while(!sc.hasNextInt()) sc.nextLine();
-	           paginaAtual = sc.nextInt();
-	           while(paginaAtual < 0 || paginaAtual >paginas){
-	               System.out.println("Página inválida");
-	               System.out.printf("Introduza número de página (%d páginas, 0 para sair)\n",paginas);
-	               while(!sc.hasNextInt()) 
-	            	   sc.nextLine();
-	               paginaAtual = sc.nextInt();
-	           }
-	           if(paginaAtual == 0) 
-	        	   return;
-	           System.out.println("");
-	           for(int i=0; i<colunas && i<size; i++){
-		    	   for(int j=0; j<linhas && j<size; j++)
-		    		   System.out.print(lista.get(i) + "\t");
-		       	   System.out.println("");
-		       }
-	           System.out.printf("Página %d de %d (%d resultados)\n", paginaAtual,paginas,size);
-	       }
-	   }*/
-	   
-	   private static void imprimirAux(List<String> s, int c , int l,int t, int pa) {
-		   Scanner sc = new Scanner(System.in);
-		   int j,p;
-		   int i=0;
-		   int y=0;
-		   int total=0;
+		out.println("Existem " + total + " produtos que nunca foram comprados.");
+		out.println("Demoramos " +Crono.print()+" segundos.");
 
-		   if(pa>=0){
-			 out.println("----------------------------------Página "+pa+1+"----------------------------------");
-		     for (i=0;i<l && s.get(y+1)!=null;i++){   
-		         for (j=0;j<c && s.get(y)!=null;j++,y++,total++){
-		             out.print(s.get(y)+"\t");
-		         }
-		       out.println("");
-		     }
-		       
-		     out.println("----------------------------------------------------------------------------\n");
-		     out.print("Existem "+(t+1)+" páginas. \nPágina a verificar? (+ pag. seguinte | - pag. anterior | 0 sair)");  
-
-		     p=sc.nextInt();
-
-		     List<String> prox =  s.subList(y,s.size()-y);
-		     if (p=='+' && pa+1<t) imprimirAux(prox,c,l,t,pa+1); 
-		     else if (p=='-') imprimirAux(prox,c,l,t,pa-1);
-		     else if (p==-1 || p > t || p<=0) out.println("Exit!\n");
-		     else imprimirAux (prox,c,l,t,p-1);   
-		   }else{
-			   out.println("Exit!\n");
-		   }
-		   sc.close();
-		 }
+		apresentarPaginas(l, 10);
+	}
 	
+	public static void query2(Filial[] f) { //ta mal, temos que juntar tipo num array os clientes de todas as filiais e remover os repetidos
+		Crono.start();
+		Scanner sc = new Scanner(System.in);
+		int mes,filial, total_vendas=0, total_clientes=0;
+		
+		out.print("Introduza um mês: ");
+		mes = sc.nextInt();
+		
+		for(filial=0;filial<3;filial++){
+			TreeMap<String, DetalhesProduto> m = f[filial].getInformacaoProdutos();
+			Set<String> keys = m.keySet();
+			Iterator<String> it = keys.iterator();
+			
+			while(it.hasNext()){
+				String s = it.next();
+				//out.println("debug " + s);
+				try{
+					ProdutosMes dp = m.get(s).getProdutos().get(mes);
+					total_vendas += dp.getQuantidadeVendida();
+					total_clientes += dp.getQuantidadeClientes();
+				}catch(Exception e){
+					
+				}
+			}	
+		}
+		
+		out.printf("No mês %d, foram realizadas %d vendas e houve %d clientes distintos.\n",mes,total_vendas,total_clientes);
+		out.println("Demoramos " +Crono.print()+" segundos.");
+		sc.close();
+	}
+
+	private static void apresentarPaginas(ArrayList<String> lista, int sizePagina) {
+		if (lista.isEmpty() || sizePagina == 0) return;
+		Scanner sc = new Scanner(System.in);
+		int size = lista.size();
+		int paginaAtual = 1;
+		int paginas = size / sizePagina;
+		if (size % sizePagina != 0) paginas++;
+		out.printf("--------------------Página %d--------------------\n",paginaAtual);
+		for (int i = 0; i < sizePagina && i < size; i++)
+			out.println((i + 1) + ".\t" + lista.get(i));
+		out.printf("Página %d de %d (%d resultados  - %.2f segundos)\n", paginaAtual, paginas, size, Crono.stop());
+		while (true) {
+			out.println("Introduza número da página (0 para sair)");
+			out.print("Página: ");
+			while (!sc.hasNextInt())
+				sc.nextLine();
+			paginaAtual = sc.nextInt();
+			while (paginaAtual < 0 || paginaAtual > paginas) {
+				out.println("Página inválida");
+				out.printf("Introduza número da página (%d páginas, 0 para sair)\n", paginas);
+				while (!sc.hasNextInt())
+					sc.nextLine();
+				paginaAtual = sc.nextInt();
+			}
+			if (paginaAtual == 0)
+				return;
+			out.printf("--------------------Página %d--------------------\n",paginaAtual);
+			for (int i = (paginaAtual - 1) * sizePagina; i < (paginaAtual * sizePagina) && i < size; i++)
+				out.println((i + 1) + ".\t" + lista.get(i));
+			out.printf("Página %d de %d (%d resultados)\n", paginaAtual, paginas, size);
+		}
+	}
+
 }

@@ -7,8 +7,8 @@ public class ProdutosMes implements Serializable{
 	
 	private Map<String, Integer> clientesN; //Key = cliente, value = qt comprada por esse cliente
 	private Map<String, Integer> clientesP; //Key = cliente, value = qt comprada por esse cliente
-	private int quantidade_vendida;
-	private int quantidade_clientes;
+	private int quantidade_clientes; // = nº clientes que compraram
+	private int quantidade_vendida; 
 	
 	public ProdutosMes(){
 		this.clientesN = new TreeMap<>();
@@ -99,14 +99,6 @@ public class ProdutosMes implements Serializable{
 	
 	public boolean containsP(String codigo) {
 		return this.clientesP.containsKey(codigo);
-	}
-
-	public int sizeN() {
-		return this.clientesN.size();
-	}
-	
-	public int sizeP() {
-		return this.clientesP.size();
 	}
 
 	public boolean equals(Object o) {

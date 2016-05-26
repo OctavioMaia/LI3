@@ -307,11 +307,11 @@ public class FaturacaoProduto implements Serializable{
         for(int i = 0; i<12 && flag; i++){
         	for(int j = 0; j<3 && flag; j++){
 	            if(this.vendasN[i][j] != cont.getComprasN()[i][j] 	   ||
-	               this.vendasP[i][j] != cont.getComprasP()[i][j] 	   ||
-	               this.quantidadeN[i][j] != cont.getVendasN()[i][j]   ||
-	               this.quantidadeP[i][j] != cont.getVendasP()[i][j]   ||
-	               this.faturadoN[i][j] != cont.getFaturacaoN()[i][j]  ||
-	               this.faturadoP[i][j] != cont.getFaturacaoP()[i][j]){
+	            	this.vendasP[i][j] != cont.getComprasP()[i][j] 	   ||
+	               	this.quantidadeN[i][j] != cont.getVendasN()[i][j]  ||
+	               	this.quantidadeP[i][j] != cont.getVendasP()[i][j]  ||
+	               	this.faturadoN[i][j] != cont.getFaturacaoN()[i][j] ||
+	               	this.faturadoP[i][j] != cont.getFaturacaoP()[i][j]){
 	            	flag = false;
 	            }
         	}
