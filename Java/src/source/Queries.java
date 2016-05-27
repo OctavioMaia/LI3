@@ -18,13 +18,12 @@ public class Queries {
 	}
 	
 	public static void query2(Filial[] f) { //ta mal, temos que juntar tipo num array os clientes de todas as filiais e remover os repetidos
-		Crono.start();
-		Scanner sc = new Scanner(System.in);
 		int mes,filial, total_vendas=0, total_clientes=0;
 		
 		out.print("Introduza um mês: ");
-		mes = sc.nextInt();
+		mes = Input.lerInt();
 		
+		Crono.start();
 		for(filial=0;filial<3;filial++){
 			TreeMap<String, DetalhesProduto> m = f[filial].getInformacaoProdutos();
 			Set<String> keys = m.keySet();
@@ -45,9 +44,51 @@ public class Queries {
 		
 		out.printf("No mês %d, foram realizadas %d vendas e houve %d clientes distintos.\n",mes,total_vendas,total_clientes);
 		out.println("Demoramos " +Crono.print()+" segundos.");
-		sc.close();
 	}
 
+	public static void query3(Filial[] f){
+		DetalhesCliente dc = null;
+		String codigo;
+		int filial,mes;
+		int compras[] = new int[12];
+		int qt_prod[] = new int[12];
+		double faturado[] = new double[12];
+		codigo = Input.lerString();
+		Crono.start();		
+		
+		for(int i=0;i<12;i++){
+			compras[i]=0;
+			qt_prod[i]=0;
+			faturado[i]=0;
+		}
+		
+		for(filial=0;filial<3;filial++){
+			try{
+				dc = f[filial].getInformacaoClientes().get(codigo);
+			}catch(Exception e){
+			}
+			for(mes=1;mes<=12;mes++){
+				try{
+					TreeMap<String, InfoProduto> tm  = dc.getComprasMes(mes).getInformacao();
+					
+					for(Map.Entry<String,InfoProduto> entry : tm.entrySet()) {
+						InfoProduto value = entry.getValue();	  
+						compras[mes-1]+=value.getNCompras();
+						qt_prod[mes-1]++;
+						faturado[mes-1]+=value.getGasto();	  
+					}
+				}catch(Exception e){
+				}
+			}
+		}
+		
+		
+		for(int i=0;i<12;i++)
+			out.printf("Mês: " + (i+1) +" Compras: " + compras[i] /*+" Produtos: " + qt_prod[i]*/ + " Faturado:" +faturado[i] + "\n");		
+	
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
 	private static void apresentarPaginas(ArrayList<String> lista, int sizePagina) {
 		if (lista.isEmpty() || sizePagina == 0) return;
 		Scanner sc = new Scanner(System.in);

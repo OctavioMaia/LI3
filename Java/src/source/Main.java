@@ -109,7 +109,8 @@ public class Main {
         */
         
         //Queries.query1(faturacao);
-        Queries.query2(filial);
+        //Queries.query2(filial); ---> ta mal
+        Queries.query3(filial);
         
 	}
 }
