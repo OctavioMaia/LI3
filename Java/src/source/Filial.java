@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Filial implements Serializable{
-
 	private Map<String, DetalhesCliente> informacaoClientes;
 	private Map<String, DetalhesProduto> informacaoProduto;
 	
@@ -34,6 +33,7 @@ public class Filial implements Serializable{
 		char tipo = v.getTipo();
 		int mes = v.getMes();
 		double preco = v.getPreco();
+		double faturado = preco*quantidade;
 		
 		//System.out.println("depois de invocar");
 		//System.out.print("venda:" +v.toString());
@@ -48,11 +48,11 @@ public class Filial implements Serializable{
 		}
 		
 		if(this.informacaoProduto.containsKey(produto)){
-			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes); 
+			this.informacaoProduto.get(produto).update(cliente, quantidade, faturado,tipo, mes); 
 			//System.out.println("nao existe produto");
 		}else{
 			this.informacaoProduto.put(produto, new DetalhesProduto());
-			this.informacaoProduto.get(produto).update(cliente, quantidade, tipo, mes);
+			this.informacaoProduto.get(produto).update(cliente, quantidade, faturado,tipo, mes);
 			//System.out.println("existe produto");
 		}
 	}

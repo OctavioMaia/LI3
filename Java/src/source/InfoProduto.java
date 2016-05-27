@@ -4,85 +4,38 @@ import java.io.Serializable;
 import java.util.*;
 
 public class InfoProduto implements Serializable {
-	private List<String> clientes;
-	private List<Integer> quantidade;
-	private List<Double> faturado;
-
+	private int quantidade;
+	private double gasto;
+	private int n_compras;
+	
 	public InfoProduto() {
-		this.clientes = new ArrayList<>();
-		this.quantidade = new ArrayList<>();
-		this.faturado = new ArrayList<>();
+		this.quantidade = 0;
+		this.gasto = 0;
+		this.n_compras = 0;
 	}
 
 	public InfoProduto(InfoProduto i){
-		this.clientes = i.getClientes();
 		this.quantidade = i.getQuantidade();
-		this.faturado = i.getFaturado();
+		this.gasto = i.getGasto();
+		this.n_compras = i.getNCompras();
 	}
 	
-	public List<String> getClientes() {
-		List<String> cop_clientes = new ArrayList<>();
-		
-		for(String s : this.clientes)
-			cop_clientes.add(s);
-		
-		return cop_clientes;
+	public int getQuantidade() {
+		return this.quantidade;
 	}
 	
-	public List<Integer> getQuantidade() {
-		List<Integer> cop_quantidade = new ArrayList<>();
-		
-		for(Integer s : this.quantidade)
-			cop_quantidade.add(s);
-		
-		return cop_quantidade;
+	public double getGasto(){
+		return this.gasto;
+	}
+
+	public int getNCompras(){
+		return this.n_compras;
 	}
 	
-	public List<Double> getFaturado() {
-		List<Double> cop_faturado = new ArrayList<>();
-		
-		for(Double s : this.faturado)
-			cop_faturado.add(s);
-		
-		return cop_faturado;
-	}
-
-	public void add(String codigo, Integer quantidade, Double faturado) {
-		int pos;
-		if(this.contains(codigo)){
-			pos=this.clientes.indexOf(codigo);
-			this.quantidade.set(pos, this.quantidade.get(pos)+quantidade);
-			this.faturado.set(pos, this.faturado.get(pos)+faturado);
-		}else{
-			this.clientes.add(codigo);
-			pos=this.clientes.indexOf(codigo);
-			if(pos!=0){ // crashava qd n existia nada no array
-				this.quantidade.set(pos, quantidade);
-				this.faturado.set(pos, faturado);
-			}else{
-				this.quantidade.add(quantidade);
-				this.faturado.add(faturado);
-			}
-		}
-	}
-
-	public void remove(String codigo) throws ClienteNaoExisteException {
-		if(this.clientes.contains(codigo)){
-			int pos = this.clientes.indexOf(codigo);
-			this.clientes.remove(codigo);
-			this.quantidade.remove(pos);
-			this.faturado.remove(pos);
-		}else{
-			throw new ClienteNaoExisteException();
-		}
-	}
-
-	public boolean contains(String codigo) {
-		return this.clientes.contains(codigo);
-	}
-
-	public int size() {
-		return this.clientes.size();
+	public void add(Integer quantidade, Double faturado) {
+		this.quantidade+=quantidade;
+		this.gasto+=faturado;
+		this.n_compras++;
 	}
 
 	public boolean equals(Object o) {
@@ -92,7 +45,7 @@ public class InfoProduto implements Serializable {
 			return false;
 
 		InfoProduto info = (InfoProduto) o;
-		return this.clientes.equals(info.getClientes()) && this.quantidade.equals(info.getQuantidade()) && this.faturado.equals(info.getFaturado());
+		return this.quantidade == info.getQuantidade() && this.gasto ==info.getGasto() && this.n_compras == info.getNCompras();
 	}
 
 	public InfoProduto clone() {
@@ -101,14 +54,8 @@ public class InfoProduto implements Serializable {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		List<String> c = this.getClientes();
-		List<Integer> q = this.getQuantidade();
-		List<Double> f = this.getFaturado();
+		sb.append("Quantidade: "+ this.getQuantidade() + "Gasto: "+this.getGasto() + "N_Compras: "+ this.getNCompras()+"\n");
 		
-		for (int i = 0; i < c.size(); i++) {
-			sb.append("Cliente: "+ c.get(i) + "Quantidade: "+q.get(i) + "Faturado: "+f.get(i)+"\n");
-		}
-
 		return sb.toString();
 	}
 

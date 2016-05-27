@@ -11,12 +11,12 @@ public class DetalhesProduto implements Serializable{
 		this.produtos=new TreeMap<>();
 	}
 	
-	public void update(String cliente, int quantidade, char tipo, int mes){
+	public void update(String cliente, int quantidade, double faturado, char tipo, int mes){
 		if(this.produtos.containsKey(mes)){
-			this.produtos.get(mes).add(cliente, quantidade,tipo);
+			this.produtos.get(mes).add(cliente, quantidade, faturado,tipo);
 		}else{
 			this.produtos.put(mes, new ProdutosMes());
-			this.produtos.get(mes).add(cliente, quantidade,tipo);
+			this.produtos.get(mes).add(cliente, quantidade,faturado,tipo);
 		}
 	}
 	

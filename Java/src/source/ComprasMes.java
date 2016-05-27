@@ -31,10 +31,10 @@ public class ComprasMes implements Serializable{
 	public void add(String codigo, Integer quantidade, Double faturado) {
 		int pos;
 		if(this.contains(codigo)){
-			this.info.get(codigo).add(codigo, quantidade, faturado);
+			this.info.get(codigo).add(quantidade, faturado);
 		}else{
 			this.info.put(codigo, new InfoProduto());
-			this.info.get(codigo).add(codigo, quantidade, faturado);
+			this.info.get(codigo).add(quantidade, faturado);
 		}
 	}
 

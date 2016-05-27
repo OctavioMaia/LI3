@@ -9,12 +9,14 @@ public class ProdutosMes implements Serializable{
 	private Map<String, Integer> clientesP; //Key = cliente, value = qt comprada por esse cliente
 	private int quantidade_clientes; // = nº clientes que compraram
 	private int quantidade_vendida; 
+	private double faturado;
 	
 	public ProdutosMes(){
 		this.clientesN = new TreeMap<>();
 		this.clientesP = new TreeMap<>();
 		this.quantidade_clientes = 0;
 		this.quantidade_vendida = 0;
+		this.faturado=0;
 	}
 
 	public ProdutosMes(ProdutosMes pm){
@@ -22,6 +24,7 @@ public class ProdutosMes implements Serializable{
 		this.clientesP = pm.getClientesP();
 		this.quantidade_clientes = pm.getQuantidadeClientes();
 		this.quantidade_vendida = pm.getQuantidadeVendida();
+		this.faturado = pm.getFaturado();
 	}
 	
 	public int getQuantidadeVendida() {
@@ -30,6 +33,10 @@ public class ProdutosMes implements Serializable{
 
 	public int getQuantidadeClientes() {
 		return this.quantidade_clientes;
+	}
+	
+	public double getFaturado(){
+		return this.faturado;
 	}
 
 	public Map<String, Integer> getClientesN(){
@@ -54,7 +61,11 @@ public class ProdutosMes implements Serializable{
 		this.quantidade_clientes+=qt;
 	}
 	
-	public void add(String codigo, Integer quantidade, char tipo) {
+	public void setFaturado(double ft){
+		this.faturado+=ft;
+	}
+	
+	public void add(String codigo, Integer quantidade, Double faturado, char tipo) {
 		int qt=0;
 		//System.out.println("entrei");
 		if(tipo == 'N'){
@@ -77,6 +88,7 @@ public class ProdutosMes implements Serializable{
 			}
 		}
 		setQuantidadeVendida(qt);
+		setFaturado(faturado);
 	}
 
 	public void remove(String codigo) throws ClienteNaoExisteException {
@@ -111,7 +123,8 @@ public class ProdutosMes implements Serializable{
 		return this.clientesN.equals(info.getClientesN()) 
 			&& this.clientesP.equals(info.getClientesP()) 
 			&& this.quantidade_clientes==info.getQuantidadeClientes() 
-			&& this.quantidade_vendida==info.getQuantidadeVendida();
+			&& this.quantidade_vendida==info.getQuantidadeVendida()
+			&& this.faturado == info.getFaturado();
 	}
 
 	public ProdutosMes clone() {
