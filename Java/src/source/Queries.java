@@ -177,6 +177,135 @@ public class Queries {
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
+	public static void query6(Filial[] f){
+		int N,filial,mes,qt=0;
+		String codigo;
+		TreeMap<String,Integer> map = new TreeMap<>();
+		out.print("Introduza o total de produtos a listar: ");
+		N = Input.lerInt();
+		Crono.start();
+		
+		for(filial=0;filial<3;filial++){
+			TreeMap<String, DetalhesProduto> tm = f[filial].getInformacaoProdutos();
+			
+			for(Entry<String,DetalhesProduto> entry : tm.entrySet()){ //key = cod produto
+				codigo = entry.getKey();
+				for(mes=1;mes<=12;mes++){
+					try{
+						qt += entry.getValue().getQuantidadeVendidaMes(mes);
+					}catch(Exception e){
+						
+					}
+				}
+				map.put(codigo, qt);
+				qt=0;
+			}
+		}
+		
+		for(Entry<String,Integer> entry : map.entrySet()){
+			out.printf("Produto: %s Quantidade: %d\n",entry.getKey(),entry.getValue());
+		}
+		
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
+	public static void query7(Filial[] f){
+		int filial,mes;
+		double qt=0;
+		String codigo;
+		TreeMap<String,Double> map = new TreeMap<>();
+		Crono.start();
+		
+		for(filial=0;filial<3;filial++){
+			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
+			
+			for(Entry<String, DetalhesCliente> entry : tm.entrySet()){ //key = cod produto
+				codigo = entry.getKey();
+				for(mes=1;mes<=12;mes++){
+					try{
+						qt += entry.getValue().getTotalFaturado();
+					}catch(Exception e){
+						
+					}
+				}
+				map.put(codigo, qt);
+				qt=0;
+			}
+		}
+		
+		for(Entry<String,Double> entry : map.entrySet()){
+			out.printf("Cliente: %s Faturado: %f\n",entry.getKey(),entry.getValue());
+		}
+		
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
+	public static void query8(Filial[] f){
+		int N,filial;
+		TreeMap<String,Integer> map = new TreeMap<>();
+		out.print("Introduza o total de clientes a listar: ");
+		N = Input.lerInt();
+		Crono.start();
+		
+		for(filial=0;filial<3;filial++){
+			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
+			
+			for(Entry<String,DetalhesCliente> entry : tm.entrySet()){ //key = cliente
+				map.put(entry.getKey(), entry.getValue().getListaProdutos().size());	
+			}
+		}
+		
+		for(Entry<String,Integer> entry : map.entrySet()){
+			out.printf("Cliente: %s Quantidade: %d\n",entry.getKey(),entry.getValue());
+		}
+		
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
+	public static void query9(Filial[] f){
+		int N,filial,mes,qt=0;
+		String codigo,cliente;
+		TreeMap<String,Integer> map1 = new TreeMap<>();
+		TreeMap<String,Double> map2 = new TreeMap<>();
+		
+		
+		out.print("Introduza o código de produto: ");
+		codigo = Input.lerString();
+		out.print("Introduza o total de clientes a listar: ");
+		N = Input.lerInt();
+		Crono.start();
+		
+		for(filial=0;filial<3;filial++){
+			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
+			
+			for(Entry<String,DetalhesCliente> entry : tm.entrySet()){
+				cliente = entry.getKey();
+				try{
+					DetalhesCliente dc = entry.getValue();
+					for(mes=1;mes<=12;mes++){
+						try{
+							TreeMap<String,InfoProduto> info = dc.getComprasMes(mes).getInformacao();
+							if(info.containsKey(codigo)){
+								map1.put(cliente, info.get(codigo).getQuantidade());
+								map2.put(cliente, info.get(codigo).getGasto());
+							}
+						}catch(Exception e){
+							
+						}
+					}
+				}catch(Exception e){
+					
+				}
+			}
+		}
+		
+		for(String s : map1.keySet()){
+			out.printf("Produto: %s Quantidade: %d Faturado: %f\n",s,map1.get(s),map2.get(s));
+		}
+		
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
 	private static void apresentarPaginas(ArrayList<String> lista, int sizePagina) {
 		if (lista.isEmpty() || sizePagina == 0) return;
 		Scanner sc = new Scanner(System.in);

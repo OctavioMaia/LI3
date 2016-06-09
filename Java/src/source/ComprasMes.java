@@ -1,10 +1,8 @@
 package source;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.Map.*;
 
 /*
  * Compras mensais de um cliente.
@@ -26,6 +24,36 @@ public class ComprasMes implements Serializable{
 		copia.putAll(this.info);
 		
 		return copia;
+	}
+	
+	public int getTotalCompras(){
+		int total=0;
+		
+		for(Entry<String,InfoProduto> entry : this.info.entrySet()){
+			total += entry.getValue().getNCompras();
+		}
+		
+		return total;
+	}
+	
+	public double getTotalFaturado(){
+		double total=0;
+		
+		for(Entry<String,InfoProduto> entry : this.info.entrySet()){
+			total += entry.getValue().getGasto();
+		}
+		
+		return total;
+	}
+	
+	public ArrayList<String> getProdutos(){
+		ArrayList<String> lista = new ArrayList<>();
+		
+		for(Entry<String,InfoProduto> entry: info.entrySet()){
+			lista.add(entry.getKey());
+		}
+		
+		return lista;
 	}
 	
 	public void add(String codigo, Integer quantidade, Double faturado) {
