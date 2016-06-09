@@ -1,6 +1,7 @@
 package source;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import static java.lang.System.out;
 
@@ -86,6 +87,93 @@ public class Queries {
 		for(int i=0;i<12;i++)
 			out.printf("Mês: " + (i+1) +" Compras: " + compras[i] /*+" Produtos: " + qt_prod[i]*/ + " Faturado:" +faturado[i] + "\n");		
 	
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
+	public static void query4(Filial[] f){
+		DetalhesProduto dp = null;
+		int mes,filial, total_comprado[] = new int[12], total_clientes[]= new int[12];
+		double total_faturado[] = new double[12];
+		String produto;
+		
+		out.print("Introduza um código produto: ");
+		produto = Input.lerString();
+		
+		for(int i=0;i<12;i++){
+			total_clientes[i]=0;
+			total_comprado[i]=0;
+			total_faturado[i]=0;
+		}		
+		
+		Crono.start();
+		for(filial=0;filial<3;filial++){
+			try{
+				dp = f[filial].getInformacaoProdutos().get(produto);
+				for(mes=1;mes<=12;mes++){
+					try{
+						total_clientes[mes-1] = dp.getQuantidadeClientesMes(mes);
+						total_comprado[mes-1] = dp.getQuantidadeVendidaMes(mes);
+						total_faturado[mes-1] = dp.getFaturadoMes(mes);
+					}catch(Exception e){
+						
+					}
+				}
+			}catch(Exception e){
+				
+			}
+		}
+		
+		for(mes=0;mes<12;mes++){
+			out.printf("Mês: %d Total compras: %d Total clientes: %d Total faturado: %f\n",mes+1,total_comprado[mes],total_clientes[mes],total_faturado[mes]);
+		}
+		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
+	public static void query5(Filial[] f){
+		DetalhesCliente dc = null;
+		int filial,mes, qt;
+		String cliente, produto;
+		TreeMap<String,Integer> temp = new TreeMap<>();
+		ArrayList<String> lista = new ArrayList<>();
+		
+		out.print("Introduza um código produto: ");
+		cliente = Input.lerString();
+		
+		Crono.start();
+		for(filial=0;filial<3;filial++){
+			try{
+				dc = f[filial].getInformacaoClientes().get(cliente);
+				for(mes=1;mes<=12;mes++){
+					try{
+						ComprasMes cm = dc.getComprasMes(mes);
+						TreeMap<String, InfoProduto> tm = cm.getInformacao();
+						
+						for(Entry<String, InfoProduto> entry : tm.entrySet()){
+							InfoProduto ip = entry.getValue();
+							produto = entry.getKey();
+							qt = ip.getQuantidade();
+							
+							if(!temp.containsKey(produto)){
+								temp.put(produto, qt);
+							}else{
+								qt += temp.get(produto); //se ja existe, soma a qt que la estava à que temos
+								temp.put(produto,qt);
+							}
+						}
+						
+					}catch(Exception e){
+						
+					}
+				}
+			}catch(Exception e){
+				
+			}
+		}
+		
+		for(Entry<String, Integer> entry : temp.entrySet()){
+			out.printf("Produto: %s Quantidade: %d\n",entry.getKey(), entry.getValue());
+		}
+		
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	

@@ -4,7 +4,7 @@ import static java.lang.System.out;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Hipermercado {
 
 	public static ArrayList<String> readLinesWithBuff(String fich) {
 		ArrayList<String> linhas = new ArrayList<>();
@@ -110,7 +110,8 @@ public class Main {
         
         //Queries.query1(faturacao);
         //Queries.query2(filial); ---> ta mal
-        Queries.query3(filial);
-        
+        //Queries.query3(filial);
+        //Queries.query4(filial);
+        Queries.query5(filial);
 	}
 }

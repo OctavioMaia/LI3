@@ -43,6 +43,10 @@ public class DetalhesProduto implements Serializable{
 		return this.produtos.get(mes).getQuantidadeVendida();
 	}	
 	
+	public double getFaturadoMes(Integer mes){
+		return this.produtos.get(mes).getFaturado();
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		Set<Integer> c = produtos.keySet();
