@@ -4,9 +4,19 @@ import static java.lang.System.out;
 import java.io.*;
 import java.util.*;
 
-public class Hipermercado {
-
-	public static ArrayList<String> readLinesWithBuff(String fich) {
+public class Hipermercado implements Serializable{
+	private Filial[] filial;
+	private Faturacao faturacao;
+	
+	public Hipermercado(){
+		filial = new Filial[3];
+		filial[0] = new Filial();
+		filial[1] = new Filial();
+		filial[2] = new Filial();
+		faturacao = new Faturacao();
+	}
+	
+	private ArrayList<String> readLinesWithBuff(String fich) {
 		ArrayList<String> linhas = new ArrayList<>();
 		BufferedReader inStream = null;
 		String linha = null;
@@ -21,7 +31,7 @@ public class Hipermercado {
 		return linhas;
 	}
 
-	public static Catalogo readProdutos(Faturacao f, String path){
+	private Catalogo readProdutos(Faturacao f, String path){
 		Crono.start();
 		ArrayList<String> produtos = readLinesWithBuff(path);
         Catalogo CatalogoProdutos = new Catalogo(produtos);
@@ -32,7 +42,7 @@ public class Hipermercado {
         return CatalogoProdutos;
 	}
 	
-	public static Catalogo readClientes(String path){
+	private Catalogo readClientes(String path){
 		Crono.start();
 		ArrayList<String> clientes = readLinesWithBuff(path);
         Catalogo CatalogoClientes = new Catalogo(clientes);
@@ -42,7 +52,7 @@ public class Hipermercado {
         return CatalogoClientes;
 	}
 	
-	public static void readCompras(Filial[] filial, Faturacao f, Catalogo produtos, Catalogo clientes, String path){
+	private void readCompras(Filial[] filial, Faturacao f, Catalogo produtos, Catalogo clientes, String path){
 		Crono.start();
 		Venda v = new Venda();
 		ArrayList<String> teste = readLinesWithBuff(path);
@@ -83,18 +93,14 @@ public class Hipermercado {
 		out.println("Existem "+ validos +" vendas válidas.");
 	}
 
-	public static void main(String[] args) {
-		Filial[] filial = new Filial[3];
-		filial[0] = new Filial();
-		filial[1] = new Filial();
-		filial[2] = new Filial();
-		Faturacao faturacao = new Faturacao();
-		
+	public void run(String fichVendas) {
         Catalogo CatalogoProdutos = readProdutos(faturacao,"src/data/Produtos.txt");
         Catalogo CatalogoClientes = readClientes("src/data/Clientes.txt");
-
-        readCompras(filial,faturacao,CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
-        
-        Queries.execute(faturacao, filial);
+        readCompras(filial,faturacao,CatalogoProdutos,CatalogoClientes,fichVendas);
+        execute();
+	}
+	
+	public void execute(){
+		Queries.execute(faturacao, filial);
 	}
 }

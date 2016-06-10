@@ -5,9 +5,10 @@ import java.util.Map.Entry;
 
 import static java.lang.System.out;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class Queries {
+public class Queries implements Serializable{
 
 	private static void query1(Faturacao f) {
 		Crono.start();
