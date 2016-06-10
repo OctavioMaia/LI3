@@ -134,9 +134,9 @@ public class Queries {
 		int filial,mes, qt;
 		String cliente, produto;
 		TreeMap<String,Integer> temp = new TreeMap<>();
-		ArrayList<String> lista = new ArrayList<>();
+		ArrayList<String> print = new ArrayList<>();
 		
-		out.print("Introduza um código produto: ");
+		out.print("Introduza um código de cliente: ");
 		cliente = Input.lerString();
 		
 		Crono.start();
@@ -160,7 +160,6 @@ public class Queries {
 								temp.put(produto,qt);
 							}
 						}
-						
 					}catch(Exception e){
 						
 					}
@@ -170,11 +169,17 @@ public class Queries {
 			}
 		}
 		
-		for(Entry<String, Integer> entry : temp.entrySet()){
-			out.printf("Produto: %s Quantidade: %d\n",entry.getKey(), entry.getValue());
+		out.printf("Este cliente comprou %d produtos.\n", temp.size());
+
+		Iterator<Entry<String, Integer>> it = entriesSortedByValues(temp).iterator();
+		while (it.hasNext()) {
+			Object element = it.next();
+			String str = element.toString();
+			String[] split = str.split("=");
+			print.add("Produto: " + split[0] + " Quantidade: " + split[1]);
 		}
-		
-		out.println("Demoramos " +Crono.print()+" segundos.");
+		out.println("Demoramos " + Crono.print() + " segundos.");
+		apresentarPaginas(print, 10);
 	}
 	
 	public static void query6(Filial[] f){
@@ -268,12 +273,13 @@ public class Queries {
 		TreeMap<String,Integer> map1 = new TreeMap<>();
 		TreeMap<String,Double> map2 = new TreeMap<>();
 		
-		
 		out.print("Introduza o código de produto: ");
 		codigo = Input.lerString();
 		out.print("Introduza o total de clientes a listar: ");
 		N = Input.lerInt();
 		Crono.start();
+		
+		Integer teste = map1.pollLastEntry().getValue();
 		
 		for(filial=0;filial<3;filial++){
 			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
@@ -304,6 +310,20 @@ public class Queries {
 		}
 		
 		out.println("Demoramos " +Crono.print()+" segundos.");
+	}
+	
+	static <K,V extends Comparable<? super V>>
+	SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
+	    SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
+	        new Comparator<Map.Entry<K,V>>() {
+	            @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
+	                int res = e2.getValue().compareTo(e1.getValue());
+	                return res != 0 ? res : 1;
+	            }
+	        }
+	    );
+	    sortedEntries.addAll(map.entrySet());
+	    return sortedEntries;
 	}
 	
 	private static void apresentarPaginas(ArrayList<String> lista, int sizePagina) {
