@@ -183,9 +183,11 @@ public class Queries {
 	}
 	
 	public static void query6(Filial[] f){
-		int N,filial,mes,qt=0;
+		int N,contador=0,filial,mes,qt=0;
 		String codigo;
 		TreeMap<String,Integer> map = new TreeMap<>();
+		ArrayList<String> print = new ArrayList<>();
+		
 		out.print("Introduza o total de produtos a listar: ");
 		N = Input.lerInt();
 		Crono.start();
@@ -207,10 +209,15 @@ public class Queries {
 			}
 		}
 		
-		for(Entry<String,Integer> entry : map.entrySet()){
-			out.printf("Produto: %s Quantidade: %d\n",entry.getKey(),entry.getValue());
+		Iterator<Entry<String, Integer>> it = entriesSortedByValues(map).iterator();
+		while (it.hasNext() && contador<N) {
+			Object element = it.next();
+			String str = element.toString();
+			String[] split = str.split("=");
+			print.add("Produto: " + split[0] + " Quantidade: " + split[1]);
+			contador++;
 		}
-		
+		apresentarPaginas(print, 10);
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
