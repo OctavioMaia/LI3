@@ -95,27 +95,6 @@ public class Hipermercado {
 
         readCompras(filial,faturacao,CatalogoProdutos,CatalogoClientes,"src/data/Vendas_1M.txt");
         
-        /*
-        out.print(filial[0].toString());
-        out.print(filial[1].toString());
-        out.print(filial[2].toString());
-        
-        Queries.query2(CatalogoProdutos);
-        
-        out.println(f.getQuantidadeProdutoMesN(6,"AF1184"));
-        out.println(f.getQuantidadeProdutoMesP(6,"AF1184"));
-        out.println(f.getFaturadoNMes(6,"AF1184"));
-        out.println(f.getFaturadoPMes(6,"AF1184"));
-        */
-        
-        //Queries.query1(faturacao);
-        //Queries.query2(filial); ---> ta mal
-        //Queries.query3(filial);
-        //Queries.query4(filial);
-        //Queries.query5(filial);
-        //Queries.query6(filial);
-        //Queries.query7(filial);
-        //Queries.query8(filial);
-        Queries.query9(filial);
+        Queries.execute(faturacao, filial);
 	}
 }

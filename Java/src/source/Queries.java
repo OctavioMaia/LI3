@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 
 public class Queries {
 
-	public static void query1(Faturacao f) {
+	private static void query1(Faturacao f) {
 		Crono.start();
 		ArrayList<String> l = f.getProdutosSemVendas();
 		int total = f.getTotProdutosSemVendas();
@@ -20,7 +20,7 @@ public class Queries {
 		apresentarPaginas(l, 10);
 	}
 	
-	public static void query2(Filial[] f) { //ta mal, temos que juntar tipo num array os clientes de todas as filiais e remover os repetidos
+	private static void query2(Filial[] f) { //ta mal, temos que juntar tipo num array os clientes de todas as filiais e remover os repetidos
 		int mes,filial, total_vendas=0, total_clientes=0;
 		
 		out.print("Introduza um mês: ");
@@ -49,14 +49,14 @@ public class Queries {
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 
-	public static void query3(Filial[] f){
+	private static void query3(Filial[] f) throws ClienteInvalidoException{
 		DetalhesCliente dc = null;
-		String codigo;
 		int filial,mes;
 		int compras[] = new int[12];
 		int qt_prod[] = new int[12];
 		double faturado[] = new double[12];
-		codigo = Input.lerString();
+		out.print("Introduza um código de cliente: ");
+		String codigo = Input.lerString();
 		Crono.start();		
 		
 		for(int i=0;i<12;i++){
@@ -69,6 +69,7 @@ public class Queries {
 			try{
 				dc = f[filial].getInformacaoClientes().get(codigo);
 			}catch(Exception e){
+				throw new ClienteInvalidoException("teste1");
 			}
 			for(mes=1;mes<=12;mes++){
 				try{
@@ -81,6 +82,7 @@ public class Queries {
 						faturado[mes-1]+=value.getGasto();	  
 					}
 				}catch(Exception e){
+					
 				}
 			}
 		}
@@ -92,7 +94,7 @@ public class Queries {
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
-	public static void query4(Filial[] f){
+	private static void query4(Filial[] f) throws ProdutoInvalidoException{
 		DetalhesProduto dp = null;
 		int mes,filial, total_comprado[] = new int[12], total_clientes[]= new int[12];
 		double total_faturado[] = new double[12];
@@ -108,30 +110,30 @@ public class Queries {
 		}		
 		
 		Crono.start();
-		for(filial=0;filial<3;filial++){
-			try{
+		for (filial = 0; filial < 3; filial++) {
+			try {
 				dp = f[filial].getInformacaoProdutos().get(produto);
-				for(mes=1;mes<=12;mes++){
-					try{
-						total_clientes[mes-1] = dp.getQuantidadeClientesMes(mes);
-						total_comprado[mes-1] = dp.getQuantidadeVendidaMes(mes);
-						total_faturado[mes-1] = dp.getFaturadoMes(mes);
-					}catch(Exception e){
-						
-					}
+			}catch(Exception e) {
+				throw new ProdutoInvalidoException();
+			}
+			for (mes = 1; mes <= 12; mes++) {
+				try {
+					total_clientes[mes - 1] += dp.getQuantidadeClientesMes(mes);
+					total_comprado[mes - 1] += dp.getQuantidadeVendidaMes(mes);
+					total_faturado[mes - 1] += dp.getFaturadoMes(mes);
+				} catch (Exception e) {
+					
 				}
-			}catch(Exception e){
-				
 			}
 		}
 		
+		out.println("Demoramos " +Crono.print()+" segundos.");
 		for(mes=0;mes<12;mes++){
 			out.printf("Mês: %d Total compras: %d Total clientes: %d Total faturado: %f\n",mes+1,total_comprado[mes],total_clientes[mes],total_faturado[mes]);
 		}
-		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
-	public static void query5(Filial[] f){
+	private static void query5(Filial[] f) throws ClienteInvalidoException{
 		DetalhesCliente dc = null;
 		int filial,mes, qt;
 		String cliente, produto;
@@ -167,7 +169,7 @@ public class Queries {
 					}
 				}
 			}catch(Exception e){
-				
+				throw new ClienteInvalidoException();
 			}
 		}
 		
@@ -184,7 +186,7 @@ public class Queries {
 		apresentarPaginas(print, 10);
 	}
 	
-	public static void query6(Filial[] f){
+	private static void query6(Filial[] f){
 		int N,contador=0,filial,mes,qt=0;
 		String codigo;
 		TreeMap<String,Integer> map = new TreeMap<>();
@@ -223,7 +225,7 @@ public class Queries {
 		apresentarPaginas(print, 10);
 	}
 	
-	public static void query7(Filial[] f){
+	private static void query7(Filial[] f){
 		int filial,mes,contador=0;
 		double qt=0;
 		String codigo;
@@ -247,6 +249,7 @@ public class Queries {
 			}
 		}
 		
+		out.println("Demoramos " +Crono.print()+" segundos.");
 		Iterator<Entry<String, Double>> it = sortDecrescente(map).iterator();
 		while (it.hasNext() && contador<3) {
 			Object element = it.next();
@@ -256,10 +259,9 @@ public class Queries {
 			contador++;
 		}
 		
-		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
-	public static void query8(Filial[] f){
+	private static void query8(Filial[] f){
 		int N,filial,contador=0;
 		TreeMap<String,Integer> map = new TreeMap<>();
 		ArrayList<String> print = new ArrayList<>();
@@ -288,8 +290,8 @@ public class Queries {
 		apresentarPaginas(print, 10);
 	}
 	
-	public static void query9(Filial[] f){
-		int N,filial,mes,qt=0,contador=0;
+	private static void query9(Filial[] f) throws ProdutoInvalidoException{
+		int N,filial,mes;
 		String codigo,cliente;
 		TreeMap<String,Integer> map1 = new TreeMap<>();
 		TreeMap<String,Double> map2 = new TreeMap<>();
@@ -319,11 +321,11 @@ public class Queries {
 								map2.put(cliente, info.get(codigo).getGasto());
 							}
 						}catch(Exception e){
-							
+							throw new ProdutoInvalidoException();
 						}
 					}
 				}catch(Exception e){
-					
+					throw new ProdutoInvalidoException();
 				}
 			}
 		}
@@ -355,10 +357,6 @@ public class Queries {
 			array2.set(index, 0);
 			array3.set(index, 0.0);
 		}
-		
-//		for(String s : map1.keySet()){
-//			out.printf("Produto: %s Quantidade: %d Faturado: %f\n",s,map1.get(s),map2.get(s));
-//		}
 		
 		out.println("Demoramos " +Crono.print()+" segundos.");
 		apresentarPaginas(print, 10);
@@ -421,4 +419,86 @@ public class Queries {
 		}
 	}
 
+	public static void execute(Faturacao f, Filial[] filiais){
+		boolean flag = true;
+        
+        while(flag){
+			Integer decisao;
+			out.println("\n---------------QUERIES---------------");
+			out.println("1. Lista ordenada de produtos nunca comprados e o seu total.");
+			out.println("2. Dado um mês, determinar número total vendas e clientes que as realizaram.");
+			out.println("3. Dado um cliente, determinar as suas estatisticas mensais.");
+			out.println("4. Dado um produto, determinar as suas estatisticas mensais.");
+			out.println("5. Dado um cliente, determinar os produtos que mais comprou.");
+			out.println("6. Determinar os N produtos mais vendidos em todo o ano.");
+			out.println("7. Para cada filial, listar os três maiores compradores.");
+			out.println("8. Determinar os N clientes que mais produtos diferentes compraram.");
+			out.println("9. Dado um produto, determinar os clientes que mais o compraram.");
+			out.println("0. Sair.");
+			out.print("Query a executar: ");
+			decisao = Input.lerInt();
+			try{
+				switch(decisao){
+					case 0:
+						flag=false;
+						out.println("Exit!");
+						break;
+					case 1:
+						out.println("---------------Query 1---------------");
+						query1(f);
+						out.println("-------------------------------------");
+						break;
+					case 2:
+						out.println("---------------Query 2---------------");
+						query2(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 3:
+						out.println("---------------Query 3---------------");
+						query3(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 4:
+						out.println("---------------Query 4---------------");
+						query4(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 5:
+						out.println("---------------Query 5---------------");
+						query5(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 6:
+						out.println("---------------Query 6---------------");
+						query6(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 7:
+						out.println("---------------Query 7---------------");
+						query7(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 8:
+						out.println("---------------Query 8---------------");
+						query8(filiais);
+						out.println("-------------------------------------");
+						break;
+					case 9:
+						out.println("---------------Query 9---------------");
+						query9(filiais);
+						out.println("-------------------------------------");
+						break;
+					default:
+						throw new DecisaoInvalidaException();
+				}
+			}catch(DecisaoInvalidaException e){
+				e.printStackTrace();
+			} catch(ProdutoInvalidoException e) {
+				e.printStackTrace();
+			} catch(ClienteInvalidoException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

@@ -66,11 +66,11 @@ public class ComprasMes implements Serializable{
 		}
 	}
 
-	public void remove(String codigo) throws ClienteNaoExisteException {
+	public void remove(String codigo) throws ClienteInvalidoException {
 		if(this.contains(codigo)){
 			this.remove(codigo);
 		}else{
-			throw new ClienteNaoExisteException();
+			throw new ClienteInvalidoException();
 		}
 	}
 

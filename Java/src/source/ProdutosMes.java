@@ -91,17 +91,17 @@ public class ProdutosMes implements Serializable{
 		setFaturado(faturado);
 	}
 
-	public void remove(String codigo) throws ClienteNaoExisteException {
+	public void remove(String codigo) throws ClienteInvalidoException {
 		if(this.containsN(codigo)){
 			this.clientesN.remove(codigo);
 		}else{
-			throw new ClienteNaoExisteException();
+			throw new ClienteInvalidoException();
 		}
 		
 		if(this.containsP(codigo)){
 			this.clientesP.remove(codigo);
 		}else{
-			throw new ClienteNaoExisteException();
+			throw new ClienteInvalidoException();
 		}
 	}
 
