@@ -5,6 +5,8 @@ import java.util.Map.Entry;
 
 import static java.lang.System.out;
 
+import java.text.DecimalFormat;
+
 public class Queries {
 
 	public static void query1(Faturacao f) {
@@ -171,7 +173,7 @@ public class Queries {
 		
 		out.printf("Este cliente comprou %d produtos.\n", temp.size());
 
-		Iterator<Entry<String, Integer>> it = entriesSortedByValues(temp).iterator();
+		Iterator<Entry<String, Integer>> it = sortDecrescente(temp).iterator();
 		while (it.hasNext()) {
 			Object element = it.next();
 			String str = element.toString();
@@ -209,7 +211,7 @@ public class Queries {
 			}
 		}
 		
-		Iterator<Entry<String, Integer>> it = entriesSortedByValues(map).iterator();
+		Iterator<Entry<String, Integer>> it = sortDecrescente(map).iterator();
 		while (it.hasNext() && contador<N) {
 			Object element = it.next();
 			String str = element.toString();
@@ -217,17 +219,17 @@ public class Queries {
 			print.add("Produto: " + split[0] + " Quantidade: " + split[1]);
 			contador++;
 		}
-		apresentarPaginas(print, 10);
 		out.println("Demoramos " +Crono.print()+" segundos.");
+		apresentarPaginas(print, 10);
 	}
 	
 	public static void query7(Filial[] f){
-		int filial,mes;
+		int filial,mes,contador=0;
 		double qt=0;
 		String codigo;
 		TreeMap<String,Double> map = new TreeMap<>();
-		Crono.start();
 		
+		Crono.start();
 		for(filial=0;filial<3;filial++){
 			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
 			
@@ -245,16 +247,23 @@ public class Queries {
 			}
 		}
 		
-		for(Entry<String,Double> entry : map.entrySet()){
-			out.printf("Cliente: %s Faturado: %f\n",entry.getKey(),entry.getValue());
+		Iterator<Entry<String, Double>> it = sortDecrescente(map).iterator();
+		while (it.hasNext() && contador<3) {
+			Object element = it.next();
+			String str = element.toString();
+			String[] split = str.split("=");
+			out.printf("Cliente: %s  Quantidade: %s\n",split[0],new DecimalFormat("#0.0000").format(Double.parseDouble(split[1])) );
+			contador++;
 		}
 		
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
 	public static void query8(Filial[] f){
-		int N,filial;
+		int N,filial,contador=0;
 		TreeMap<String,Integer> map = new TreeMap<>();
+		ArrayList<String> print = new ArrayList<>();
+		
 		out.print("Introduza o total de clientes a listar: ");
 		N = Input.lerInt();
 		Crono.start();
@@ -267,26 +276,33 @@ public class Queries {
 			}
 		}
 		
-		for(Entry<String,Integer> entry : map.entrySet()){
-			out.printf("Cliente: %s Quantidade: %d\n",entry.getKey(),entry.getValue());
+		Iterator<Entry<String, Integer>> it = sortDecrescente(map).iterator();
+		while (it.hasNext() && contador<N) {
+			Object element = it.next();
+			String str = element.toString();
+			String[] split = str.split("=");
+			print.add("Cliente: " + split[0] + " Quantidade: " + split[1]);
+			contador++;
 		}
-		
 		out.println("Demoramos " +Crono.print()+" segundos.");
+		apresentarPaginas(print, 10);
 	}
 	
 	public static void query9(Filial[] f){
-		int N,filial,mes,qt=0;
+		int N,filial,mes,qt=0,contador=0;
 		String codigo,cliente;
 		TreeMap<String,Integer> map1 = new TreeMap<>();
 		TreeMap<String,Double> map2 = new TreeMap<>();
+		ArrayList<String> array1 = new ArrayList<>();
+		ArrayList<Integer> array2 = new ArrayList<>();
+		ArrayList<Double> array3 = new ArrayList<>();
+		ArrayList<String> print = new ArrayList<>();
 		
 		out.print("Introduza o código de produto: ");
 		codigo = Input.lerString();
 		out.print("Introduza o total de clientes a listar: ");
 		N = Input.lerInt();
 		Crono.start();
-		
-		Integer teste = map1.pollLastEntry().getValue();
 		
 		for(filial=0;filial<3;filial++){
 			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
@@ -312,25 +328,64 @@ public class Queries {
 			}
 		}
 		
-		for(String s : map1.keySet()){
-			out.printf("Produto: %s Quantidade: %d Faturado: %f\n",s,map1.get(s),map2.get(s));
+		for(Entry<String,Integer> entry: map1.entrySet()){
+			String key = entry.getKey();
+			Integer value = entry.getValue();
+			Double gasto = map2.get(key);
+			
+			if(array1.contains(key)){
+				int index = array1.indexOf(key);
+				array1.add(index, key);
+				array2.add(index, value);
+				array3.add(index, gasto);
+			}else{
+				array1.add(key);
+				array2.add(value);
+				array3.add(gasto);
+			}
 		}
 		
+		for(int conta=0;conta<N && conta<map1.size();conta++){
+			int max = Collections.max(array2);
+			int index = array2.indexOf(max);
+			String cli = array1.get(index);
+			Double gasto = array3.get(index);
+			
+			print.add("Cliente: "+cli+" Quantidade: "+max+" Faturado: "+gasto);
+			array2.set(index, 0);
+			array3.set(index, 0.0);
+		}
+		
+//		for(String s : map1.keySet()){
+//			out.printf("Produto: %s Quantidade: %d Faturado: %f\n",s,map1.get(s),map2.get(s));
+//		}
+		
 		out.println("Demoramos " +Crono.print()+" segundos.");
+		apresentarPaginas(print, 10);
 	}
 	
-	static <K,V extends Comparable<? super V>>
-	SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
-	    SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
-	        new Comparator<Map.Entry<K,V>>() {
-	            @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
-	                int res = e2.getValue().compareTo(e1.getValue());
-	                return res != 0 ? res : 1;
-	            }
-	        }
-	    );
-	    sortedEntries.addAll(map.entrySet());
-	    return sortedEntries;
+	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> sortDecrescente(Map<K, V> map) {
+		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>() {
+			@Override
+			public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
+				int res = e2.getValue().compareTo(e1.getValue());
+				return res != 0 ? res : 1;
+			}
+		});
+		sortedEntries.addAll(map.entrySet());
+		return sortedEntries;
+	}
+	
+	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> sortCrescente(Map<K, V> map) {
+		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>() {
+			@Override
+			public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
+				int res = e1.getValue().compareTo(e2.getValue());
+				return res != 0 ? res : 1;
+			}
+		});
+		sortedEntries.addAll(map.entrySet());
+		return sortedEntries;
 	}
 	
 	private static void apresentarPaginas(ArrayList<String> lista, int sizePagina) {

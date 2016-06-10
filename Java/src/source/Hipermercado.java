@@ -113,9 +113,9 @@ public class Hipermercado {
         //Queries.query3(filial);
         //Queries.query4(filial);
         //Queries.query5(filial);
-        Queries.query6(filial);
+        //Queries.query6(filial);
         //Queries.query7(filial);
         //Queries.query8(filial);
-        //Queries.query9(filial);
+        Queries.query9(filial);
 	}
 }
