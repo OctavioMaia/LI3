@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Representa uma venda. � formada pelos c�digos de produto e
  * cliente, pre�o, quantidade, tipo (normal/promo��o), m�s e filial.
  */
-public class Venda implements Serializable{
+public class Venda{
     private String produto;
     private String cliente;
     private double preco;

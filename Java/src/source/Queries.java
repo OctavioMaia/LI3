@@ -46,7 +46,8 @@ public class Queries implements Serializable{
 			}	
 		}
 		
-		out.printf("No mês %d, foram realizadas %d vendas e houve %d clientes distintos.\n",mes,total_vendas,total_clientes);
+		out.printf("No mês %d, foram realizadas %d vendas.\n",mes,total_clientes);
+
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 
@@ -70,7 +71,7 @@ public class Queries implements Serializable{
 			try{
 				dc = f[filial].getInformacaoClientes().get(codigo);
 			}catch(Exception e){
-				throw new ClienteInvalidoException("teste1");
+				
 			}
 			for(mes=1;mes<=12;mes++){
 				try{
@@ -115,7 +116,7 @@ public class Queries implements Serializable{
 			try {
 				dp = f[filial].getInformacaoProdutos().get(produto);
 			}catch(Exception e) {
-				throw new ProdutoInvalidoException();
+				
 			}
 			for (mes = 1; mes <= 12; mes++) {
 				try {
@@ -209,7 +210,11 @@ public class Queries implements Serializable{
 						
 					}
 				}
-				map.put(codigo, qt);
+				if(!map.containsKey(codigo)){
+					map.put(codigo,qt);
+				}else{
+					map.put(codigo, map.get(codigo)+qt);
+				}
 				qt=0;
 			}
 		}
@@ -228,9 +233,12 @@ public class Queries implements Serializable{
 	
 	private static void query7(Filial[] f){
 		int filial,mes,contador=0;
-		double qt=0;
+		double qt[]= new double[3];
+		qt[0]=qt[1]=qt[2]=0.0;
 		String codigo;
-		TreeMap<String,Double> map = new TreeMap<>();
+		TreeMap<String,Double> map1 =  new TreeMap<>();
+		TreeMap<String,Double> map2 =  new TreeMap<>();
+		TreeMap<String,Double> map3 =  new TreeMap<>();
 		
 		Crono.start();
 		for(filial=0;filial<3;filial++){
@@ -240,26 +248,34 @@ public class Queries implements Serializable{
 				codigo = entry.getKey();
 				for(mes=1;mes<=12;mes++){
 					try{
-						qt += entry.getValue().getTotalFaturado();
+						qt[filial] += entry.getValue().getTotalFaturado();
 					}catch(Exception e){
 						
 					}
 				}
-				map.put(codigo, qt);
-				qt=0;
+				if(filial==0) map1.put(codigo, qt[filial]);
+				if(filial==1) map2.put(codigo, qt[filial]);
+				if(filial==2) map3.put(codigo, qt[filial]);
+				qt[filial]=0;
 			}
 		}
 		
 		out.println("Demoramos " +Crono.print()+" segundos.");
-		Iterator<Entry<String, Double>> it = sortDecrescente(map).iterator();
-		while (it.hasNext() && contador<3) {
-			Object element = it.next();
-			String str = element.toString();
-			String[] split = str.split("=");
-			out.printf("Cliente: %s  Quantidade: %s\n",split[0],new DecimalFormat("#0.0000").format(Double.parseDouble(split[1])) );
-			contador++;
+		for(filial=0; filial<3;filial++){
+			Iterator<Entry<String, Double>> it = null;
+			if(filial==0) it = sortDecrescente(map1).iterator();
+			if(filial==1) it = sortDecrescente(map2).iterator();
+			if(filial==2) it = sortDecrescente(map3).iterator();
+			
+			while (it.hasNext() && contador<3) {
+				Object element = it.next();
+				String str = element.toString();
+				String[] split = str.split("=");
+				out.printf("Filial: %d Cliente: %s  Quantidade: %s\n",filial+1,split[0],new DecimalFormat("#0.0000").format(Double.parseDouble(split[1])) );
+				contador++;
+			}
+			contador=0;
 		}
-		
 	}
 	
 	private static void query8(Filial[] f){
@@ -275,7 +291,12 @@ public class Queries implements Serializable{
 			TreeMap<String, DetalhesCliente> tm = f[filial].getInformacaoClientes();
 			
 			for(Entry<String,DetalhesCliente> entry : tm.entrySet()){ //key = cliente
-				map.put(entry.getKey(), entry.getValue().getListaProdutos().size());	
+				if(!map.containsKey(entry.getKey())){
+					map.put(entry.getKey(),entry.getValue().getListaProdutos().size());
+				}else{
+					map.put(entry.getKey(), map.get(entry.getKey())+entry.getValue().getListaProdutos().size());
+				}
+					
 			}
 		}
 		
@@ -291,7 +312,7 @@ public class Queries implements Serializable{
 		apresentarPaginas(print, 10);
 	}
 	
-	private static void query9(Filial[] f) throws ProdutoInvalidoException{
+	private static void query9(Filial[] f) {
 		int N,filial,mes;
 		String codigo,cliente;
 		TreeMap<String,Integer> map1 = new TreeMap<>();
@@ -318,15 +339,20 @@ public class Queries implements Serializable{
 						try{
 							TreeMap<String,InfoProduto> info = dc.getComprasMes(mes).getInformacao();
 							if(info.containsKey(codigo)){
-								map1.put(cliente, info.get(codigo).getQuantidade());
-								map2.put(cliente, info.get(codigo).getGasto());
+								if(map1.containsKey(cliente)){
+									map1.put(cliente, map1.get(cliente)+info.get(codigo).getQuantidade());
+									map2.put(cliente, map2.get(cliente)+info.get(codigo).getGasto());
+								}else{
+									map1.put(cliente, info.get(codigo).getQuantidade());
+									map2.put(cliente, info.get(codigo).getGasto());
+								}
 							}
 						}catch(Exception e){
 							throw new ProdutoInvalidoException();
 						}
 					}
 				}catch(Exception e){
-					throw new ProdutoInvalidoException();
+					
 				}
 			}
 		}
@@ -348,7 +374,7 @@ public class Queries implements Serializable{
 			}
 		}
 		
-		for(int conta=0;conta<N && conta<map1.size();conta++){
+		for(int conta=0;conta<N && conta<array1.size();conta++){
 			int max = Collections.max(array2);
 			int index = array2.indexOf(max);
 			String cli = array1.get(index);
@@ -399,8 +425,7 @@ public class Queries implements Serializable{
 			out.println((i + 1) + ".\t" + lista.get(i));
 		out.printf("Página %d de %d (%d resultados  - %.2f segundos)\n", paginaAtual, paginas, size, Crono.stop());
 		while (true) {
-			out.println("Introduza número da página (0 para sair)");
-			out.print("Página: ");
+			out.print("Introduza número da página (0 para sair): ");
 			while (!sc.hasNextInt())
 				sc.nextLine();
 			paginaAtual = sc.nextInt();
@@ -426,16 +451,16 @@ public class Queries implements Serializable{
         while(flag){
 			Integer decisao;
 			out.println("\n---------------QUERIES---------------");
-			out.println("1. Lista ordenada de produtos nunca comprados e o seu total.");
-			out.println("2. Dado um mês, determinar número total vendas e clientes que as realizaram.");
-			out.println("3. Dado um cliente, determinar as suas estatisticas mensais.");
-			out.println("4. Dado um produto, determinar as suas estatisticas mensais.");
-			out.println("5. Dado um cliente, determinar os produtos que mais comprou.");
-			out.println("6. Determinar os N produtos mais vendidos em todo o ano.");
-			out.println("7. Para cada filial, listar os três maiores compradores.");
-			out.println("8. Determinar os N clientes que mais produtos diferentes compraram.");
-			out.println("9. Dado um produto, determinar os clientes que mais o compraram.");
-			out.println("0. Sair.");
+			out.println("\t1. Lista ordenada de produtos nunca comprados e o seu total.");
+			out.println("\t2. Dado um mês, determinar número total vendas e clientes que as realizaram.");
+			out.println("\t3. Dado um cliente, determinar as suas estatisticas mensais.");
+			out.println("\t4. Dado um produto, determinar as suas estatisticas mensais.");
+			out.println("\t5. Dado um cliente, determinar os produtos que mais comprou.");
+			out.println("\t6. Determinar os N produtos mais vendidos em todo o ano.");
+			out.println("\t7. Para cada filial, listar os três maiores compradores.");
+			out.println("\t8. Determinar os N clientes que mais produtos diferentes compraram.");
+			out.println("\t9. Dado um produto, determinar os clientes que mais o compraram.");
+			out.println("\t0. Sair.");
 			out.print("Query a executar: ");
 			decisao = Input.lerInt();
 			try{
@@ -493,11 +518,11 @@ public class Queries implements Serializable{
 						throw new DecisaoInvalidaException();
 				}
 			}catch(DecisaoInvalidaException e){
-				e.printStackTrace();
+				out.println("Introduza uma decisão válida!");
 			} catch(ProdutoInvalidoException e) {
-				e.printStackTrace();
+				out.println("Código de produto inválido!");
 			} catch(ClienteInvalidoException e) {
-				e.printStackTrace();
+				out.println("Código de cliente inválido!");
 			}
 		}
 	}

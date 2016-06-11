@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Catálogo de clientes e produtos.
  */
-public class Catalogo implements Serializable{
+public class Catalogo {
     private TreeSet<String> catalogo;
 
     public Catalogo () {
