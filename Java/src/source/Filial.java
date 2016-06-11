@@ -39,11 +39,11 @@ public class Filial implements Serializable{
 		//System.out.print("venda:" +v.toString());
 		
 		if(this.informacaoClientes.containsKey(cliente)){
-			this.informacaoClientes.get(cliente).update(produto, quantidade, tipo, mes, preco);
+			this.informacaoClientes.get(cliente).update(produto, quantidade, mes, preco);
 		//	System.out.println("nao existe cliente");
 		}else{
 			this.informacaoClientes.put(cliente, new DetalhesCliente());
-			this.informacaoClientes.get(cliente).update(produto, quantidade, tipo, mes, preco);
+			this.informacaoClientes.get(cliente).update(produto, quantidade, mes, preco);
 			//System.out.println("nao existe cliente");
 		}
 		

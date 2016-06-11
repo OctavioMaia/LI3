@@ -11,14 +11,25 @@ public class ComprasMes implements Serializable{
 
 	private TreeMap<String, InfoProduto> info; //Key = produto
 	
+	/**
+     * Construtor vazio da classe ComprasMes.
+     */
 	public ComprasMes(){
 		this.info = new TreeMap<>();
 	}
 	
+	/**
+     * Construtor por copia da classe ComprasMes.
+     * @param c ComprasMes a copiar.
+     */
 	public ComprasMes(ComprasMes c){
 		this.info = c.getInformacao();
 	}
 	
+	/**
+	 * Função que retorna toda a informação da classe ComprasMes.
+	 * @return copia do TreeMap info.
+	 */
 	public TreeMap<String,InfoProduto> getInformacao(){
 		TreeMap<String,InfoProduto> copia = new TreeMap<>();
 		copia.putAll(this.info);
@@ -26,6 +37,10 @@ public class ComprasMes implements Serializable{
 		return copia;
 	}
 	
+	/**
+	 * Função que retorna o total de compras.
+	 * @return total de compras.
+	 */
 	public int getTotalCompras(){
 		int total=0;
 		
@@ -36,6 +51,10 @@ public class ComprasMes implements Serializable{
 		return total;
 	}
 	
+	/**
+	 * Função que retorna o total faturado.
+	 * @return total faturado.
+	 */
 	public double getTotalFaturado(){
 		double total=0;
 		
@@ -46,6 +65,10 @@ public class ComprasMes implements Serializable{
 		return total;
 	}
 	
+	/**
+	 * Função que retorna todos os produtos.
+	 * @return ArrayList com todos os produtos.
+	 */
 	public ArrayList<String> getProdutos(){
 		ArrayList<String> lista = new ArrayList<>();
 		
@@ -56,6 +79,12 @@ public class ComprasMes implements Serializable{
 		return lista;
 	}
 	
+	/**
+	 * Função que adiciona um InfoProduto.
+	 * @param codigo codigo a adicionar (key)
+	 * @param quantidade quantidade a adicionar.
+	 * @param faturado gasto a adicionar.
+	 */
 	public void add(String codigo, Integer quantidade, Double faturado) {
 		int pos;
 		if(this.contains(codigo)){
@@ -66,6 +95,11 @@ public class ComprasMes implements Serializable{
 		}
 	}
 
+	/**
+	 * Função que remove a informação relativa a um cliente.
+	 * @param codigo codigo de cliente.
+	 * @throws ClienteInvalidoException caso um cliente nao existe.
+	 */
 	public void remove(String codigo) throws ClienteInvalidoException {
 		if(this.contains(codigo)){
 			this.remove(codigo);

@@ -6,7 +6,12 @@ import java.io.*;
 
 public class GereVendas {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException {
+	/**
+	 * Função responsavel pela execucao do programa GereVendas.
+	 * @throws ClassNotFoundException exceção lançada quando não encontra o ficheiro de dados a carregar.
+	 * @throws IOException exceção lançada quando não consegue gravar o ficheiro de dados.
+	 */
+	public static void main() throws ClassNotFoundException, IOException {
 		Hipermercado hipermercado = new Hipermercado();
 		Persistencia state = new Persistencia();
 		boolean flag=true,firstRun=false;
@@ -66,7 +71,6 @@ public class GereVendas {
 					break;
 				}
 			}
-		
         out.println("Exit!");
     }
 	
