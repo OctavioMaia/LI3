@@ -3,6 +3,10 @@ package source;
 import java.util.*;
 import java.util.Map.Entry;
 
+import exceptions.ClienteInvalidoException;
+import exceptions.DecisaoInvalidaException;
+import exceptions.ProdutoInvalidoException;
+
 import static java.lang.System.out;
 
 import java.io.Serializable;

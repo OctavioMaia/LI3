@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.*;
 
+import exceptions.ClienteInvalidoException;
+
 /*
  * Compras mensais de um cliente.
  */

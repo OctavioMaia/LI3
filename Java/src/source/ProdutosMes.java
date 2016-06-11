@@ -3,6 +3,8 @@ package source;
 import java.io.Serializable;
 import java.util.*;
 
+import exceptions.ClienteInvalidoException;
+
 /**
  * Representa os produtos num dado mês. E formada
  * pela quantidade de clientes que compraram, 

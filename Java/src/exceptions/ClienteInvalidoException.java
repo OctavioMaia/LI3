@@ -1,4 +1,4 @@
-package source;
+package exceptions;
 
 public class ClienteInvalidoException extends Exception {
 	
