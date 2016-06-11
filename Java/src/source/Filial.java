@@ -7,11 +7,18 @@ public class Filial implements Serializable{
 	private Map<String, DetalhesCliente> informacaoClientes;
 	private Map<String, DetalhesProduto> informacaoProduto;
 	
+	/**
+	 * Construtor vazio da classe Filial.
+	 */
 	public Filial(){
 		this.informacaoClientes = new TreeMap<>();
 		this.informacaoProduto = new TreeMap<>();
 	}
 	
+	/**
+	 * Função responsável por retornar um map contendo todos os clientes e a sua informação.
+	 * @return map contendo a informação acima mencionada.
+	 */
 	public TreeMap<String, DetalhesCliente> getInformacaoClientes(){
 		TreeMap<String,DetalhesCliente> copia = new TreeMap<>();
 		copia.putAll(this.informacaoClientes);
@@ -19,6 +26,10 @@ public class Filial implements Serializable{
 		return copia;
 	}
 	
+	/**
+	 * Função responsável por retornar um map contendo todos os produtos e a sua informação.
+	 * @return map contendo a informação acima mencionada.
+	 */
 	public TreeMap<String, DetalhesProduto> getInformacaoProdutos(){
 		TreeMap<String,DetalhesProduto> copia = new TreeMap<>();
 		copia.putAll(this.informacaoProduto);
@@ -26,6 +37,10 @@ public class Filial implements Serializable{
 		return copia;
 	}
 	
+	/**
+	 * Função responsável pelo processamento de uma venda.
+	 * @param v Venda a processar.
+	 */
 	public void update(Venda v){
 		String cliente = v.getCliente();
 		String produto = v.getProduto();
@@ -35,25 +50,19 @@ public class Filial implements Serializable{
 		double preco = v.getPreco();
 		double faturado = preco*quantidade;
 		
-		//System.out.println("depois de invocar");
-		//System.out.print("venda:" +v.toString());
 		
 		if(this.informacaoClientes.containsKey(cliente)){
 			this.informacaoClientes.get(cliente).update(produto, quantidade, mes, preco);
-		//	System.out.println("nao existe cliente");
 		}else{
 			this.informacaoClientes.put(cliente, new DetalhesCliente());
 			this.informacaoClientes.get(cliente).update(produto, quantidade, mes, preco);
-			//System.out.println("nao existe cliente");
 		}
 		
 		if(this.informacaoProduto.containsKey(produto)){
 			this.informacaoProduto.get(produto).update(cliente, quantidade, faturado,tipo, mes); 
-			//System.out.println("nao existe produto");
 		}else{
 			this.informacaoProduto.put(produto, new DetalhesProduto());
 			this.informacaoProduto.get(produto).update(cliente, quantidade, faturado,tipo, mes);
-			//System.out.println("existe produto");
 		}
 	}
 	

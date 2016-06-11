@@ -10,6 +10,12 @@ import java.text.DecimalFormat;
 
 public class Queries implements Serializable{
 
+	
+	/**
+	 * Lista ordenada alfabeticamente com os códigos dos produtos nunca comprados e o
+	 * seu respectivo total.
+	 * @param f informacao relativa as vendas.
+	 */
 	private static void query1(Faturacao f) {
 		Crono.start();
 		ArrayList<String> l = f.getProdutosSemVendas();
@@ -21,7 +27,13 @@ public class Queries implements Serializable{
 		apresentarPaginas(l, 10);
 	}
 	
-	private static void query2(Filial[] f) { //ta mal, temos que juntar tipo num array os clientes de todas as filiais e remover os repetidos
+	
+	/**
+	 * Dado um mês válido, determinar o número total global de vendas realizadas e o
+     * número total de clientes distintos que as fizeram. 
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 */
+	private static void query2(Filial[] f) {
 		int mes,filial, total_vendas=0, total_clientes=0;
 		
 		out.print("Introduza um mês: ");
@@ -51,6 +63,12 @@ public class Queries implements Serializable{
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 
+	/**
+	 * Dado um código de cliente, determinar, para cada mês, quantas compras fez,
+	 * quantos produtos distintos comprou e quanto gastou no total.  	
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 * @throws ClienteInvalidoException Codigo do cliente não existe.
+	 */
 	private static void query3(Filial[] f) throws ClienteInvalidoException{
 		DetalhesCliente dc = null;
 		int filial,mes;
@@ -96,6 +114,12 @@ public class Queries implements Serializable{
 		out.println("Demoramos " +Crono.print()+" segundos.");
 	}
 	
+	/**
+	 * Dado o código de um produto existente, determinar, mês a mês, quantas vezes foi
+     * comprado, por quantos clientes diferentes e o total facturado
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 * @throws ProdutoInvalidoException Codigo do produto inválido.
+	 */
 	private static void query4(Filial[] f) throws ProdutoInvalidoException{
 		DetalhesProduto dp = null;
 		int mes,filial, total_comprado[] = new int[12], total_clientes[]= new int[12];
@@ -135,6 +159,12 @@ public class Queries implements Serializable{
 		}
 	}
 	
+	/**
+	 * Dado o código de um cliente determinar a lista de códigos de produtos que mais
+     * comprou. 
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 * @throws ClienteInvalidoException Código do cliente inválido.
+	 */
 	private static void query5(Filial[] f) throws ClienteInvalidoException{
 		DetalhesCliente dc = null;
 		int filial,mes, qt;
@@ -188,6 +218,12 @@ public class Queries implements Serializable{
 		apresentarPaginas(print, 10);
 	}
 	
+	/**
+	 * Determinar o conjunto dos X produtos mais vendidos em todo o ano (em número de
+	 * unidades vendidas) indicando o número total de distintos clientes que o
+	 * compraram.	
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 */
 	private static void query6(Filial[] f){
 		int N,contador=0,filial,mes,qt=0;
 		String codigo;
@@ -230,7 +266,12 @@ public class Queries implements Serializable{
 		out.println("Demoramos " +Crono.print()+" segundos.");
 		apresentarPaginas(print, 10);
 	}
-	
+
+	/**
+	 * Determinar, para cada filial, a lista dos três maiores compradores em termos de
+	 * dinheiro facturado.
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 */
 	private static void query7(Filial[] f){
 		int filial,mes,contador=0;
 		double qt[]= new double[3];
@@ -278,6 +319,11 @@ public class Queries implements Serializable{
 		}
 	}
 	
+	/**
+	 * Determinar os códigos dos X clientes (sendo X dado pelo utilizador) que compraram
+     * mais produtos diferentes.
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 */
 	private static void query8(Filial[] f){
 		int N,filial,contador=0;
 		TreeMap<String,Integer> map = new TreeMap<>();
@@ -312,6 +358,11 @@ public class Queries implements Serializable{
 		apresentarPaginas(print, 10);
 	}
 	
+	/**
+	 * Dado o código de um produto que deve existir, determinar o conjunto dos X clientes
+     * que mais o compraram e, para cada um, qual o valor gasto 
+	 * @param f Informação das vendas relativas ás 3 Filiais.
+	 */
 	private static void query9(Filial[] f) {
 		int N,filial,mes;
 		String codigo,cliente;
@@ -388,7 +439,12 @@ public class Queries implements Serializable{
 		out.println("Demoramos " +Crono.print()+" segundos.");
 		apresentarPaginas(print, 10);
 	}
-	
+
+	/**
+	 * Função de ordenação crescente de um Map genérico.
+	 * @param map
+	 * @return SortedSet ordenado.
+	 */
 	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> sortDecrescente(Map<K, V> map) {
 		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>() {
 			@Override
@@ -401,6 +457,11 @@ public class Queries implements Serializable{
 		return sortedEntries;
 	}
 	
+	/**
+	 * Função de ordenação crescente de um Map genérico.
+	 * @param map
+	 * @return SortedSet ordenado.
+	 */
 	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> sortCrescente(Map<K, V> map) {
 		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>() {
 			@Override
@@ -413,6 +474,11 @@ public class Queries implements Serializable{
 		return sortedEntries;
 	}
 	
+	/**
+	 * Função de impressão de informação para o terminal.
+	 * @param lista Arraylist a imprimir.
+	 * @param sizePagina numero de linhas.
+	 */
 	private static void apresentarPaginas(ArrayList<String> lista, int sizePagina) {
 		if (lista.isEmpty() || sizePagina == 0) return;
 		Scanner sc = new Scanner(System.in);
@@ -445,6 +511,12 @@ public class Queries implements Serializable{
 		}
 	}
 
+	
+	/**
+	 * Função de execucao das queries.
+	 * @param f Instancia da classe Faturacao.
+	 * @param filiais Instancias da classe Filial.
+	 */
 	public static void execute(Faturacao f, Filial[] filiais){
 		boolean flag = true;
         

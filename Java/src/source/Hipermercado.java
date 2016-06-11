@@ -10,6 +10,9 @@ public class Hipermercado implements Serializable{
 	private Faturacao faturacao;
 	private Integer validos=0,invalidos=0,clientes=0,produtos=0,vendas_zero=0;	
 	
+	/**
+	 * Construtor vazio da classe Hipermercado.
+	 */
 	public Hipermercado(){
 		filial = new Filial[3];
 		filial[0] = new Filial();
@@ -18,6 +21,11 @@ public class Hipermercado implements Serializable{
 		faturacao = new Faturacao();
 	}
 	
+	/**
+	 * Função de leitura de ficheiros.
+	 * @param fich ficheiro a ler.
+	 * @return retorna uma lista de strings com a informação lida.
+	 */
 	private ArrayList<String> readLinesWithBuff(String fich) {
 		ArrayList<String> linhas = new ArrayList<>();
 		BufferedReader inStream = null;
@@ -33,6 +41,12 @@ public class Hipermercado implements Serializable{
 		return linhas;
 	}
 
+	/**
+	 * Função de leitura de produtos.
+	 * @param f Instancia da classe Faturacao, de modo a inserir os produtos nela.
+	 * @param path path relativa ao ficheiro a ler.
+	 * @return retorna um Catalogo de Produtos.
+	 */
 	private Catalogo readProdutos(Faturacao f, String path){
 		Crono.start();
 		ArrayList<String> produtos = readLinesWithBuff(path);
@@ -45,6 +59,11 @@ public class Hipermercado implements Serializable{
         return CatalogoProdutos;
 	}
 	
+	/**
+	 * Função de leitura de clientes.
+	 * @param path path relativa ao ficheiro a ler.
+	 * @return retorna um Catalogo de Clientes.
+	 */
 	private Catalogo readClientes(String path){
 		Crono.start();
 		ArrayList<String> clientes = readLinesWithBuff(path);
@@ -56,6 +75,14 @@ public class Hipermercado implements Serializable{
         return CatalogoClientes;
 	}
 	
+	/**
+	 * Função de leitura das vendas.
+	 * @param filial Instancia das 3 filiais existentes.
+	 * @param f Instancia da Faturacao.
+	 * @param produtos Catalogo de produtos.
+	 * @param clientes Catalogo de clientes.
+	 * @param path path do ficheiro vendas a ler.
+	 */
 	private void readCompras(Filial[] filial, Faturacao f, Catalogo produtos, Catalogo clientes, String path){
 		Crono.start();
 		Venda v = new Venda();
@@ -94,6 +121,10 @@ public class Hipermercado implements Serializable{
 		out.println("\tTodas as vendas processadas e inseridas em "  + Crono.print() );
 	}
 
+	/**
+	 * Função responsável pela execução do Hipermercado.
+	 * @param fichVendas path do ficheiro vendas a ler.
+	 */
 	public void run(String fichVendas) {
 		out.println("\n----------------------------------------");
         Catalogo CatalogoProdutos = readProdutos(faturacao,"src/data/Produtos.txt");
@@ -126,6 +157,10 @@ public class Hipermercado implements Serializable{
         }
 	}
 	
+	/**
+	 * Função responsável pelas estatisticas.
+	 * @param nomeFicheiro ficheiro vendas lido.
+	 */
 	public void estatisticas(String nomeFicheiro){
 		out.println("\n--------------Estatisticas--------------");
 		out.println("\tFoi lido o ficheiro: " + nomeFicheiro.split("/")[2]);
@@ -141,6 +176,9 @@ public class Hipermercado implements Serializable{
 		
 	}
 	
+	/**
+	 * Função responsável pela execução de queries interativas.
+	 */
 	public void execute(){
 		Queries.execute(faturacao, filial);
 	}

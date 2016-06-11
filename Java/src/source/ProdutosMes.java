@@ -3,14 +3,28 @@ package source;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Representa os produtos num dado mês. E formada
+ * pela quantidade de clientes que compraram, 
+ * pela quantidade vendida e o faturado. 
+ * Tambem e formada por dois maps cuja chave 
+ * sao os clientes e cujo o valor é a quantidade
+ * comprada por esse cliente, sendo que estes sao
+ * separados em normal ou promocao. 
+  */
+
 public class ProdutosMes implements Serializable{
 	
 	private Map<String, Integer> clientesN; //Key = cliente, value = qt comprada por esse cliente
 	private Map<String, Integer> clientesP; //Key = cliente, value = qt comprada por esse cliente
-	private int quantidade_clientes; // = nº clientes que compraram
+	private int quantidade_clientes; // = nÂº clientes que compraram
 	private int quantidade_vendida; 
 	private double faturado;
 	
+	
+	 /**
+	  * Construtor vazio da classe ProdutosMes.
+	  */
 	public ProdutosMes(){
 		this.clientesN = new TreeMap<>();
 		this.clientesP = new TreeMap<>();
@@ -19,6 +33,10 @@ public class ProdutosMes implements Serializable{
 		this.faturado=0;
 	}
 
+	/**
+	 * Construtor por copia da classe ProdutosMes.
+	 * @param pm ProdutosMes a copiar.
+	 */
 	public ProdutosMes(ProdutosMes pm){
 		this.clientesN = pm.getClientesN();
 		this.clientesP = pm.getClientesP();
@@ -27,18 +45,35 @@ public class ProdutosMes implements Serializable{
 		this.faturado = pm.getFaturado();
 	}
 	
+	/**
+     * Funcao que devolve a quantidade vendida.
+     * @return quantidade vendida.
+     */
 	public int getQuantidadeVendida() {
 		return this.quantidade_vendida;
 	}
 
+	/**
+     * Funcao que devolve a quantidade de clientes.
+     * @return quantidade clientes.
+     */
 	public int getQuantidadeClientes() {
 		return this.quantidade_clientes;
 	}
 	
+	/**
+     * Funcao que devolve o faturado.
+     * @return faturado.
+     */
 	public double getFaturado(){
 		return this.faturado;
 	}
 
+	/**
+     * Funcao que devolve um map com os codigos dos clientes
+     * e a quantidade comprada por esse cliente no tipo Normal.
+     * @return map com os codigos de clientes e a quantidade comprada por cada cliente.
+     */
 	public Map<String, Integer> getClientesN(){
 		TreeMap<String,Integer> copia = new TreeMap<>();
 		copia.putAll(this.clientesN);
@@ -46,6 +81,11 @@ public class ProdutosMes implements Serializable{
 		return copia;
 	}
 	
+	/**
+     * Funcao que devolve um map com os codigo dos clientes
+     * e a quantidade comprada por esse cliente no tipo Promoção.
+     * @return map com os codigos dos clientes e a quantidade comprada por cada cliente.
+     */
 	public Map<String, Integer> getClientesP(){
 		TreeMap<String,Integer> copia = new TreeMap<>();
 		copia.putAll(this.clientesP);
@@ -53,18 +93,38 @@ public class ProdutosMes implements Serializable{
 		return copia;
 	}
 	
+	/**
+     * Funcao que altera a quantidade vendida.
+     * @param qt quantidade vendida.
+     */
 	public void setQuantidadeVendida(int qt){
 		this.quantidade_vendida+=qt;
 	}
 	
+	/**
+     * Funcao que altera a quantidade de clientes.
+     * @param qt Quantidade de clientes.
+     */
 	public void setQuantidadeClientes(int qt){
 		this.quantidade_clientes+=qt;
 	}
 	
+	/**
+     * Funcao que altera o total faturado.
+     * @param ft Total faturado.
+     */
 	public void setFaturado(double ft){
 		this.faturado+=ft;
 	}
 	
+	
+	/** 
+	 * Adiciona ao map correspondente a informação da quantidade comprada por um cliente.
+	 * @param codigo String do codigo de cliente.	
+	 * @param quantidade comprada por esse cliente.
+	 * @param faturado .
+	 * @param tipo Tipo do produto (Normal ou Promocao).
+	 */
 	public void add(String codigo, Integer quantidade, Double faturado, char tipo) {
 		int qt=0;
 		//System.out.println("entrei");
@@ -91,6 +151,11 @@ public class ProdutosMes implements Serializable{
 		setFaturado(faturado);
 	}
 
+	/**
+	 * Remove a informação relativa de um dado cliente.
+	 * @param codigo a remover
+	 * @throws ClienteInvalidoException exceção lançada caso o cliente nao exista.
+	 */
 	public void remove(String codigo) throws ClienteInvalidoException {
 		if(this.containsN(codigo)){
 			this.clientesN.remove(codigo);
@@ -105,10 +170,20 @@ public class ProdutosMes implements Serializable{
 		}
 	}
 
+	/** 
+	 * Verifica se clientesN contem o codigo do cliente.	
+	 * @param codigo String do codigo de cliente.
+	 * @return true se existir esse codigo false caso contrario.
+	 */
 	public boolean containsN(String codigo) {
 		return this.clientesN.containsKey(codigo);
 	}
 	
+	/** 
+	 * Verifica se clientesP contem o codigo do cliente.	
+	 * @param codigo String do codigo do produto.
+	 * @return true se existir esse codigo false caso contrario.
+	 */
 	public boolean containsP(String codigo) {
 		return this.clientesP.containsKey(codigo);
 	}
