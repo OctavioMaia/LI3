@@ -11,7 +11,7 @@ public class GereVendas {
 	 * @throws ClassNotFoundException exceção lançada quando não encontra o ficheiro de dados a carregar.
 	 * @throws IOException exceção lançada quando não consegue gravar o ficheiro de dados.
 	 */
-	public static void main() throws ClassNotFoundException, IOException {
+	public static void main(String args[]) throws ClassNotFoundException, IOException {
 		Hipermercado hipermercado = new Hipermercado();
 		Persistencia state = new Persistencia();
 		boolean flag=true,firstRun=false;
